@@ -2,7 +2,7 @@
 
 🍵 MiliKita merupakan website coffee shop ...
 
-# Anggota Kelompok
+# Anggota Kelompok 3 SI4502
 
 | No  | Nama                                                            | NIM        |
 | --- | --------------------------------------------------------------- | ---------- |
