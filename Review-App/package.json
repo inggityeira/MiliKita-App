@@ -1,0 +1,22 @@
+{
+  "name": "review-app",
+  "version": "1.0.0",
+  "description": "Review App",
+  "main": "review.js",
+  "scripts": {
+    "dev": "nodemon review.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Inggit",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.7.0",
+    "mongoose": "^8.4.1",
+    "mongoose-sequence": "^6.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.2"
+  }
+}
