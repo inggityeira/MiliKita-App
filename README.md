@@ -1,6 +1,6 @@
 # Tentang MiliKita
 
-🍵 MiliKita merupakan website coffee shop ...
+🍵 MiliKita merupakan website coffee shop microservice
 
 # Anggota Kelompok 3 SI4502
 
