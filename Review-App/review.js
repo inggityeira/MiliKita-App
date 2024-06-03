@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 5000;
 
 // register middleware
 app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 
 // connect database dan port
 connectDB();
