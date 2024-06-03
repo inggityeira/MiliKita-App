@@ -1,31 +1,32 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
-const ReviewSchema = mongoose.Schema(
+const MenuSchema = mongoose.Schema(
     {
-        id_review: {
+        id_menu: {
             type: Number,
             unique: true,
             index: true,
         },
-        pesan_review: {
+        nama_menu: {
             type: String,
             required: true,
         },
-        id_cabang: {
-            type: Number,
+        posisi_karyawan: {
+            type: String,
+            enum: ['barista', 'chef', 'bakery', 'owner'],
             required: true,
         },
-        id_menu: {
-            type: Number,
+        deskripsi_menu: {
+            type: String,
             required: true,
         },
-        id_user: {
-            type: Number,
+        kategori_menu: {
+            type: String,
             required: true,
         },
-        bintang_review: {
-            type: Number,
+        gambar_menu: {
+            type: String,
             required: true,
         },
     },
@@ -34,7 +35,7 @@ const ReviewSchema = mongoose.Schema(
     }
 );
 
-ReviewSchema.plugin(AutoIncrement, { inc_field: 'id_review' });
+MenuSchema.plugin(AutoIncrement, { inc_field: 'id_menu' });
 
-const Review = mongoose.model("Review", ReviewSchema);
-module.exports = Review;
+const Menu = mongoose.model("Menu", MenuSchema);
+module.exports = Menu;
