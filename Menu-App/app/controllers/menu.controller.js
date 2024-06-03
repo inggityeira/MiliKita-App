@@ -40,7 +40,7 @@ exports.getMenuById = async(req, res) => {
     }
 };
 
-// Update review
+// Update menu
 exports.updateMenu = async(req, res) => {
     try {
         const updatedMenu = await Menu.findOneAndUpdate(
