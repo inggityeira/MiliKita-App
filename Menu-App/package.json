@@ -1,15 +1,21 @@
 {
-  "name": "milikita-app",
+  "name": "menu-app",
   "version": "1.0.0",
-  "description": "🍵 MiliKita merupakan website coffee shop microservice",
-  "main": "index.js",
+  "description": "menu app",
+  "main": "menu.js",
   "scripts": {
+    "dev": "nodemon menu.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Nikita",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "mongodb": "^6.7.0",
+    "mongoose": "^8.4.1",
+    "mongoose-sequence": "^6.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.2"
   }
 }

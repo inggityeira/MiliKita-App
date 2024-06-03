@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   mongoose
-    .connect("mongodb+srv://InggitYeira:mggxyjWUUP5lZsJX@reviewmilikitadb.e2hwzey.mongodb.net/MiliKita?retryWrites=true&w=majority&appName=ReviewMiliKitaDB")
+    .connect("mongodb+srv://nikitae372:g4YXA0I94qK1yYNg@menumilikitadb.t80ycbr.mongodb.net/MiliKita?retryWrites=true&w=majority&appName=MenuMiliKitaDB")
     .then(() => {
       console.log("Connected to database!");
     })
-    .catch(() => {
-      console.log("Connection failed!");
+    .catch((error) => {
+        console.error("Connection failed: Reason:", error)
     });
 };
 
