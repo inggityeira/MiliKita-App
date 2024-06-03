@@ -37,5 +37,5 @@ const KaryawanSchema = mongoose.Schema(
 
 KaryawanSchema.plugin(AutoIncrement, { inc_field: 'id_karyawan' });
 
-const Karyawan = mongoose.model("Karyawan", KaryawanSchemaSchema);
+const Karyawan = mongoose.model("Karyawan", KaryawanSchema);
 module.exports = Karyawan;
