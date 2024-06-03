@@ -15,7 +15,8 @@ app.use(express.urlencoded({extended:false}));
 connectDB();
 
 // membuat routes
-app.get('/', karyawanRoutes);
+app.use('/', karyawanRoutes);
+
 
 // Port
 app.listen(PORT, () => {
