@@ -1,4 +1,4 @@
-const Cabang = require('E:\TUGAS SEMESTER 6\Tugas Besar IAE\Cabang-App\app\models\cabang.model.js');
+const Cabang = require("../models/cabang.model");
 
 // Membuat review baru
 exports.createCabang = async(req, res) => {
@@ -56,6 +56,7 @@ exports.updateCabang = async(req, res) => {
         res.status(400).send(error);
     }
 };
+
 
 // Delete Review
 exports.deleteCabang = async(req, res) => {

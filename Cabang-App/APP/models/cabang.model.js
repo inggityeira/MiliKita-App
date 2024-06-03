@@ -25,7 +25,7 @@ const CabangSchema = mongoose.Schema(
             required: true,
         },
         gambar_cabang: {
-            type: string,
+            type: String,
             required: true,
         },
     },
