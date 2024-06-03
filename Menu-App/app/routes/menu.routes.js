@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const menuController = require('../controllers/menu.controller');
 
-router.post('/menu', menuControllerController.createMenu);
-router.get('/menus', menuController.getAllMenus);
-router.get('/menu/:id', menuControllerController.getMenuById);
-router.put('/menu/:id', menuControllerController.updateMenu);
-router.delete('/menu/:id', menuControllerController.deleteMenu);
+router.post('/menuMiliKita', menuController.createMenu);
+router.get('/menusMiliKita', menuController.getAllMenus);
+router.get('/menuMiliKita/:id', menuController.getMenuById);
+router.put('/menuMiliKita/:id', menuController.updateMenu);
+router.delete('/menuMiliKita/:id', menuController.deleteMenu);
 
 module.exports = router;
