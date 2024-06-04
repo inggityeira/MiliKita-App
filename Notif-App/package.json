@@ -1,0 +1,19 @@
+{
+  "name": "notif-app",
+  "version": "1.0.0",
+  "description": "Sebagai Subscriber dari event base yang ada pada MiliKita",
+  "main": "notif.js",
+  "scripts": {
+    "dev": "nodemon notif.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Inggit",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.4",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  }
+}
