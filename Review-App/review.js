@@ -5,6 +5,8 @@ const connectDB = require('./app/config/database');
 const reviewRoutes = require('./app/routes/review.routes');
 const PORT = process.env.PORT || 5000;
 
+const { v4 } = require('uuid');
+const amqp = require('amqplib');
 
 // register middleware
 app.use(express.json());
@@ -16,38 +18,48 @@ connectDB();
 // membuat routes
 app.use('/', reviewRoutes);
 
-const amqp = require('amqplib');
+// Event Base
+let rabbitMQConnection;
+const queueName = "MessageQueue";
 
-async function connect() {
+app.post('/messages', async (req, res) => {
   try {
-    const connection = await amqp.connect('amqp://rabbitmq');
-    const channel = await connection.createChannel();
-    const queue = 'review';
 
-    await channel.assertQueue(queue, {
-      durable: false
+    if (!req.body?.message) {
+      return res.status(400).json({
+        detail: "The message property is required"
+      });
+    }
+
+    const message = {
+      id: v4(),
+      message: req.body.message,
+      date: new Date(),
+    };
+
+    const channel = await rabbitMQConnection.createChannel();
+    await channel.assertQueue(queueName, { durable: false });
+    channel.sendToQueue(queueName, Buffer.from(JSON.stringify(message)));
+    console.log(`Publishing an Event using RabbitMQ to :${req.body.message}`);
+    await channel.close();
+    return res.json({
+      detail: 'Publishing an Event using RabbitMQ successful',
     });
-
-    console.log('Review App is running...');
-
-    setInterval(() => {
-      const review = {
-        content: 'This is a sample review'
-      };
-
-      channel.sendToQueue(queue, Buffer.from(JSON.stringify(review)));
-      console.log('Review sent:', review);
-    }, 5000);
   } catch (error) {
-    console.error(error);
+    return res.status(500).json({
+      detail: error.message
+    });
   }
-}
-
-connect();
-
-
-// Port
-app.listen(PORT, () => {
-    console.log(`😀 server on port ${PORT}`);
 });
 
+// Port
+// app.listen(PORT, () => {
+//     console.log(`😀 server on port ${PORT}`);
+// });
+
+amqp.connect('amqp://localhost').then(connection => {
+  rabbitMQConnection = connection;
+  app.listen(PORT, () => {
+    console.log(` 😀 server on port ${PORT}  `);
+  });
+});
