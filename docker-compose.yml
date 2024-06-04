@@ -1,0 +1,21 @@
+version: "3"
+services:
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    ports:
+      - "5672:5672" # RabbitMQ
+      - "15672:15672" # UI Admin
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DISK_FREE_LIMIT: "50000000"
+  
+  review-app:
+    build: ./Review-App
+    depends_on:
+      - rabbitmq
+
+  notif-app:
+    build: ./Notif-App
+    depends_on:
+      - rabbitmq
