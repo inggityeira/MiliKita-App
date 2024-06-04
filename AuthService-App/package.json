@@ -1,11 +1,21 @@
 {
-  "name": "tubes-iae",
+  "name": "authservice-app",
   "version": "1.0.0",
-  "description": "🍵 MiliKita merupakan website coffee shop microservice",
-  "main": "index.js",
+  "description": "",
+  "main": "authservice.js",
   "scripts": {
+    "dev": "nodemon authservice.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Laura",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-validator": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.1"
+  }
 }
