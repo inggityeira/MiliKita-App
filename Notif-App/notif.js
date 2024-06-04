@@ -1,53 +1,42 @@
-const express = require('express')
-const app = express()
-
-const PORT = process.env.PORT || 5004;
-
-
-// register middleware
-app.use(express.json());
-app.use(express.urlencoded({extended:false}));
-
-app.get('/', function (req, res) {
-    res.send('Hello World')
-  })
-
-// Event Base
+const express = require('express');
+const app = express();
+const PORT = 5004;
 const amqp = require('amqplib');
 
-async function connect() {
+let rabbitMQConnection;
+const queueName = "MessageQueue";
+const messagesStorage = [];
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.get('/messages', (req, res) => {
   try {
-    const connection = await amqp.connect('amqp://rabbitmq');
-    const channel = await connection.createChannel();
-    const queue = 'review';
-
-    await channel.assertQueue(queue, {
-      durable: false
-    });
-
-    console.log('Notif App is running...');
-
-    channel.consume(queue, (message) => {
-      if (message !== null) {
-        const review = JSON.parse(message.content.toString());
-        console.log('Review received:', review);
-
-        // Implement your notification logic here
-      }
-    }, {
-      noAck: true
-    });
+    return res.json({ messages: messagesStorage });
   } catch (error) {
-    console.error(error);
+    return res.status(500).json({
+      detail: error.message
+    });
   }
-}
-
-connect();
-
-
-
-// Port
-app.listen(PORT, () => {
-    console.log(`😀 server on port ${PORT}`);
 });
 
+async function listenMessages() {
+  const channel = await rabbitMQConnection.createChannel();
+  await channel.assertQueue(queueName, { durable: false });
+  channel.consume(queueName, (message) => {
+    if (message !== null) {
+      const receivedJSON = JSON.parse(message.content.toString());
+      console.log(`Capturing an Event using RabbitMQ to:`, receivedJSON);
+      messagesStorage.push(receivedJSON);
+      channel.ack(message);
+    }
+  });
+}
+
+amqp.connect('amqp://localhost').then(async (connection) => {
+  rabbitMQConnection = connection;
+  listenMessages();
+  app.listen(PORT, () => {
+    console.log(` 😀 server on port ${PORT}  `);
+  });
+});
