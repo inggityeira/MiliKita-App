@@ -6,6 +6,9 @@ const { check, validationResult } = require('express-validator');
 // Define JWT Secret here
 const JWT_SECRET = 'your_jwt_secret_key';
 
+// In-memory blacklist, for production use a database or Redis
+const tokenBlacklist = [];
+
 // Registration
 exports.register = async (req, res) => {
     const { id_karyawan, nama_karyawan, email, password } = req.body;
@@ -110,4 +113,16 @@ exports.getUser = async (req, res) => {
         console.error(err.message);
         res.status(500).send('Server error');
     }
+};
+
+// Logout
+exports.logout = (req, res) => {
+    const token = req.header('Authorization').replace('Bearer ', '');
+    tokenBlacklist.push(token);
+    res.status(200).json({ msg: 'Logged out successfully' });
+};
+
+// Check if token is blacklisted
+exports.isTokenBlacklisted = (token) => {
+    return tokenBlacklist.includes(token);
 };
