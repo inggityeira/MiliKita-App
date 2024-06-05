@@ -3,7 +3,11 @@ const { v4 } = require('uuid');
 const amqp = require('amqplib');
 
 let rabbitMQConnection;
+
+// Queue untuk Event Base
 const QueueReviewBaru = "QueueReviewBaru";
+const QueueAllReview = "QueueAllReview";
+
 
 // Function untuk menghubungkan ke RabbitMQ
 async function connectRabbitMQ() {
@@ -34,13 +38,12 @@ exports.createReview = async (req, res) => {
   
       // Pesan untuk publish
       const message = {
-        message: req.body.pesan_review,
-        notification: "Ada review baru nih!",
+        notification: "Memasukan review baru",
       };
   
       // Kirim pesan ke queue
       channel.sendToQueue(QueueReviewBaru, Buffer.from(JSON.stringify(message)));
-      console.log(`Publishing an Event using RabbitMQ: ${req.body.pesan_review}`);
+      console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
       await channel.close();
   
       res.status(201).send(savedReview);
@@ -53,9 +56,27 @@ exports.createReview = async (req, res) => {
 exports.getAllReviews = async(req, res) => {
     try {
         const reviews = await Review.find();
+        
+        // Publish pesan ke RabbitMQ
+        await connectRabbitMQ();
+        
+        const channel = await rabbitMQConnection.createChannel();
+        await channel.assertQueue(QueueAllReview, { durable: false });
+        
+        // Pesan untuk publish
+        const message = {
+            notification: "Melihat seluruh review",
+        };
+        
+        // Kirim pesan ke queue
+        channel.sendToQueue(QueueAllReview, Buffer.from(JSON.stringify(message)));
+        console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
+        
+        await channel.close();
         res.status(200).send(reviews);
     } catch (error) {
-        res.status(400).send(error);
+        console.error('Error occurred:', error);
+        res.status(400).send({ error: 'Failed to retrieve reviews or publish message to RabbitMQ', details: error.message });
     }
 };
 
