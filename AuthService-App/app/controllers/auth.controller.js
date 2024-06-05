@@ -11,8 +11,10 @@ const tokenBlacklist = [];
 
 // Registration
 exports.register = async (req, res) => {
-    const { id_karyawan, nama_karyawan, email, password } = req.body;
+    const { id_user, nama_karyawan, email, password } = req.body;
 
+    console.log("Request body:", req.body); // Log request body
+    
     // Input validation
     await check('email', 'Please include a valid email').isEmail().run(req);
     await check('password', 'Password must be 6 or more characters').isLength({ min: 6 }).run(req);
@@ -28,7 +30,7 @@ exports.register = async (req, res) => {
         }
 
         user = new User({
-            id_karyawan,
+            id_user,
             nama_karyawan,
             email,
             password
@@ -48,7 +50,7 @@ exports.register = async (req, res) => {
         jwt.sign(
             payload,
             JWT_SECRET,
-            { expiresIn: 360000 },
+            { expiresIn: 30 },
             (err, token) => {
                 if (err) throw err;
                 res.json({ token });
@@ -92,7 +94,7 @@ exports.login = async (req, res) => {
         jwt.sign(
             payload,
             JWT_SECRET,
-            { expiresIn: 360000 },
+            { expiresIn: 30 },
             (err, token) => {
                 if (err) throw err;
                 res.json({ token });
