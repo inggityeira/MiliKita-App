@@ -1,20 +1,55 @@
 const Review = require('../models/review.model');
+const { v4 } = require('uuid');
+const amqp = require('amqplib');
+
+let rabbitMQConnection;
+const queueName = "MessageQueue";
+
+// Function untuk menghubungkan ke RabbitMQ
+async function connectRabbitMQ() {
+    if (!rabbitMQConnection) {
+      rabbitMQConnection = await amqp.connect('amqp://rabbitmq');
+    }
+  }
+
+// Function untuk menghubungkan ke RabbitMQ
+exports.connectRabbitMQ = connectRabbitMQ;
 
 // Membuat review baru
-exports.createReview = async(req, res) => {
+exports.createReview = async (req, res) => {
     try {
-        const newReview = new Review({
-            pesan_review: req.body.pesan_review,
-            id_cabang: req.body.id_cabang,
-            id_menu: req.body.id_menu,
-            bintang_review: req.body.bintang_review,
-        });
-        const savedReview = await newReview.save();
-        res.status(201).send(savedReview);
+      // Simpan review baru ke database
+      const newReview = new Review({
+        pesan_review: req.body.pesan_review,
+        id_cabang: req.body.id_cabang,
+        id_menu: req.body.id_menu,
+        bintang_review: req.body.bintang_review,
+      });
+      const savedReview = await newReview.save();
+  
+      // Publish pesan ke RabbitMQ
+      await connectRabbitMQ();
+      const channel = await rabbitMQConnection.createChannel();
+      await channel.assertQueue(queueName, { durable: false });
+  
+      // Pesan untuk publish
+      const message = {
+        id: v4(),
+        message: req.body.pesan_review,
+        notification: "Ada review baru nih!",
+        date: new Date(),
+      };
+  
+      // Kirim pesan ke queue
+      channel.sendToQueue(queueName, Buffer.from(JSON.stringify(message)));
+      console.log(`Publishing an Event using RabbitMQ to: ${req.body.pesan_review}`);
+      await channel.close();
+  
+      res.status(201).send(savedReview);
     } catch (error) {
-        res.status(400).send(error);
+      res.status(400).send(error);
     }
-};
+  };
 
 // Read Review keseluruhan
 exports.getAllReviews = async(req, res) => {
