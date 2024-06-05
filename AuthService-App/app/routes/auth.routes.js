@@ -4,8 +4,9 @@ const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth.middleware');
 const authController = require('../controllers/auth.controller');
 
-console.log('authController:', authController); // Tambahkan log ini
+console.log('authController:', authController);
 
+//Resgiter
 router.post(
   '/register',
   [
@@ -21,6 +22,7 @@ router.post(
   }
 );
 
+//Login
 router.post(
   '/login',
   [
