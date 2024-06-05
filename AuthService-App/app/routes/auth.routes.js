@@ -4,6 +4,8 @@ const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth.middleware');
 const authController = require('../controllers/auth.controller');
 
+console.log('authController:', authController); // Tambahkan log ini
+
 router.post(
   '/register',
   [
@@ -35,5 +37,8 @@ router.post(
 );
 
 router.get('/user', auth, authController.getUser);
+
+// Logout
+router.post('/logout', auth, authController.logout);
 
 module.exports = router;
