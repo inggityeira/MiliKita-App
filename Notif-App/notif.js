@@ -4,7 +4,7 @@ const PORT = 5004;
 const amqp = require('amqplib');
 
 let rabbitMQConnection;
-const queueName = "MessageQueue";
+const QueueReviewBaru = "QueueReviewBaru";
 const messagesStorage = [];
 
 app.use(express.urlencoded({ extended: false }));
@@ -20,10 +20,11 @@ app.get('/messages', (req, res) => {
   }
 });
 
-async function listenMessages() {
+// Subscribe New Review
+async function listenNewReview() {
   const channel = await rabbitMQConnection.createChannel();
-  await channel.assertQueue(queueName, { durable: false });
-  channel.consume(queueName, (message) => {
+  await channel.assertQueue(QueueReviewBaru, { durable: false });
+  channel.consume(QueueReviewBaru, (message) => {
     if (message !== null) {
       const receivedJSON = JSON.parse(message.content.toString());
       console.log(`Capturing an Event using RabbitMQ to:`, receivedJSON);
@@ -35,7 +36,7 @@ async function listenMessages() {
 
 amqp.connect('amqp://localhost').then(async (connection) => {
   rabbitMQConnection = connection;
-  listenMessages();
+  listenNewReview();
   app.listen(PORT, () => {
     console.log(` 😀 server on port ${PORT}  `);
   });

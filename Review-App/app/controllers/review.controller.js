@@ -3,7 +3,7 @@ const { v4 } = require('uuid');
 const amqp = require('amqplib');
 
 let rabbitMQConnection;
-const queueName = "MessageQueue";
+const QueueReviewBaru = "QueueReviewBaru";
 
 // Function untuk menghubungkan ke RabbitMQ
 async function connectRabbitMQ() {
@@ -30,19 +30,17 @@ exports.createReview = async (req, res) => {
       // Publish pesan ke RabbitMQ
       await connectRabbitMQ();
       const channel = await rabbitMQConnection.createChannel();
-      await channel.assertQueue(queueName, { durable: false });
+      await channel.assertQueue(QueueReviewBaru, { durable: false });
   
       // Pesan untuk publish
       const message = {
-        id: v4(),
         message: req.body.pesan_review,
         notification: "Ada review baru nih!",
-        date: new Date(),
       };
   
       // Kirim pesan ke queue
-      channel.sendToQueue(queueName, Buffer.from(JSON.stringify(message)));
-      console.log(`Publishing an Event using RabbitMQ to: ${req.body.pesan_review}`);
+      channel.sendToQueue(QueueReviewBaru, Buffer.from(JSON.stringify(message)));
+      console.log(`Publishing an Event using RabbitMQ: ${req.body.pesan_review}`);
       await channel.close();
   
       res.status(201).send(savedReview);
