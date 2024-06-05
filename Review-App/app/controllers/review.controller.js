@@ -7,7 +7,6 @@ exports.createReview = async(req, res) => {
             pesan_review: req.body.pesan_review,
             id_cabang: req.body.id_cabang,
             id_menu: req.body.id_menu,
-            id_user: req.body.id_user,
             bintang_review: req.body.bintang_review,
         });
         const savedReview = await newReview.save();

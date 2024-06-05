@@ -20,10 +20,6 @@ const ReviewSchema = mongoose.Schema(
             type: Number,
             required: true,
         },
-        id_user: {
-            type: Number,
-            required: true,
-        },
         bintang_review: {
             type: Number,
             required: true,

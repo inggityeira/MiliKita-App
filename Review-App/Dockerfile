@@ -1,5 +1,5 @@
 # Use the official Node.js 14 image
-FROM node:14
+FROM node:latest
 
 # Set the working directory in the container
 WORKDIR /app
@@ -12,6 +12,9 @@ RUN npm install
 
 # Copy the application files
 COPY review.js ./
+
+# Copy all the files to the container
+COPY . .
 
 # Expose the port the app runs on
 EXPOSE 5000
