@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request, redirect, url_for
 import requests
 
 app = Flask(__name__)
+app.static_folder = 'static'
 
 #fitur detail menu
 
@@ -90,7 +91,7 @@ def listmenu():
 
 # Fungsi memanggil list karyawan
 def get_list_karyawan():
-    response = requests.get(f'http://localhost:5003/karyawakita')
+    response = requests.get(f'http://localhost:5003/karyawankita')
     return response.json()
 
 @app.route('/karyawankita', methods=['GET'])
