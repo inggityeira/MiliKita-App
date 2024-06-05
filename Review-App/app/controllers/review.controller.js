@@ -17,6 +17,7 @@ async function connectRabbitMQ() {
     rabbitMQConnection = await amqp.connect("amqp://rabbitmq");
   }
 }
+exports.connectRabbitMQ = connectRabbitMQ;
 
 // Membuat review baru
 exports.createReview = async (req, res) => {
