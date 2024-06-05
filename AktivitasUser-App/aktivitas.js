@@ -151,7 +151,7 @@ async function listenDelReview() {
   });
 }
 
-amqp.connect("amqp://localhost").then(async (connection) => {
+amqp.connect("amqp://rabbitmq").then(async (connection) => {
   rabbitMQConnection = connection;
   // Review
   listenNewReview();

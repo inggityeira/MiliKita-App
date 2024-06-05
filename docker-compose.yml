@@ -24,3 +24,14 @@ services:
         condition: service_healthy
     links:
       - rabbitmq:rabbitmq
+  
+  aktivitas-app:
+    build: ./AktivitasUser-App
+    ports:
+      - "5004:5004"
+    command: npx nodemon aktivitas.js
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    links:
+      - rabbitmq:rabbitmq
