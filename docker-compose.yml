@@ -8,6 +8,11 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   review-app:
     build: ./Review-App
@@ -15,4 +20,7 @@ services:
       - "5000:5000"
     command: npx nodemon review.js
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
+    links:
+      - rabbitmq:rabbitmq

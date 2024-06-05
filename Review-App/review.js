@@ -53,9 +53,10 @@ app.post('/messages', async (req, res) => {
 });
 
 // Port
-amqp.connect('amqp://localhost').then(connection => {
+amqp.connect('amqp://rabbitmq').then(connection => {
   rabbitMQConnection = connection;
   app.listen(PORT, () => {
     console.log(` 😀 server on port ${PORT}  `);
   });
 });
+
