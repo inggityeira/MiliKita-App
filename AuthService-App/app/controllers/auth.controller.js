@@ -3,64 +3,34 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 
-// Define JWT Secret here
 const JWT_SECRET = 'your_jwt_secret_key';
-
-// In-memory blacklist, for production use a database or Redis
 const tokenBlacklist = [];
 
 // Registration
-exports.register = async (req, res) => {
-    const { nama_karyawan, email, password } = req.body;
-
-    console.log("Request body:", req.body); // Log request body
-    
-    // Input validation
-    await check('email', 'Please include a valid email').isEmail().run(req);
-    await check('password', 'Password must be 6 or more characters').isLength({ min: 6 }).run(req);
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
+exports.register = async (req,res) => {
     try {
-        let user = await User.findOne({ email });
-        if (user) {
-            return res.status(400).json({ msg: 'User already exists' });
+        const existingemail = await User.findOne({email: req.body.email});
+        if (existingemail){
+            return res.status(400).send({message: "Email have been recorded!"});
         }
-
-        user = new User({
-            // id_user,
-            nama_karyawan,
-            email,
-            password
+        if (req.body.password.length <= 6){
+            return res.status(400).send({message: "Password must be 6 or more characters!"});
+        } 
+        const hashpassword = await bcrypt.hash(req.body.password, 10);
+        
+        const newUser = new User ({
+            nama_lengkap: req.body.nama_lengkap,
+            email: req.body.email,
+            password: hashpassword,
         });
 
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt);
+        const savedUser = await newUser.save();
+        res.status(201).send(savedUser);
 
-        await user.save();
-
-        const payload = {
-            user: {
-                id: user.id
-            }
-        };
-
-        jwt.sign(
-            payload,
-            JWT_SECRET,
-            { expiresIn: 30 },
-            (err, token) => {
-                if (err) throw err;
-                res.json({ token });
-            }
-        );
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server error');
+    } catch (error) {
+        res.status(400).send(error);
     }
-};
+}
 
 // Login
 exports.login = async (req, res) => {
@@ -94,7 +64,7 @@ exports.login = async (req, res) => {
         jwt.sign(
             payload,
             JWT_SECRET,
-            { expiresIn: 30 },
+            { expiresIn: 3600 },
             (err, token) => {
                 if (err) throw err;
                 res.json({ token });
@@ -106,7 +76,7 @@ exports.login = async (req, res) => {
     }
 };
 
-// Get User
+// Authorization User
 exports.getUser = async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');

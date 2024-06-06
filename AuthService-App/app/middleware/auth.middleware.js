@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
 
     // Periksa apakah token ada di header dan memiliki format yang benar
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ msg: 'No token, authorization denied' });
+      return res.status(401).json({ message: 'No token, authorization denied' });
     }
 
     // Pisahkan token dari kata 'Bearer'
@@ -17,12 +17,12 @@ module.exports = async (req, res, next) => {
 
     // Periksa apakah token ada
     if (!token) {
-      return res.status(401).json({ msg: 'No token, authorization denied' });
+      return res.status(401).json({ message: 'No token, authorization denied' });
     }
 
     // Periksa apakah token di blacklist
     if (authController.isTokenBlacklisted(token)) {
-      return res.status(401).json({ msg: 'Token is blacklisted' });
+      return res.status(401).json({ message: 'Token is blacklisted' });
     }
 
     // Verifikasi token
