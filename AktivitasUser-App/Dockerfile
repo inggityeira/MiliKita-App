@@ -10,14 +10,14 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Copy the application files
-COPY aktivitas.js ./
+# Install nodemon globally
+RUN npm install -g nodemon
 
 # Copy all the files to the container
 COPY . .
 
 # Expose the port the app runs on
-EXPOSE 5000
+EXPOSE 5004
 
 # Start the application with nodemon
-CMD ["npx", "nodemon", "aktivitas.js"]
+CMD ["nodemon", "aktivitas.js"]
