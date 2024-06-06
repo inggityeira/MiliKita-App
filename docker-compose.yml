@@ -18,7 +18,7 @@ services:
     build: ./Review-App
     ports:
       - "5000:5000"
-    command: npx nodemon review.js
+    command: npm start
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -29,7 +29,7 @@ services:
     build: ./AktivitasUser-App
     ports:
       - "5004:5004"
-    command: npx nodemon aktivitas.js
+    command: npm start
     depends_on:
       rabbitmq:
         condition: service_healthy

@@ -10,8 +10,8 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Copy the application files
-COPY review.js ./
+# Install nodemon globally
+RUN npm install -g nodemon
 
 # Copy all the files to the container
 COPY . .
@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 5000
 
 # Start the application with nodemon
-CMD ["npx", "nodemon", "review.js"]
+CMD ["nodemon", "review.js"]
