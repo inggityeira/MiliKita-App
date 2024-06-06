@@ -35,3 +35,14 @@ services:
         condition: service_healthy
     links:
       - rabbitmq:rabbitmq
+
+  cabang-app:
+    build: ./Cabang-App
+    ports:
+      - "5002:5002"
+    command: npm start
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    links:
+      - rabbitmq:rabbitmq
