@@ -38,7 +38,7 @@ exports.createReview = async (req, res) => {
 
     // Pesan untuk publish
     const message = {
-      notification: "Memasukan review baru",
+      notification: `Membuat review baru, yaitu: ${req.body.pesan_review}`,
     };
 
     // Kirim pesan ke queue

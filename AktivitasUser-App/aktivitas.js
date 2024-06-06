@@ -128,11 +128,134 @@ async function listenUpReview() {
   });
 }
 
-// Subscribe Update Review
+// Subscribe Delete Review
 async function listenDelReview() {
   const channel = await rabbitMQConnection.createChannel();
   await channel.assertQueue(QueueDelReview, { durable: false });
   channel.consume(QueueDelReview, async (message) => {
+    if (message !== null) {
+      const receivedJSON = JSON.parse(message.content.toString());
+      console.log(`Capturing an Event using RabbitMQ to:`, receivedJSON);
+      messagesStorage.push(receivedJSON);
+      try {
+        const newAktivitas = new Aktivitas({
+          aktivitas_user: receivedJSON.notification,
+        });
+        const savedAktivitas = await newAktivitas.save();
+        console.log("Aktivitas baru berhasil disimpan ke database.");
+      } catch (error) {
+        console.error("Error saat menyimpan Aktivitas ke database:", error);
+      }
+      channel.ack(message);
+    }
+  });
+}
+
+// CABANG!!
+// Queue Cabang
+const QueueCabangBaru = "QueueCabangBaru";
+const QueueAllCabang = "QueueAllCabang";
+const QueueCabangSatuan = "QueueCabangSatuan";
+const QueueUpCabang = "QueueUpCabang";
+const QueueDelCabang = "QueueDelCabang";
+
+// Subscribe New Cabang
+async function listenNewCabang() {
+  const channel = await rabbitMQConnection.createChannel();
+  await channel.assertQueue(QueueCabangBaru, { durable: false });
+  channel.consume(QueueCabangBaru, async (message) => {
+    if (message !== null) {
+      const receivedJSON = JSON.parse(message.content.toString());
+      console.log(`Capturing an Event using RabbitMQ to:`, receivedJSON);
+      messagesStorage.push(receivedJSON);
+      try {
+        const newAktivitas = new Aktivitas({
+          aktivitas_user: receivedJSON.notification,
+        });
+        const savedAktivitas = await newAktivitas.save();
+        console.log("Aktivitas baru berhasil disimpan ke database.");
+      } catch (error) {
+        console.error("Error saat menyimpan Aktivitas ke database:", error);
+      }
+      channel.ack(message);
+    }
+  });
+}
+
+// Subscribe All Cabang
+async function listenAllCabang() {
+  const channel = await rabbitMQConnection.createChannel();
+  await channel.assertQueue(QueueAllCabang, { durable: false });
+  channel.consume(QueueAllCabang, async (message) => {
+    if (message !== null) {
+      const receivedJSON = JSON.parse(message.content.toString());
+      console.log(`Capturing an Event using RabbitMQ to:`, receivedJSON);
+      messagesStorage.push(receivedJSON);
+      try {
+        const newAktivitas = new Aktivitas({
+          aktivitas_user: receivedJSON.notification,
+        });
+        const savedAktivitas = await newAktivitas.save();
+        console.log("Aktivitas baru berhasil disimpan ke database.");
+      } catch (error) {
+        console.error("Error saat menyimpan Aktivitas ke database:", error);
+      }
+      channel.ack(message);
+    }
+  });
+}
+
+// Subscribe Cabang Satuan
+async function listenCabangSatuan() {
+  const channel = await rabbitMQConnection.createChannel();
+  await channel.assertQueue(QueueCabangSatuan, { durable: false });
+  channel.consume(QueueCabangSatuan, async (message) => {
+    if (message !== null) {
+      const receivedJSON = JSON.parse(message.content.toString());
+      console.log(`Capturing an Event using RabbitMQ to:`, receivedJSON);
+      messagesStorage.push(receivedJSON);
+      try {
+        const newAktivitas = new Aktivitas({
+          aktivitas_user: receivedJSON.notification,
+        });
+        const savedAktivitas = await newAktivitas.save();
+        console.log("Aktivitas baru berhasil disimpan ke database.");
+      } catch (error) {
+        console.error("Error saat menyimpan Aktivitas ke database:", error);
+      }
+      channel.ack(message);
+    }
+  });
+}
+
+// Subscribe Update Cabaang
+async function listenUpCabang() {
+  const channel = await rabbitMQConnection.createChannel();
+  await channel.assertQueue(QueueUpCabang, { durable: false });
+  channel.consume(QueueUpCabang, async (message) => {
+    if (message !== null) {
+      const receivedJSON = JSON.parse(message.content.toString());
+      console.log(`Capturing an Event using RabbitMQ to:`, receivedJSON);
+      messagesStorage.push(receivedJSON);
+      try {
+        const newAktivitas = new Aktivitas({
+          aktivitas_user: receivedJSON.notification,
+        });
+        const savedAktivitas = await newAktivitas.save();
+        console.log("Aktivitas baru berhasil disimpan ke database.");
+      } catch (error) {
+        console.error("Error saat menyimpan Aktivitas ke database:", error);
+      }
+      channel.ack(message);
+    }
+  });
+}
+
+// Subscribe Delete Review
+async function listenDelCabang() {
+  const channel = await rabbitMQConnection.createChannel();
+  await channel.assertQueue(QueueDelCabang, { durable: false });
+  channel.consume(QueueDelCabang, async (message) => {
     if (message !== null) {
       const receivedJSON = JSON.parse(message.content.toString());
       console.log(`Capturing an Event using RabbitMQ to:`, receivedJSON);
@@ -159,6 +282,13 @@ amqp.connect("amqp://rabbitmq").then(async (connection) => {
   listenReviewSatuan();
   listenUpReview();
   listenDelReview();
+
+  // Cabang
+  listenNewCabang();
+  listenAllCabang();
+  listenCabangSatuan();
+  listenUpCabang();
+  listenDelCabang();
 
   app.listen(PORT, () => {
     console.log(` 😀 server on port ${PORT}  `);
