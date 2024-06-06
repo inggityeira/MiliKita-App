@@ -11,7 +11,7 @@ const tokenBlacklist = [];
 
 // Registration
 exports.register = async (req, res) => {
-    const { id_user, nama_karyawan, email, password } = req.body;
+    const { nama_karyawan, email, password } = req.body;
 
     console.log("Request body:", req.body); // Log request body
     
@@ -30,7 +30,7 @@ exports.register = async (req, res) => {
         }
 
         user = new User({
-            id_user,
+            // id_user,
             nama_karyawan,
             email,
             password
