@@ -1,16 +1,15 @@
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+  mongoose
+    .connect("mongodb+srv://tsnalauralailla:PyReSmwOpwIR0YMG@authservicemilikitadb.cnhjfae.mongodb.net/MiliKita?retryWrites=true&w=majority&appName=AuthServiceMiliKitaDB")
+    .then(() => {
+      console.log("Connected to database!");
+    })
+    .catch((error) => {
+      console.error("Connection failed! Reasom:", error);
     });
-    console.log("Connected to database!");
-  } catch (error) {
-    console.error("Connection failed! Reason:", error);
-    process.exit(1);
-  }
 };
+
 
 module.exports = connectDB;

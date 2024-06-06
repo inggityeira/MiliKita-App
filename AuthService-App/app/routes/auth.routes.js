@@ -6,7 +6,7 @@ const authController = require('../controllers/auth.controller');
 
 console.log('authController:', authController);
 
-//Resgiter
+//Register
 router.post(
   '/register',
   [
