@@ -3,7 +3,7 @@ const app = express();
 
 const connectDB = require('./app/config/database');
 const reviewRoutes = require('./app/routes/review.routes');
-const reviewController = require('./app/controllers/review.controller')
+const reviewController = require('./app/controllers/review.controller');
 const PORT = process.env.PORT || 5000;
 
 // register middleware
