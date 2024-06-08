@@ -4,7 +4,7 @@
   "description": "cabang app",
   "main": "cabang.js",
   "scripts": {
-    "start": "nodemon review.js",
+    "start": "nodemon cabang.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nadya",
