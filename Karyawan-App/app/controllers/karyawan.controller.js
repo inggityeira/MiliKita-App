@@ -78,7 +78,8 @@ exports.getAllKaryawans = async (req, res) => {
 
     res.status(200).send(karyawans);
   } catch (error) {
-    res.status(400).send(error);
+    console.error("Error occurred:", error);
+    res.status(400).send({ error: "Failed to retrieve karyawan or publish message to RabbitMQ", details: error.message });
   }
 };
 
