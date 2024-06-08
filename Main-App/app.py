@@ -104,7 +104,14 @@ def get_list_karyawan():
 @app.route('/karyawanskita', methods=['GET'])
 def listkaryawan():
     listKaryawan = get_list_karyawan()
-    return render_template('listkaryawan.html', listKaryawan=listKaryawan)
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    per_page = 4
+    offset = (page - 1) * per_page
+    total = len(listKaryawan)
+    paginated_list = listKaryawan[offset: offset + per_page]
+    pagination = Pagination(page=page, total=total, per_page=per_page, css_framework='bootstrap4')
+
+    return render_template('listkaryawan.html', listKaryawan=paginated_list, pagination=pagination)
 
 # Fungsi memanggil list cabang
 def get_list_cabang():
@@ -114,7 +121,14 @@ def get_list_cabang():
 @app.route('/cabang', methods=['GET'])
 def listcabang():
     listCabang = get_list_cabang()
-    return render_template('listcabang.html', listCabang=listCabang)
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    per_page = 4
+    offset = (page - 1) * per_page
+    total = len(listCabang)
+    paginated_list = listCabang[offset: offset + per_page]
+    pagination = Pagination(page=page, total=total, per_page=per_page, css_framework='bootstrap4')
+
+    return render_template('listcabang.html', listCabang=paginated_list, pagination=pagination)
 
 # Fungsi memanggil list review
 def get_list_review():
@@ -124,7 +138,14 @@ def get_list_review():
 @app.route('/reviews', methods=['GET'])
 def listreview():
     listReview = get_list_review()
-    return render_template('listreview.html', listReview=listReview)
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    per_page = 4
+    offset = (page - 1) * per_page
+    total = len(listReview)
+    paginated_list = listReview[offset: offset + per_page]
+    pagination = Pagination(page=page, total=total, per_page=per_page, css_framework='bootstrap4')
+
+    return render_template('listreview.html', listMenu=paginated_list, pagination=pagination)
 
 # Fitur menghapus menu
 @app.route('/menuMiliKita/<int:id_menu>', methods=['GET'])
