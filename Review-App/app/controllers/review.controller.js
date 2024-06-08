@@ -39,6 +39,7 @@ exports.createReview = async (req, res) => {
     // Pesan untuk publish
     const message = {
       notification: `Membuat review baru, yaitu: ${req.body.pesan_review}`,
+      Service: "Review",
     };
 
     // Kirim pesan ke queue
@@ -66,6 +67,7 @@ exports.getAllReviews = async (req, res) => {
     // Pesan untuk publish
     const message = {
       notification: "Melihat seluruh review",
+      Service: "Review",
     };
 
     // Kirim pesan ke queue
@@ -96,6 +98,7 @@ exports.getReviewById = async (req, res) => {
     // Pesan untuk publish
     const message = {
       notification: `Melihat Review Satuan dengan id ${req.params.id}`,
+      Service: "Review",
     };
 
     // Kirim pesan ke queue
@@ -125,6 +128,7 @@ exports.updateReview = async (req, res) => {
     // Pesan untuk publish
     const message = {
       notification: `Melakukan perubahan pada review dengan id ${req.params.id}`,
+      Service: "Review",
     };
 
     // Kirim pesan ke queue
@@ -154,6 +158,7 @@ exports.deleteReview = async (req, res) => {
     // Pesan untuk publish
     const message = {
       notification: `Melakukan penghapusan pada review dengan id ${req.params.id}`,
+      Service: "Review",
     };
 
     // Kirim pesan ke queue
