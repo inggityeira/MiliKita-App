@@ -118,7 +118,7 @@ exports.getKaryawanById = async (req, res) => {
 // Read Karyawan By Posisi
 exports.getKaryawanByPosisi = async (req, res) => {
   try {
-    const karyawan = await Karyawan.findOne({ posisi_karyawan: req.params.posisi });
+    const karyawan = await Karyawan.find({ posisi_karyawan: req.params.posisi });
     if (!karyawan) {
       return res.status(404).send({ message: "Karyawan not found" });
     }
@@ -148,7 +148,7 @@ exports.getKaryawanByPosisi = async (req, res) => {
 // Read Karyawan By Cabang
 exports.getKaryawanByCabang = async (req, res) => {
   try {
-    const karyawan = await Karyawan.findOne({ id_cabang: req.params.id_cabang });
+    const karyawan = await Karyawan.find({ id_cabang: req.params.id_cabang });
     if (!karyawan) {
       return res.status(404).send({ message: "Karyawan not found" });
     }
@@ -160,7 +160,7 @@ exports.getKaryawanByCabang = async (req, res) => {
 
     // Pesan untuk publish
     const message = {
-      notification: `Melihat Karyawan berdasarkan posisi ${req.params.posisi}`,
+      notification: `Melihat Karyawan berdasarkan cabang dengan id: ${req.params.id_cabang}`,
       Service: "Karyawan",
     };
 

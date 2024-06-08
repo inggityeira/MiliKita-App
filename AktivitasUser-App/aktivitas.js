@@ -58,10 +58,12 @@ amqp.connect("amqp://rabbitmq").then(async (connection) => {
   karyawanController.listenUpKaryawan(channel);
   karyawanController.listenDelKaryawan(channel);
 
-  // Karyawan
+  // Menu
   menuController.listenNewMenu(channel);
   menuController.listenAllMenu(channel);
   menuController.listenMenuSatuan(channel);
+  menuController.listenMenuByKA(channel);
+  menuController.listenMenuByPO(channel);
   menuController.listenUpMenu(channel);
   menuController.listenDelMenu(channel);
 
