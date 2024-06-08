@@ -1,6 +1,21 @@
 const jwt = require('jsonwebtoken');
 const authController = require('../controllers/auth.controller');
 const JWT_SECRET = 'your_jwt_secret_key';
+const cookieParser = require('cookie-parser');
+
+const verifyToken = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+      return res.status(401).send('Unauthorized: No token provided');
+  }
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) {
+          return res.status(401).send('Unauthorized: Invalid token');
+      }
+      req.user = decoded;
+      next();
+  });
+};
 
 module.exports = async (req, res, next) => {
   try {
@@ -33,4 +48,11 @@ module.exports = async (req, res, next) => {
     console.error(err.message);
     res.status(401).json({ msg: 'Token is not valid' });
   }
+
+  app.use((err, req, res, next) => {
+    console.error(err.message);
+    res.status(500).send('Server error');
+});
+
 };
+
