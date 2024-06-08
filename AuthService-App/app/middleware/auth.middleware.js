@@ -3,20 +3,6 @@ const authController = require('../controllers/auth.controller');
 const JWT_SECRET = 'your_jwt_secret_key';
 const cookieParser = require('cookie-parser');
 
-const verifyToken = (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) {
-      return res.status(401).send('Unauthorized: No token provided');
-  }
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
-      if (err) {
-          return res.status(401).send('Unauthorized: Invalid token');
-      }
-      req.user = decoded;
-      next();
-  });
-};
-
 module.exports = async (req, res, next) => {
   try {
     // Ambil token dari header
