@@ -74,7 +74,7 @@
             <a aria-current="page" href="/menusMiliKita">MENU</a>
           </li>
           <li class="nav-item">
-            <a aria-current="page" href="/karyawankita">OFFICER</a>
+            <a aria-current="page" href="/karyawanskita">OFFICER</a>
           </li>
           <li class="nav-item">
             <a aria-current="page" href="/cabang">STORE</a>
@@ -191,7 +191,7 @@
     <div class="menu-container">
         {% for cabang in listCabang %}
         <div class="menu-item">
-            <img src="{{ url_for('static', filename='store_image.jpg') }}" alt="{{ cabang.nama_cabang }}">
+            <img src="{{ cabang.gambar_cabang}}" alt="{{ cabang.nama_cabang }}">
             <div class="content">
                 <h5>{{ cabang.nama_cabang }}</h5>
                 <p>{{ cabang.kota_cabang }}</p>
