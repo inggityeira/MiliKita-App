@@ -5,6 +5,7 @@ const cabangController = require('../controllers/cabang.Controller');
 router.post('/cabangs', cabangController.createCabang);
 router.get('/cabang', cabangController.getAllCabang);
 router.get('/cabangs/:id', cabangController.getCabangById);
+router.get('/cabangs/kota/:kota', cabangController.getCabangByKota);
 router.put('/cabangs/:id', cabangController.updateCabang);
 router.delete('/cabangs/:id', cabangController.deleteCabang);
 
