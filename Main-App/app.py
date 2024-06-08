@@ -128,7 +128,7 @@ def listcabang():
     paginated_list = listCabang[offset: offset + per_page]
     pagination = Pagination(page=page, total=total, per_page=per_page, css_framework='bootstrap4')
 
-    return render_template('listcabang.html', listCabang=paginated_list, pagination=pagination)
+    return render_template('cabang/listcabang.html', listCabang=paginated_list, pagination=pagination)
 
 # Fungsi memanggil list review
 def get_list_review():
