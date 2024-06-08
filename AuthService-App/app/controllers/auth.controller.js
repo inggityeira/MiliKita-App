@@ -1,7 +1,7 @@
 const User = require('../models/auth.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { check, validationResult } = require('express-validator');
+const { check, validationResult, body } = require('express-validator');
 
 const JWT_SECRET = 'your_jwt_secret_key';
 const REFRESH_TOKEN_SECRET = 'your_refresh_token_secret_key';
@@ -59,14 +59,28 @@ exports.login = async (req, res) => {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, hashpassword);
         if (!isMatch) {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
 
-        const payload = { user: {id: user.id}};
+        const payload = { user: {id_user: req.params.id }};
         const accessToken = generateAccessToken(payload);
         const refreshToken = generateRefreshToken(payload);
+
+        // Pengaturan cookie
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 3600,
+            sameSite: 'strict'
+        });
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 3600,
+            sameSite: 'strict'
+        });
 
         res.json({ accessToken, refreshToken });
     } catch (err) {
@@ -77,27 +91,33 @@ exports.login = async (req, res) => {
 
 // Refresh Token
 exports.refreshToken = (req, res) => {
-    const { refreshToken } = req.body;
-    if (!refreshToken) {
-        return res.status(401).json({ msg: 'No refresh token provided' });
-    }
-
-    jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
-        if (err) {
-            return res.status(403).json({ msg: 'Invalid refresh token' });
-        }
-
-        const payload = { user: { id: user.id } };
+    // Logika refresh token
+    try {
+        // Pengaturan token
+        const payload = { user: { id_user: req.params.id  } };
         const accessToken = generateAccessToken(payload);
 
-        res.json({ accessToken });
-    });
+        // Pengaturan cookie
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 3600,
+            sameSite: 'strict'
+        });
+
+        // Respon berhasil
+        res.status(200).json({ accessToken });
+    } catch (error) {
+        // Tangani kesalahan
+        console.error(error.message);
+        res.status(500).send('Server error');
+    }
 };
 
 // Authorization User
 exports.getUser = async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).select('-password');
+        const user = await User.findById(req.params.id).select('-password');
         res.json(user);
     } catch (err) {
         console.error(err.message);
