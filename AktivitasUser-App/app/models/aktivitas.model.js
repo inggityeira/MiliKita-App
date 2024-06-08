@@ -6,6 +6,10 @@ const AktivitasSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        Service: {
+            type: String,
+            required: true,
+        },
     },
     {
         timestamps: true,

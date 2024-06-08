@@ -8,6 +8,7 @@ const connectDB = require("./app/config/database");
 const Aktivitas = require("./app/models/aktivitas.model");
 const reviewController = require('./app/controller/review.controller');
 const cabangController = require('./app/controller/cabang.controller');
+const karyawanController = require('./app/controller/karyawan.controller');
 
 // register middleware
 app.use(express.json());
@@ -46,6 +47,13 @@ amqp.connect("amqp://rabbitmq").then(async (connection) => {
   cabangController.listenCabangSatuan(channel);
   cabangController.listenUpCabang(channel);
   cabangController.listenDelCabang(channel);
+
+  // Karyawan
+  karyawanController.listenNewKaryawan(channel);
+  karyawanController.listenAllKaryawan(channel);
+  karyawanController.listenKaryawanSatuan(channel);
+  karyawanController.listenUpKaryawan(channel);
+  karyawanController.listenDelKaryawan(channel);
 
   app.listen(PORT, () => {
     console.log(` 😀 server on port ${PORT}  `);
