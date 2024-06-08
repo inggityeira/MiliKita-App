@@ -46,6 +46,7 @@ amqp.connect("amqp://rabbitmq").then(async (connection) => {
   cabangController.listenNewCabang(channel);
   cabangController.listenAllCabang(channel);
   cabangController.listenCabangSatuan(channel);
+  cabangController.listenCabangByKota(channel);
   cabangController.listenUpCabang(channel);
   cabangController.listenDelCabang(channel);
 
