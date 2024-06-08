@@ -5,10 +5,33 @@ from flask_paginate import Pagination, get_page_parameter
 app = Flask(__name__)
 app.static_folder = 'static'
 
-# Fitur detail menu
-def get_menu(id_menu):
-    response = requests.get(f'http://localhost:5001/menusMiliKita/{id_menu}')
+
+# Fitur detail 
+
+def get_cabang(id_cabang):
+    response = requests.get(f'http://localhost:5002/cabangs/:id/{id_karyawan}')
     return response.json()
+
+def get_karyawan( ):
+    get_karyawan =()
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    per_page = 4
+    offset =(page - 1)*per_page
+    total = len(get_cabang)
+    paginated_cabang = get_cabang[offset: offset + per_page]
+    pa
+    response = requests.get(f'http://localhost:5003/karyawanskita/:id/{id_karyawan}')
+    return response.json()
+
+def get_menu(id_menu):
+    response = requests.get(f'http://localhost:5001/menuMiliKita/:id/{id_menu}')
+    return response.json()
+
+def get_review(id_review):
+    response = requests.get(f'http://localhost:5000/reviews/:id/{id_review}')
+    return response.json()
+
+
 
 #Fitur Add Menu
 @app.route('/menuMiliKita', methods=['GET'])
