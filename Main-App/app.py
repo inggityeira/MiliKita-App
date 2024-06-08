@@ -7,9 +7,8 @@ app.static_folder = 'static'
 
 
 # Fitur detail 
-
 def get_cabang(id_cabang):
-    response = requests.get(f'http://localhost:5002/cabangs/:id/{id_karyawan}')
+    response = requests.get(f'http://localhost:5002/cabangs/:id/{id_cabang}')
     return response.json()
 
 def get_karyawan( ):
@@ -19,7 +18,7 @@ def get_karyawan( ):
     offset =(page - 1)*per_page
     total = len(get_cabang)
     paginated_cabang = get_cabang[offset: offset + per_page]
-    pa
+    
     response = requests.get(f'http://localhost:5003/karyawanskita/:id/{id_karyawan}')
     return response.json()
 
