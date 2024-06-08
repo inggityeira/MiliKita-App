@@ -3,6 +3,8 @@ const Aktivitas = require("../models/aktivitas.model");
 const QueueReviewBaru = "QueueReviewBaru";
 const QueueAllReview = "QueueAllReview";
 const QueueReviewSatuan = "QueueReviewSatuan";
+const QueueReviewByCabang = "QueueReviewByCabang";
+const QueueReviewByMenu = "QueueReviewByMenu";
 const QueueUpReview = "QueueUpReview";
 const QueueDelReview = "QueueDelReview";
 
@@ -35,6 +37,14 @@ const listenAllReview = async (channel) => {
   await handleQueueMessage(channel, QueueAllReview);
 };
 
+const listenReviewByCA = async (channel) => {
+  await handleQueueMessage(channel, QueueReviewByCabang);
+};
+
+const listenReviewByME = async (channel) => {
+  await handleQueueMessage(channel, QueueReviewByMenu);
+};
+
 const listenReviewSatuan = async (channel) => {
   await handleQueueMessage(channel, QueueReviewSatuan);
 };
@@ -50,6 +60,8 @@ const listenDelReview = async (channel) => {
 module.exports = {
   listenNewReview,
   listenAllReview,
+  listenReviewByCA,
+  listenReviewByME,
   listenReviewSatuan,
   listenUpReview,
   listenDelReview,
