@@ -4,7 +4,16 @@ const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 
 const JWT_SECRET = 'your_jwt_secret_key';
+const REFRESH_TOKEN_SECRET = 'your_refresh_token_secret_key';
 const tokenBlacklist = [];
+
+const generateAccessToken = (user) => {
+    return jwt.sign(user, JWT_SECRET, { expiresIn: '1h' });
+};
+
+const generateRefreshToken = (user) => {
+    return jwt.sign(user, REFRESH_TOKEN_SECRET, { expiresIn: '1h' });
+};
 
 // Registration
 exports.register = async (req,res) => {
@@ -55,25 +64,34 @@ exports.login = async (req, res) => {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
 
-        const payload = {
-            user: {
-                id: user.id
-            }
-        };
+        const payload = { user: {id: user.id}};
+        const accessToken = generateAccessToken(payload);
+        const refreshToken = generateRefreshToken(payload);
 
-        jwt.sign(
-            payload,
-            JWT_SECRET,
-            { expiresIn: 3600 },
-            (err, token) => {
-                if (err) throw err;
-                res.json({ token });
-            }
-        );
+        res.json({ accessToken, refreshToken });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
+};
+
+// Refresh Token
+exports.refreshToken = (req, res) => {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+        return res.status(401).json({ msg: 'No refresh token provided' });
+    }
+
+    jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({ msg: 'Invalid refresh token' });
+        }
+
+        const payload = { user: { id: user.id } };
+        const accessToken = generateAccessToken(payload);
+
+        res.json({ accessToken });
+    });
 };
 
 // Authorization User
@@ -97,4 +115,15 @@ exports.logout = (req, res) => {
 // Check if token is blacklisted
 exports.isTokenBlacklisted = (token) => {
     return tokenBlacklist.includes(token);
+};
+
+module.exports = {
+    generateAccessToken,
+    generateRefreshToken,
+    register: exports.register,
+    login: exports.login,
+    refreshToken: exports.refreshToken,
+    getUser: exports.getUser,
+    logout: exports.logout,
+    isTokenBlacklisted: exports.isTokenBlacklisted,
 };
