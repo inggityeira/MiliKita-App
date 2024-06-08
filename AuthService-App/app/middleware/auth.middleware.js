@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { isTokenBlacklisted } = require('../controllers/auth.controller');
-const { User } = require('../models/auth.model');
+const { user } = require('../models/auth.model');
 const { JWT_SECRET, REFRESH_TOKEN_SECRET } = require('../config');
 
 const authenticateToken = async (req, res, next) => {
@@ -29,12 +29,10 @@ const authenticateRefreshToken = async (req, res, next) => {
         const decodedRefreshToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
         req.user = decodedRefreshToken.user;
 
-        // Check if refresh token is blacklisted
         if (isTokenBlacklisted(refreshToken)) {
             return res.status(403).json({ message: 'Refresh token is blacklisted' });
         }
 
-        // Check if the user associated with the refresh token still exists
         const user = await User.findById(req.prams.id);
         if (!user) {
             return res.status(403).json({ message: 'User associated with the refresh token does not exist' });
