@@ -62,11 +62,11 @@ def add_cabang():
     return redirect(url_for('add_cabang_form'))
 
 #Fitur Add Review
-@app.route('/reviews', methods=['GET'])
+@app.route('/review', methods=['GET'])
 def add_review_form():
     return render_template('addreview.html')
 
-@app.route('/reviews', methods=['POST'])
+@app.route('/review', methods=['POST'])
 def add_review():
     data = {
         "idreview": request.form['idreview'],
@@ -76,7 +76,7 @@ def add_review():
         "iduser": request.form['iduser'],
         "bintang_review": request.form['bintang_review']
     }
-    response = requests.post('http://localhost:5000/reviews/', json=data)
+    response = requests.post('http://localhost:5000/review/', json=data)
     return redirect(url_for('add_review_form'))
 
 # Fungsi memanggil list menu
@@ -91,10 +91,10 @@ def listmenu():
 
 # Fungsi memanggil list karyawan
 def get_list_karyawan():
-    response = requests.get(f'http://localhost:5003/karyawankita')
+    response = requests.get(f'http://localhost:5003/karyawanskita')
     return response.json()
 
-@app.route('/karyawankita', methods=['GET'])
+@app.route('/karyawanskita', methods=['GET'])
 def listkaryawan():
     listKaryawan = get_list_karyawan()
     return render_template('listkaryawan.html', listKaryawan = listKaryawan)
@@ -111,10 +111,10 @@ def listcabang():
 
 # Fungsi memanggil list review
 def get_list_review():
-    response = requests.get(f'http://localhost:5000/review')
+    response = requests.get(f'http://localhost:5000/reviews')
     return response.json()
 
-@app.route('/review', methods=['GET'])
+@app.route('/reviews', methods=['GET'])
 def listreview():
     listReview = get_list_menu()
     return render_template('listreview.html', listReview = listReview)
