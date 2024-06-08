@@ -39,6 +39,8 @@ amqp.connect("amqp://rabbitmq").then(async (connection) => {
   reviewController.listenNewReview(channel);
   reviewController.listenAllReview(channel);
   reviewController.listenReviewSatuan(channel);
+  reviewController.listenReviewByCA(channel);
+  reviewController.listenReviewByME(channel);
   reviewController.listenUpReview(channel);
   reviewController.listenDelReview(channel);
 
