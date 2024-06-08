@@ -4,7 +4,7 @@
   "description": "menu app",
   "main": "menu.js",
   "scripts": {
-    "start": "nodemon review.js",
+    "start": "nodemon Menu.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Nikita",

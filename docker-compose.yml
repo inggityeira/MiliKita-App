@@ -46,3 +46,25 @@ services:
         condition: service_healthy
     links:
       - rabbitmq:rabbitmq
+  
+  karyawan-app:
+    build: ./Karyawan-App
+    ports:
+      - "5003:5003"
+    command: npm start
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    links:
+      - rabbitmq:rabbitmq
+
+  menu-app:
+    build: ./Menu-App
+    ports:
+      - "5001:5001"
+    command: npm start
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    links:
+      - rabbitmq:rabbitmq
