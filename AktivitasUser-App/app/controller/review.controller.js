@@ -37,8 +37,6 @@ const listenAllReview = async (channel) => {
   await handleQueueMessage(channel, QueueAllReview);
 };
 
-<<<<<<< HEAD
-=======
 const listenReviewByCA = async (channel) => {
   await handleQueueMessage(channel, QueueReviewByCabang);
 };
@@ -47,7 +45,6 @@ const listenReviewByME = async (channel) => {
   await handleQueueMessage(channel, QueueReviewByMenu);
 };
 
->>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
 const listenReviewSatuan = async (channel) => {
   await handleQueueMessage(channel, QueueReviewSatuan);
 };
@@ -63,11 +60,8 @@ const listenDelReview = async (channel) => {
 module.exports = {
   listenNewReview,
   listenAllReview,
-<<<<<<< HEAD
-=======
   listenReviewByCA,
   listenReviewByME,
->>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
   listenReviewSatuan,
   listenUpReview,
   listenDelReview,

@@ -8,11 +8,8 @@ let rabbitMQConnection;
 const QueueKaryawanBaru = "QueueKaryawanBaru";
 const QueueAllKaryawan = "QueueAllKaryawan";
 const QueueKaryawanSatuan = "QueueKaryawanSatuan";
-<<<<<<< HEAD
-=======
 const QueueKaryawanByPO = "QueueKaryawanByPO";
 const QueueKaryawanByCA = "QueueKaryawanByCA";
->>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
 const QueueUpKaryawan = "QueueUpKaryawan";
 const QueueDelKaryawan = "QueueDelKaryawan";
 
@@ -116,8 +113,6 @@ exports.getKaryawanById = async (req, res) => {
   } catch (error) {
     res.status(400).send(error);
   }
-<<<<<<< HEAD
-=======
 };
 
 // Read Karyawan By Posisi
@@ -178,7 +173,6 @@ exports.getKaryawanByCabang = async (req, res) => {
   } catch (error) {
     res.status(400).send(error);
   }
->>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
 };
 
 // Update Karyawan
