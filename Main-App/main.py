@@ -13,10 +13,30 @@ def get_cabangByID(id_cabang):
     response = requests.get(f'http://localhost:5002/cabangs/{id_cabang}')
     return response.json()
 
+def get_karyawanByCabang(id_cabang):
+    response = requests.get(f'http://localhost:5003/karyawankita/Cabang/{id_cabang}')
+    return response.json()
+
+def get_reviewByCabang(id_cabang):
+    response = requests.get(f'http://localhost:5000/reviews/cabang/{id_cabang}')
+    return response.json()
+
+def get_MenuByID(id_menu):
+    response = requests.get(f'http://localhost:5001/menuMiliKita/{id_menu}')
+    return response.json()
+
 @app.route('/cabangByID/<int:id_cabang>', methods=['GET'])
-def show_cabangByID(id_cabang):
+def show_detailCabang(id_cabang):
     cabangByID = get_cabangByID(id_cabang)
-    return jsonify(cabangByID)
+    karyawanByCabang = get_karyawanByCabang(id_cabang)
+    reviewByCabang = get_reviewByCabang(id_cabang)
+
+    menus = []
+    for review in reviewByCabang:
+        menu = get_MenuByID(review['id_menu'])
+        menus.append(menu)
+        
+    return render_template('Cabang/detailcabang.html', cabang=cabangByID, karyawans=karyawanByCabang, reviews=reviewByCabang, menus=menus)
 
 
 # edit-cabang
