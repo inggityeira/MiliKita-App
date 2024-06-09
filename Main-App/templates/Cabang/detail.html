@@ -88,11 +88,12 @@
       }
 
       .officer-card {
-        width: 70%;
+        width: 100%;
       }
 
       a {
         text-decoration: none;
+        color: black;
       }
     </style>
   </head>
@@ -142,32 +143,29 @@
       </div>
 
       <div class="mb-2 mt-3">
-        <h3 style="text-align: center"><strong>List Officer</strong></h3>
+        <h3 style="text-align: center; margin-top:30px;"><strong>List Officer</strong></h3>
         {% for karyawan in karyawans %}
-        <div class="card p-2 mb-2 officer-card"><a href="">{{ karyawan.nama_karyawan }}</a></div>
-        {% endfor %}
-      </div>
-
-      <div class="mb-2 mt-3">
-        <h3 style="text-align: center"><strong>Reviews by Menus</strong></h3>
-        {% for menu, reviews in grouped_reviews.items() %}
-        <table style="border-collapse: collapse; width: 100%; text-align: center">
-          <tr>
-            <td colspan="2" style="border: 1px solid black; padding: 10px">
-              <strong><h3>{{ menu }}</h3></strong>
-            </td>
-          </tr>
-          <tr>
-            {% for review in reviews %}
-            <td style="border: 1px solid black; padding: 10px; width: 50%"><strong>{{ review.pesan_review }}</strong></td>
-            <td style="border: 1px solid black; padding: 10px; width: 50%"><strong>{{ review.bintang_review }}/5</strong></td>
-            {% endfor %}
-          </tr>
-        </table>
-        {% endfor %}
-      </div>
-      
+          <div style="display: flex; justify-content: space-between;">
+              <a href="" style="width: 70%;"><div  class="card p-2 mb-2 officer-card" >{{ karyawan.nama_karyawan }}</div></a>
+              <a href="" style="width: 30%;"><div  class="card p-2 mb-2 officer-card" style="text-align: center">{{ karyawan.posisi_karyawan }}</div></a>
+          </div>
+          {% endfor %}
     </div>
 
+      <div class="mb-2 mt-3">
+        <h3 style="text-align: center; margin-bottom:20px;"><strong>Reviews by Menus</strong></h3>
+        {% for menu, reviews in grouped_reviews.items() %}
+        <a href=""><h5 ><strong>{{ menu }}</strong></h5></a>
+          {% for review in reviews %}
+          <div style="display: flex; justify-content: space-between;">
+              <a href="" style="width: 90%;"><div  class="card p-2 mb-2 officer-card" >{{ review.pesan_review }}</div></a>
+              <a href="" style="width: 10%;"><div  class="card p-2 mb-2 officer-card" style="text-align: center">{{ review.bintang_review }}⭐</div></a>
+          </div>
+          {% endfor %}
+        {% endfor %}
+    </div>
+    
+      
+    </div>
   </body>
 </html>
