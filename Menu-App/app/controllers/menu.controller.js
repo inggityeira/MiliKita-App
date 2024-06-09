@@ -8,11 +8,8 @@ let rabbitMQConnection;
 const QueueMenuBaru = "QueueMenuBaru";
 const QueueAllMenu = "QueueAllMenu";
 const QueueMenuSatuan = "QueueMenuSatuan";
-<<<<<<< HEAD
-=======
 const QueueMenuByKA = "QueueMenuByKA";
 const QueueMenuByPO = "QueueMenuByPO";
->>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
 const QueueUpMenu = "QueueUpMenu";
 const QueueDelMenu = "QueueDelMenu";
 
@@ -116,8 +113,6 @@ exports.getMenuById = async (req, res) => {
   } catch (error) {
     res.status(400).send(error);
   }
-<<<<<<< HEAD
-=======
 };
 
 // Read Menu By Kategori
@@ -178,7 +173,6 @@ exports.getMenuByPosisi = async (req, res) => {
   } catch (error) {
     res.status(400).send(error);
   }
->>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
 };
 
 // Update menu

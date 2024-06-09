@@ -3,11 +3,8 @@ const Aktivitas = require("../models/aktivitas.model");
 const QueueKaryawanBaru = "QueueKaryawanBaru";
 const QueueAllKaryawan = "QueueAllKaryawan";
 const QueueKaryawanSatuan = "QueueKaryawanSatuan";
-<<<<<<< HEAD
-=======
 const QueueKaryawanByPO = "QueueKaryawanByPO";
 const QueueKaryawanByCA = "QueueKaryawanByCA";
->>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
 const QueueUpKaryawan = "QueueUpKaryawan";
 const QueueDelKaryawan = "QueueDelKaryawan";
 
@@ -44,8 +41,6 @@ const listenKaryawanSatuan = async (channel) => {
   await handleQueueMessage(channel, QueueKaryawanSatuan);
 };
 
-<<<<<<< HEAD
-=======
 const listenKaryawanPosisi = async (channel) => {
   await handleQueueMessage(channel, QueueKaryawanByPO);
 };
@@ -54,7 +49,6 @@ const listenKaryawanCabang = async (channel) => {
   await handleQueueMessage(channel, QueueKaryawanByCA);
 };
 
->>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
 const listenUpKaryawan = async (channel) => {
   await handleQueueMessage(channel, QueueUpKaryawan);
 };
@@ -67,11 +61,8 @@ module.exports = {
   listenNewKaryawan,
   listenAllKaryawan,
   listenKaryawanSatuan,
-<<<<<<< HEAD
-=======
   listenKaryawanPosisi,
   listenKaryawanCabang,
->>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
   listenUpKaryawan,
   listenDelKaryawan,
 };
