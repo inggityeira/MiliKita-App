@@ -9,6 +9,15 @@ app.static_folder = 'static'
 # list-cabang (pilihan liat semua/perkota)
 
 # detail-cabang
+def get_cabangByID(id_cabang):
+    response = requests.get(f'http://localhost:5002/cabangs/{id_cabang}')
+    return response.json()
+
+@app.route('/cabangByID/<int:id_cabang>', methods=['GET'])
+def show_cabangByID(id_cabang):
+    cabangByID = get_cabangByID(id_cabang)
+    return jsonify(cabangByID)
+
 
 # edit-cabang
 
@@ -49,3 +58,8 @@ app.static_folder = 'static'
 # list-aktivitas
 
 # Grafik aktivitas
+
+
+# PORT
+if __name__ == '__main__':
+    app.run(debug=True, port=5010)
