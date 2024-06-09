@@ -4,7 +4,7 @@
   "description": "Aktivitas User sebagai Subscriber dari semua service",
   "main": "aktivitas.js",
   "scripts": {
-    "start": "nodemon review.js",
+    "start": "nodemon aktivitas.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Inggit",

@@ -39,6 +39,7 @@ exports.createCabang = async (req, res) => {
     // Pesan untuk publish
     const message = {
       notification: `Membuat cabang baru, yaitu: ${req.body.nama_cabang}`,
+      Service: "Cabang",
     };
 
     // Kirim pesan ke queue
@@ -66,6 +67,7 @@ exports.getAllCabang = async (req, res) => {
     // Pesan untuk publish
     const message = {
       notification: "Melihat seluruh cabang",
+      Service: "Cabang",
     };
 
     // Kirim pesan ke queue
@@ -97,6 +99,7 @@ exports.getCabangById = async (req, res) => {
     // Pesan untuk publish
     const message = {
       notification: `Melihat Cabang Satuan dengan id ${req.params.id}`,
+      Service: "Cabang",
     };
 
     // Kirim pesan ke queue
@@ -126,6 +129,7 @@ exports.updateCabang = async (req, res) => {
     // Pesan untuk publish
     const message = {
       notification: `Melakukan perubahan pada cabang dengan id ${req.params.id}`,
+      Service: "Cabang",
     };
 
     // Kirim pesan ke queue
@@ -155,6 +159,7 @@ exports.deleteCabang = async (req, res) => {
     // Pesan untuk publish
     const message = {
       notification: `Melakukan penghapusan pada cabang dengan id ${req.params.id}`,
+      Service: "Cabang",
     };
 
     // Kirim pesan ke queue

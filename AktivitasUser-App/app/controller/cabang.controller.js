@@ -7,22 +7,26 @@ const QueueUpCabang = "QueueUpCabang";
 const QueueDelCabang = "QueueDelCabang";
 
 const handleQueueMessage = async (channel, queue) => {
-    await channel.assertQueue(queue, { durable: false });
-    channel.consume(queue, async (message) => {
-      if (message !== null) {
-        const receivedJSON = JSON.parse(message.content.toString());
-        console.log(`Capturing an Event using RabbitMQ to:`, receivedJSON);
-        try {
-          const newAktivitas = new Aktivitas({ aktivitas_user: receivedJSON.notification });
-          await newAktivitas.save();
-          console.log("Aktivitas baru berhasil disimpan ke database.");
-        } catch (error) {
-          console.error(`Error handling message for queue ${queue}:`, error);
-        }
-        channel.ack(message);
+  await channel.assertQueue(queue, { durable: false });
+  channel.consume(queue, async (message) => {
+    if (message !== null) {
+      const receivedJSON = JSON.parse(message.content.toString());
+      console.log(`Capturing an Event using RabbitMQ to:`, receivedJSON);
+      try {
+        const newAktivitas = new Aktivitas({
+          aktivitas_user: receivedJSON.notification,
+          Service: receivedJSON.Service 
+        });
+        await newAktivitas.save();
+        console.log("Aktivitas baru berhasil disimpan ke database.");
+      } catch (error) {
+        console.error(`Error handling message for queue ${queue}:`, error);
       }
-    });
-  };
+      channel.ack(message);
+    }
+  });
+};
+
   
   const listenNewCabang = async (channel) => {
     await handleQueueMessage(channel, QueueCabangBaru);
