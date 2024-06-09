@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Cabang</title>
+</head>
+<body>
+    <h1>Detail Cabang</h1>
+    <h2>Cabang Info</h2>
+    <p>ID: {{ cabang.id_cabang }}</p>
+    <p>Name: {{ cabang.nama_cabang }}</p>
+    <p>Location: {{ cabang.alamat_cabang }}</p>
+    
+    <h2>Karyawan List</h2>
+    <ul>
+        {% for karyawan in karyawans %}
+            <li>{{ karyawan.nama_karyawan }}</li>
+        {% endfor %}
+    </ul>
+    
+    <h2>Reviews</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Review ID</th>
+                <th>Comment</th>
+                <th>Menu</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in reviews %}
+                <tr>
+                    <td>{{ review.id_review }}</td>
+                    <td>{{ review.pesan_review }}</td>
+                    <td>
+                        {% for menu in menus %}
+                            {% if menu.id_menu == review.id_menu %}
+                                {{ menu.nama_menu }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
