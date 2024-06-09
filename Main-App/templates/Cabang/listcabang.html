@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <title>MiliKita | Officer</title>
-
+    <title>MiliKita | Store</title>
     <style>
       body {
         margin: 0%;
@@ -34,7 +33,7 @@
         overflow-y: auto;
       }
       .navbar {
-        background-color: #846D4C;
+        background-color: #846d4c;
         height: 65px;
       }
       .navbar-brand {
@@ -62,6 +61,60 @@
         font-size: 20px;
         font-weight: bold;
       }
+      .menu-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .menu-item {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        width: 300px;
+        margin: 15px;
+        background-color: white;
+      }
+      .menu-item img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      .menu-item .content {
+        padding: 15px;
+      }
+      .menu-item h5 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .menu-item p {
+        margin: 5px 0;
+        color: #777;
+      }
+      .menu-item .detail-button {
+        display: block;
+        text-align: center;
+        padding: 10px;
+        background-color: black;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-top: 10px;
+      }
+      .add-new-button {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+      }
+      .add-new-button button {
+        padding: 15px 30px;
+        border: none;
+        background-color: black;
+        color: white;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -85,8 +138,23 @@
         </ul>
       </div>
     </nav>
-    <div class="background">
-      <h1>Welcome to MiliKita Officer Page</h1>
+
+    <div class="menu-container">
+      {% for cabang in listCabang %}
+      <div class="menu-item">
+        <img src="{{ cabang.gambar_cabang}}" alt="{{ cabang.nama_cabang }}" />
+        <div class="content">
+          <h5>{{ cabang.nama_cabang }}</h5>
+          <p>{{ cabang.kota_cabang }}</p>
+          <a href="#" class="detail-button">DETAIL</a>
+        </div>
+      </div>
+      {% endfor %}
     </div>
+
+    <div class="add-new-button">
+      <button>Add New Store</button>
+    </div>
+    
   </body>
 </html>

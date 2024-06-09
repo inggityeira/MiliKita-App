@@ -8,6 +8,11 @@ let rabbitMQConnection;
 const QueueMenuBaru = "QueueMenuBaru";
 const QueueAllMenu = "QueueAllMenu";
 const QueueMenuSatuan = "QueueMenuSatuan";
+<<<<<<< HEAD
+=======
+const QueueMenuByKA = "QueueMenuByKA";
+const QueueMenuByPO = "QueueMenuByPO";
+>>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
 const QueueUpMenu = "QueueUpMenu";
 const QueueDelMenu = "QueueDelMenu";
 
@@ -111,6 +116,69 @@ exports.getMenuById = async (req, res) => {
   } catch (error) {
     res.status(400).send(error);
   }
+<<<<<<< HEAD
+=======
+};
+
+// Read Menu By Kategori
+exports.getMenuByKategori = async (req, res) => {
+  try {
+    const menu = await Menu.find({ kategori_menu: req.params.kategori });
+    if (!menu) {
+      return res.status(404).send({ message: "Menu not found" });
+    }
+
+    // Publish pesan ke RabbitMQ
+    await connectRabbitMQ();
+    const channel = await rabbitMQConnection.createChannel();
+    await channel.assertQueue(QueueMenuByKA, { durable: false });
+
+    // Pesan untuk publish
+    const message = {
+      notification: `Melihat Menu berdasarkan kategori: ${req.params.kategori}`,
+      Service: "Menu",
+    };
+
+    // Kirim pesan ke queue
+    channel.sendToQueue(QueueMenuByKA, Buffer.from(JSON.stringify(message)));
+    console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
+    await channel.close();
+
+    res.status(200).send(menu);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+// Read Menu By Posisi
+exports.getMenuByPosisi = async (req, res) => {
+  try {
+    const menu = await Menu.find({ posisi_karyawan: req.params.posisi });
+    if (!menu) {
+      return res.status(404).send({ message: "Menu not found" });
+    }
+
+    // Publish pesan ke RabbitMQ
+    await connectRabbitMQ();
+    const channel = await rabbitMQConnection.createChannel();
+    await channel.assertQueue(QueueMenuByPO, { durable: false });
+
+    // Pesan untuk publish
+    const message = {
+      notification: `Melihat Menu berdasarkan posisi karyawan: ${req.params.posisi}`,
+      Service: "Menu",
+    };
+
+    // Kirim pesan ke queue
+    channel.sendToQueue(QueueMenuByPO, Buffer.from(JSON.stringify(message)));
+    console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
+    await channel.close();
+
+    res.status(200).send(menu);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+>>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
 };
 
 // Update menu
