@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
+from collections import defaultdict
 import requests
 from flask_paginate import Pagination, get_page_parameter
 
@@ -31,12 +32,20 @@ def show_detailCabang(id_cabang):
     karyawanByCabang = get_karyawanByCabang(id_cabang)
     reviewByCabang = get_reviewByCabang(id_cabang)
 
-    menus = []
+    # Dictionary to map menu ID to menu name
+    menus = {}
     for review in reviewByCabang:
-        menu = get_MenuByID(review['id_menu'])
-        menus.append(menu)
-        
-    return render_template('Cabang/detailcabang.html', cabang=cabangByID, karyawans=karyawanByCabang, reviews=reviewByCabang, menus=menus)
+        menu_id = review['id_menu']
+        if menu_id not in menus:
+            menus[menu_id] = get_MenuByID(menu_id)['nama_menu']
+    
+    # Group reviews by menu name
+    grouped_reviews = defaultdict(list)
+    for review in reviewByCabang:
+        menu_name = menus[review['id_menu']]
+        grouped_reviews[menu_name].append(review)
+
+    return render_template('Cabang/detail.html', cabang=cabangByID, karyawans=karyawanByCabang, grouped_reviews=grouped_reviews)
 
 
 # edit-cabang
