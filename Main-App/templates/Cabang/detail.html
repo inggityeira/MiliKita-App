@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <title>MiliKita | Store</title>
+    <style>
+      body {
+        margin: 0%;
+        padding: 0%;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+      }
+      .background {
+        background-image: url("{{ url_for('static', filename='backgroundcabang.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        width: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+      }
+      .container {
+        height: calc(100vh - 120px);
+      }
+      .navbar {
+        background-color: #846d4c;
+        height: 65px;
+      }
+      .navbar-brand {
+        color: white;
+        margin-left: 30px;
+        font-size: 35px;
+        font-weight: bold;
+      }
+      .navbar-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .nav-item {
+        margin-right: 50px;
+      }
+      .nav-item a {
+        color: white;
+        letter-spacing: 5px;
+        text-decoration: none;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .judul {
+        font-size: 25px;
+        padding: 5px;
+        margin-top:20px;
+      }
+
+      .detailCabang {
+        width: 70%;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .isi {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+        background-color: #cbcbcb;
+      }
+
+      .mb-2 {
+        width: 70%;
+      }
+
+      .officer-card {
+        width: 900px;
+      }
+
+      a{
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg position-relative">
+      <div class="container-fluid">
+        <h1 class="navbar-brand">MiliKita</h1>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a aria-current="page" href="/menusMiliKita">MENU</a>
+          </li>
+          <li class="nav-item">
+            <a aria-current="page" href="/karyawanskita">OFFICER</a>
+          </li>
+          <li class="nav-item">
+            <a aria-current="page" href="/cabang">STORE</a>
+          </li>
+          <li class="nav-item">
+            <a aria-current="page" href="/reviews">REVIEW</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Judul -->
+    <div class="d-flex justify-content-center">
+      <h1 class="judul"><strong>Detail Store</strong></h1>
+    </div>
+
+    <!-- Informasi Detail Cabang -->
+    <div class="detailCabang">
+      <div class="image" style="text-align: center">
+        <img src="{{cabang.gambar_cabang}}" alt="{{cabang.nama_cabang}}" style="width: 250px; height: 300px; object-fit: cover;"/>
+        <h2 style="margin-top: 30px">ID{{ cabang.id_cabang }} <strong>{{cabang.nama_cabang}}</strong></h2>
+        <h3>{{ cabang.kota_cabang }}</h3>
+      </div>
+
+      <div class="mb-2">
+        <label>Alamat Cabang</label>
+        <p class="isi">{{ cabang.alamat_cabang }}</p>
+      </div>
+
+      <div>
+        <a href="" class="btn" style="background-color: black; color: white; width: 150px">Edit</a>
+        <a href="" class="btn btn-danger px-5">Delete</a>
+      </div>
+    </div>
+
+    <div class="detailCabang">
+      <div class="mb-2">
+        <p>List Officer</p>
+        {% for karyawan in karyawans %}
+        <div class="card p-2 mb-2 officer-card"><a href="">{{ karyawan.nama_karyawan }}</a></div>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>

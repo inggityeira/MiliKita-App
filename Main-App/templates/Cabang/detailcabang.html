@@ -19,29 +19,13 @@
     </ul>
     
     <h2>Reviews</h2>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Review ID</th>
-                <th>Comment</th>
-                <th>Menu</th>
-            </tr>
-        </thead>
-        <tbody>
+    {% for menu, reviews in grouped_reviews.items() %}
+        <h3>{{ menu }}</h3>
+        <ul>
             {% for review in reviews %}
-                <tr>
-                    <td>{{ review.id_review }}</td>
-                    <td>{{ review.pesan_review }}</td>
-                    <td>
-                        {% for menu in menus %}
-                            {% if menu.id_menu == review.id_menu %}
-                                {{ menu.nama_menu }}
-                            {% endif %}
-                        {% endfor %}
-                    </td>
-                </tr>
+                <li>{{ review.pesan_review }}</li>
             {% endfor %}
-        </tbody>
-    </table>
+        </ul>
+    {% endfor %}
 </body>
 </html>
