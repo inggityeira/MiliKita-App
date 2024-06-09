@@ -4,15 +4,17 @@ const jwt = require('jsonwebtoken');
 const { check, validationResult, body } = require('express-validator');
 
 const JWT_SECRET = 'your_jwt_secret_key';
-const REFRESH_TOKEN_SECRET = 'your_refresh_token_secret_key';
-const tokenBlacklist = [];
+const tokenBlacklist = new Set();
 
-const generateAccessToken = (user) => {
-    return jwt.sign(user, JWT_SECRET, { expiresIn: '1h' });
+
+// Fungsi untuk memeriksa apakah token di-blacklist
+const isTokenBlacklisted = (token) => {
+    return tokenBlacklist.has(token);
 };
 
-const generateRefreshToken = (user) => {
-    return jwt.sign(user, REFRESH_TOKEN_SECRET, { expiresIn: '1h' });
+// Fungsi untuk menambahkan token ke dalam blacklist
+const blacklistToken = (token) => {
+    tokenBlacklist.add(token);
 };
 
 // Registration
@@ -64,6 +66,24 @@ exports.login = async (req, res) => {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
 
+<<<<<<< HEAD
+        const payload = {
+            user: {
+                id_user: req.params.id
+            }
+        };
+
+        jwt.sign(
+            payload,
+            JWT_SECRET,
+            { expiresIn: 3600 },
+            (err, token) => {
+                if (err) throw err;
+                res.cookie('authToken', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
+                res.json({ token });
+            }
+        );
+=======
         const payload = { user: {id_user: req.params.id }};
         const accessToken = generateAccessToken(payload);
         const refreshToken = generateRefreshToken(payload);
@@ -83,12 +103,32 @@ exports.login = async (req, res) => {
         });
 
         res.json({ accessToken, refreshToken });
+>>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
 };
 
+<<<<<<< HEAD
+// Authorization User
+exports.getUser = async (req, res) => {
+    try {
+        // Periksa apakah ID pengguna yang diberikan valid
+        if (!req.params.id) {
+            return res.status(400).json({ message: 'Invalid user ID' });
+        }
+
+        // Cari pengguna berdasarkan ID yang diberikan
+        const user = await User.findById(req.params.id).select('-password');
+        
+        // Periksa apakah pengguna ditemukan
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Berikan respons dengan data pengguna
+=======
 // Refresh Token
 exports.refreshToken = (req, res) => {
     // Logika refresh token
@@ -118,10 +158,12 @@ exports.refreshToken = (req, res) => {
 exports.getUser = async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select('-password');
+>>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
         res.json(user);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server error');
+        // Berikan respons yang lebih informatif untuk kesalahan server
+        res.status(500).json({ message: 'Failed to fetch user data. Please try again later.' });
     }
 };
 
@@ -132,18 +174,6 @@ exports.logout = (req, res) => {
     res.status(200).json({ msg: 'Logged out successfully' });
 };
 
-// Check if token is blacklisted
-exports.isTokenBlacklisted = (token) => {
-    return tokenBlacklist.includes(token);
-};
-
-module.exports = {
-    generateAccessToken,
-    generateRefreshToken,
-    register: exports.register,
-    login: exports.login,
-    refreshToken: exports.refreshToken,
-    getUser: exports.getUser,
-    logout: exports.logout,
-    isTokenBlacklisted: exports.isTokenBlacklisted,
-};
+// Export functions
+exports.isTokenBlacklisted = isTokenBlacklisted;
+exports.blacklistToken = blacklistToken;

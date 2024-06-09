@@ -3,8 +3,11 @@ const Aktivitas = require("../models/aktivitas.model");
 const QueueMenuBaru = "QueueMenuBaru";
 const QueueAllMenu = "QueueAllMenu";
 const QueueMenuSatuan = "QueueMenuSatuan";
+<<<<<<< HEAD
+=======
 const QueueMenuByKA = "QueueMenuByKA";
 const QueueMenuByPO = "QueueMenuByPO";
+>>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
 const QueueUpMenu = "QueueUpMenu";
 const QueueDelMenu = "QueueDelMenu";
 
@@ -41,6 +44,8 @@ const handleQueueMessage = async (channel, queue) => {
   const listenMenuSatuan = async (channel) => {
     await handleQueueMessage(channel, QueueMenuSatuan);
   };
+<<<<<<< HEAD
+=======
 
   const listenMenuByKA = async (channel) => {
     await handleQueueMessage(channel, QueueMenuByKA);
@@ -49,6 +54,7 @@ const handleQueueMessage = async (channel, queue) => {
   const listenMenuByPO = async (channel) => {
     await handleQueueMessage(channel, QueueMenuByPO);
   };
+>>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
   
   const listenUpMenu = async (channel) => {
     await handleQueueMessage(channel, QueueUpMenu);
@@ -62,8 +68,11 @@ const handleQueueMessage = async (channel, queue) => {
     listenNewMenu,
     listenAllMenu,
     listenMenuSatuan,
+<<<<<<< HEAD
+=======
     listenMenuByKA,
     listenMenuByPO,
+>>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
     listenUpMenu,
     listenDelMenu,
   };
