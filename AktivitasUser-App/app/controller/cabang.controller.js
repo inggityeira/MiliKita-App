@@ -3,7 +3,6 @@ const Aktivitas = require("../models/aktivitas.model");
 const QueueCabangBaru = "QueueCabangBaru";
 const QueueAllCabang = "QueueAllCabang";
 const QueueCabangSatuan = "QueueCabangSatuan";
-const QueueCabangByKota = "QueueCabangByKota";
 const QueueUpCabang = "QueueUpCabang";
 const QueueDelCabang = "QueueDelCabang";
 
@@ -40,10 +39,6 @@ const handleQueueMessage = async (channel, queue) => {
   const listenCabangSatuan = async (channel) => {
     await handleQueueMessage(channel, QueueCabangSatuan);
   };
-
-  const listenCabangByKota = async (channel) => {
-    await handleQueueMessage(channel, QueueCabangByKota);
-  };
   
   const listenUpCabang = async (channel) => {
     await handleQueueMessage(channel, QueueUpCabang);
@@ -57,7 +52,6 @@ const handleQueueMessage = async (channel, queue) => {
     listenNewCabang,
     listenAllCabang,
     listenCabangSatuan,
-    listenCabangByKota,
     listenUpCabang,
     listenDelCabang,
   };

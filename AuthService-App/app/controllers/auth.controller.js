@@ -1,7 +1,7 @@
 const User = require('../models/auth.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { check, validationResult, body } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
 const JWT_SECRET = 'your_jwt_secret_key';
 const tokenBlacklist = new Set();
@@ -61,12 +61,11 @@ exports.login = async (req, res) => {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
 
-        const isMatch = await bcrypt.compare(password, hashpassword);
+        const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
 
-<<<<<<< HEAD
         const payload = {
             user: {
                 id_user: req.params.id
@@ -83,34 +82,12 @@ exports.login = async (req, res) => {
                 res.json({ token });
             }
         );
-=======
-        const payload = { user: {id_user: req.params.id }};
-        const accessToken = generateAccessToken(payload);
-        const refreshToken = generateRefreshToken(payload);
-
-        // Pengaturan cookie
-        res.cookie('accessToken', accessToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 3600,
-            sameSite: 'strict'
-        });
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 3600,
-            sameSite: 'strict'
-        });
-
-        res.json({ accessToken, refreshToken });
->>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
 };
 
-<<<<<<< HEAD
 // Authorization User
 exports.getUser = async (req, res) => {
     try {
@@ -128,37 +105,6 @@ exports.getUser = async (req, res) => {
         }
 
         // Berikan respons dengan data pengguna
-=======
-// Refresh Token
-exports.refreshToken = (req, res) => {
-    // Logika refresh token
-    try {
-        // Pengaturan token
-        const payload = { user: { id_user: req.params.id  } };
-        const accessToken = generateAccessToken(payload);
-
-        // Pengaturan cookie
-        res.cookie('accessToken', accessToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 3600,
-            sameSite: 'strict'
-        });
-
-        // Respon berhasil
-        res.status(200).json({ accessToken });
-    } catch (error) {
-        // Tangani kesalahan
-        console.error(error.message);
-        res.status(500).send('Server error');
-    }
-};
-
-// Authorization User
-exports.getUser = async (req, res) => {
-    try {
-        const user = await User.findById(req.params.id).select('-password');
->>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
         res.json(user);
     } catch (err) {
         console.error(err.message);

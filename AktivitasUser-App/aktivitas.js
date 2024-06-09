@@ -39,8 +39,6 @@ amqp.connect("amqp://rabbitmq").then(async (connection) => {
   reviewController.listenNewReview(channel);
   reviewController.listenAllReview(channel);
   reviewController.listenReviewSatuan(channel);
-  reviewController.listenReviewByCA(channel);
-  reviewController.listenReviewByME(channel);
   reviewController.listenUpReview(channel);
   reviewController.listenDelReview(channel);
 
@@ -48,7 +46,6 @@ amqp.connect("amqp://rabbitmq").then(async (connection) => {
   cabangController.listenNewCabang(channel);
   cabangController.listenAllCabang(channel);
   cabangController.listenCabangSatuan(channel);
-  cabangController.listenCabangByKota(channel);
   cabangController.listenUpCabang(channel);
   cabangController.listenDelCabang(channel);
 
@@ -56,7 +53,6 @@ amqp.connect("amqp://rabbitmq").then(async (connection) => {
   karyawanController.listenNewKaryawan(channel);
   karyawanController.listenAllKaryawan(channel);
   karyawanController.listenKaryawanSatuan(channel);
-<<<<<<< HEAD
   karyawanController.listenUpKaryawan(channel);
   karyawanController.listenDelKaryawan(channel);
 
@@ -64,19 +60,6 @@ amqp.connect("amqp://rabbitmq").then(async (connection) => {
   menuController.listenNewMenu(channel);
   menuController.listenAllMenu(channel);
   menuController.listenMenuSatuan(channel);
-=======
-  karyawanController.listenKaryawanPosisi(channel);
-  karyawanController.listenKaryawanCabang(channel);
-  karyawanController.listenUpKaryawan(channel);
-  karyawanController.listenDelKaryawan(channel);
-
-  // Menu
-  menuController.listenNewMenu(channel);
-  menuController.listenAllMenu(channel);
-  menuController.listenMenuSatuan(channel);
-  menuController.listenMenuByKA(channel);
-  menuController.listenMenuByPO(channel);
->>>>>>> 4f7e013c4ec5c26b23b5b167d14a2169e31f880c
   menuController.listenUpMenu(channel);
   menuController.listenDelMenu(channel);
 
