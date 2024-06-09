@@ -59,7 +59,7 @@
       .judul {
         font-size: 25px;
         padding: 5px;
-        margin-top:20px;
+        margin-top: 20px;
       }
 
       .detailCabang {
@@ -88,10 +88,10 @@
       }
 
       .officer-card {
-        width: 900px;
+        width: 70%;
       }
 
-      a{
+      a {
         text-decoration: none;
       }
     </style>
@@ -126,13 +126,13 @@
     <!-- Informasi Detail Cabang -->
     <div class="detailCabang">
       <div class="image" style="text-align: center">
-        <img src="{{cabang.gambar_cabang}}" alt="{{cabang.nama_cabang}}" style="width: 250px; height: 300px; object-fit: cover;"/>
+        <img src="{{cabang.gambar_cabang}}" alt="{{cabang.nama_cabang}}" style="width: 250px; height: 300px; object-fit: cover" />
         <h2 style="margin-top: 30px">ID{{ cabang.id_cabang }} <strong>{{cabang.nama_cabang}}</strong></h2>
         <h3>{{ cabang.kota_cabang }}</h3>
       </div>
 
       <div class="mb-2">
-        <label>Alamat Cabang</label>
+        <label>Location</label>
         <p class="isi">{{ cabang.alamat_cabang }}</p>
       </div>
 
@@ -140,15 +140,34 @@
         <a href="" class="btn" style="background-color: black; color: white; width: 150px">Edit</a>
         <a href="" class="btn btn-danger px-5">Delete</a>
       </div>
-    </div>
 
-    <div class="detailCabang">
-      <div class="mb-2">
-        <p>List Officer</p>
+      <div class="mb-2 mt-3">
+        <h3 style="text-align: center"><strong>List Officer</strong></h3>
         {% for karyawan in karyawans %}
         <div class="card p-2 mb-2 officer-card"><a href="">{{ karyawan.nama_karyawan }}</a></div>
         {% endfor %}
       </div>
+
+      <div class="mb-2 mt-3">
+        <h3 style="text-align: center"><strong>Reviews by Menus</strong></h3>
+        {% for menu, reviews in grouped_reviews.items() %}
+        <table style="border-collapse: collapse; width: 100%; text-align: center">
+          <tr>
+            <td colspan="2" style="border: 1px solid black; padding: 10px">
+              <strong><h3>{{ menu }}</h3></strong>
+            </td>
+          </tr>
+          <tr>
+            {% for review in reviews %}
+            <td style="border: 1px solid black; padding: 10px; width: 50%"><strong>{{ review.pesan_review }}</strong></td>
+            <td style="border: 1px solid black; padding: 10px; width: 50%"><strong>{{ review.bintang_review }}/5</strong></td>
+            {% endfor %}
+          </tr>
+        </table>
+        {% endfor %}
+      </div>
+      
     </div>
+
   </body>
 </html>
