@@ -31,22 +31,18 @@ def show_detailCabang(id_cabang):
     cabangByID = get_cabangByID(id_cabang)
     karyawanByCabang = get_karyawanByCabang(id_cabang)
     reviewByCabang = get_reviewByCabang(id_cabang)
-
-    # Dictionary to map menu ID to menu name
+    # Dictionary Menu ID dan Nama Menu
     menus = {}
     for review in reviewByCabang:
         menu_id = review['id_menu']
         if menu_id not in menus:
             menus[menu_id] = get_MenuByID(menu_id)['nama_menu']
-    
     # Group reviews by menu name
     grouped_reviews = defaultdict(list)
     for review in reviewByCabang:
         menu_name = menus[review['id_menu']]
         grouped_reviews[menu_name].append(review)
-
     return render_template('Cabang/detailcabang.html', cabang=cabangByID, karyawans=karyawanByCabang, grouped_reviews=grouped_reviews)
-
 
 # edit-cabang
 
