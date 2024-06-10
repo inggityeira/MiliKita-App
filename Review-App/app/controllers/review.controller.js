@@ -23,7 +23,24 @@ exports.connectRabbitMQ = connectRabbitMQ;
 
 // Membuat review baru
 exports.createReview = async (req, res) => {
+  
   try {
+    const key = req.headers.authorization.split(" ")[1]
+    console.log(key)
+
+    jwt.verify(key, JWT_SECRET, (err, decoded) => {
+        if (err){
+            console.log(err)
+            res.status(500).send(err)
+          // minta token baru
+        }
+
+        else {
+            console.log('Verified', decoded)
+            res.status(200).send(decoded)
+        }
+    })
+
     // Simpan review baru ke database
     const newReview = new Review({
       pesan_review: req.body.pesan_review,

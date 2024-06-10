@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 
-const JWT_SECRET = 'your_jwt_secret_key';
+const JWT_SECRET = '6f8a8e7c8a9b1c4a2e4d8e8f6c8b9a1c2d4f6a7b9c8d4f1e2a7b9c8d4f1e2a3b9c8d4f1e2a3b9c8d4f1e2a3'; 
 const tokenBlacklist = [];
 
 // Registration
@@ -79,13 +79,32 @@ exports.login = async (req, res) => {
 // Authorization User
 exports.getUser = async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).select('-password');
-        res.json(user);
+        console.log(req.headers.authorization)
+        const key = req.headers.authorization.split(" ")[1]
+        console.log(key)
+
+        jwt.verify(key, JWT_SECRET, (err, decoded) => {
+            if (err){
+                console.log(err)
+                res.status(500).send(err)
+            }
+
+            else {
+                console.log('Verified', decoded)
+                res.status(200).send(decoded)
+            }
+        })
+        //signdanverifikasi pake token yang sama
+        // const key= req.header.authorization
+        // yang dimasukin ke jwt.decodenya itu tokennya aja
+        // const user = await User.findById(req.user.id).select('-password');
+        // res.json(user);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
 };
+
 
 // Logout
 exports.logout = (req, res) => {
