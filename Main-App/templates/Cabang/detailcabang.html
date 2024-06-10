@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+<!-- Title -->
+{% block title %}MILIKITA | CABANG{% endblock %}
+
+<!-- Style Internal -->
+{% block style %}
+<style>
+  .detailCabang {
+    width: 70%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .isi {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #cbcbcb;
+  }
+  .mb-2 {
+    width: 70%;
+  }
+  .officer-card {
+    width: 100%;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+</style>
+{% endblock %}
+
+<!-- Main Konten -->
+{% block content %}
+<!-- Judul -->
+<div class="d-flex justify-content-center">
+  <h1 class="judul"><strong>Detail Store</strong></h1>
+</div>
+
+<!-- Informasi Detail Cabang -->
+<div class="detailCabang">
+  <div class="image" style="text-align: center">
+    <img src="{{cabang.gambar_cabang}}" alt="{{cabang.nama_cabang}}" style="width: 250px; height: 300px; object-fit: cover" />
+    <h2 style="margin-top: 30px">ID{{ cabang.id_cabang }} <strong>{{cabang.nama_cabang}}</strong></h2>
+    <h3>{{ cabang.kota_cabang }}</h3>
+  </div>
+
+  <div class="mb-2">
+    <label>Location</label>
+    <p class="isi">{{ cabang.alamat_cabang }}</p>
+  </div>
+
+  <div>
+    <a href="" class="btn" style="background-color: black; color: white; width: 150px">Edit</a>
+    <a href="" class="btn btn-danger px-5">Delete</a>
+  </div>
+
+  <div class="mb-2 mt-3">
+    <h3 style="text-align: center; margin-top: 30px"><strong>List Officer</strong></h3>
+    {% for karyawan in karyawans %}
+    <div style="display: flex; justify-content: space-between">
+      <a href="" style="width: 70%"><div class="card p-2 mb-2 officer-card">{{ karyawan.nama_karyawan }}</div></a>
+      <a href="" style="width: 30%"><div class="card p-2 mb-2 officer-card" style="text-align: center">{{ karyawan.posisi_karyawan }}</div></a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="mb-2 mt-3">
+    <h3 style="text-align: center; margin-bottom: 20px"><strong>Reviews by Menus</strong></h3>
+    {% for menu, reviews in grouped_reviews.items() %}
+    <a href=""><h5><strong>{{ menu }}</strong></h5></a>
+    {% for review in reviews %}
+    <div style="display: flex; justify-content: space-between">
+      <a href="" style="width: 90%"><div class="card p-2 mb-2 officer-card">{{ review.pesan_review }}</div></a>
+      <a href="" style="width: 10%"><div class="card p-2 mb-2 officer-card" style="text-align: center">{{ review.bintang_review }}⭐</div></a>
+    </div>
+    {% endfor %} {% endfor %}
+  </div>
+</div>
+{% endblock %}

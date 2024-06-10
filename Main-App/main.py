@@ -45,7 +45,7 @@ def show_detailCabang(id_cabang):
         menu_name = menus[review['id_menu']]
         grouped_reviews[menu_name].append(review)
 
-    return render_template('Cabang/detail.html', cabang=cabangByID, karyawans=karyawanByCabang, grouped_reviews=grouped_reviews)
+    return render_template('Cabang/detailcabang.html', cabang=cabangByID, karyawans=karyawanByCabang, grouped_reviews=grouped_reviews)
 
 
 # edit-cabang

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <!-- Title -->
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+    {% block style %}
+    <!-- Internal style -->
+    {% endblock %}
+  </head>
+  
+  <body>
+
+    <!-- Navbar -->
+    <header>
+      <nav class="navbar navbar-expand-lg position-relative">
+        <div class="container-fluid">
+          <h1 class="navbar-brand">MiliKita</h1>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a aria-current="page" href="">MENU</a>
+            </li>
+            <li class="nav-item">
+              <a aria-current="page" href="">OFFICER</a>
+            </li>
+            <li class="nav-item">
+              <a aria-current="page" href="">STORE</a>
+            </li>
+            <li class="nav-item">
+              <a aria-current="page" href="">REVIEW</a>
+            </li>
+            <li class="nav-item">
+              <a aria-current="page" href="">AKTIVITAS USER</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      {% block content %}
+      <!-- Main Konten -->
+      {% endblock %}
+    </main>
+
+  </body>
+</html>
