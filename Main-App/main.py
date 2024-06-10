@@ -67,6 +67,26 @@ def show_detailCabang(id_cabang):
 # list-karyawan (pilihan lihat semua/cabang/posisi)
 
 # detail-karyawan
+def get_KaryawanById(id_karyawan):
+    response = requests.get(f'http://localhost:5003/karyawankita/{id_karyawan}')
+    return response.json()
+
+def get_CabangById(id_cabang):
+    response = requests.get(f'http://localhost:5002/cabangs/{id_cabang}')
+    return response.json()
+
+# @app.route('/KaryawanByID/<int:id_karyawan>', methods=['GET'])
+# def show_detailKaryawan(id_karyawan, id_cabang):
+#     KaryawanByID = get_KaryawanById (id_karyawan)
+#     CabangByID = get_CabangById(id_cabang)
+#     return render_template('Karyawan/detailkaryawan.html', Karyawan=KaryawanByID, Cabang=CabangById)
+
+# @app.route('/CabangByID/<int:id_cabang>', methods=['GET'])
+# def show_idCabang(id_cabang):
+#     CabangByID = get_CabangById(id_cabang)
+    
+    
+    
 
 # edit-karyawan
 
