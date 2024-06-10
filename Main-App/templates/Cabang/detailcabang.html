@@ -35,6 +35,27 @@
     text-decoration: none;
     color: black;
   }
+  .table-floating {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .table-floating:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+  .img-floating {
+    width: 250px;
+    height: 300px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .img-floating:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
 </style>
 {% endblock %}
 
@@ -47,9 +68,9 @@
 
 <!-- Informasi Detail Cabang -->
 <div class="detailCabang">
-  <div class="image" style="text-align: center">
-    <img src="{{cabang.gambar_cabang}}" alt="{{cabang.nama_cabang}}" style="width: 250px; height: 300px; object-fit: cover" />
-    <h2 style="margin-top: 30px">ID{{ cabang.id_cabang }} <strong>{{cabang.nama_cabang}}</strong></h2>
+  <div class="image text-center">
+    <img class="img-floating" src="{{ cabang.gambar_cabang }}" alt="{{ cabang.nama_cabang }}" />
+    <h2 style="margin-top: 30px">ID{{ cabang.id_cabang }} <strong>{{ cabang.nama_cabang }}</strong></h2>
     <h3>{{ cabang.kota_cabang }}</h3>
   </div>
 
@@ -63,26 +84,48 @@
     <a href="" class="btn btn-danger px-5">Delete</a>
   </div>
 
+  <!-- Tabel karyawan -->
   <div class="mb-2 mt-3">
     <h3 style="text-align: center; margin-top: 30px"><strong>List Officer</strong></h3>
-    {% for karyawan in karyawans %}
-    <div style="display: flex; justify-content: space-between">
-      <a href="" style="width: 70%"><div class="card p-2 mb-2 officer-card">{{ karyawan.nama_karyawan }}</div></a>
-      <a href="" style="width: 30%"><div class="card p-2 mb-2 officer-card" style="text-align: center">{{ karyawan.posisi_karyawan }}</div></a>
-    </div>
-    {% endfor %}
+    {% if karyawans %}
+    <table class="table table-striped table-floating">
+      <thead>
+        <tr class="table-dark">
+          <th class="text-center" scope="col">ID</th>
+          <th class="text-center" scope="col">Officer</th>
+          <th class="text-center" scope="col">Employee Position</th>
+          <th class="text-center" scope="col">Phone number</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for karyawan in karyawans %}
+        <tr>
+          <td class="text-center">{{ karyawan.id_karyawan }}</td>
+          <td class="text-center"><img src="{{ karyawan.gambar_karyawan }}" alt="{{ karyawan.nama_karyawan }}" width="100px" style="margin-right: 20px" /> {{ karyawan.nama_karyawan }}</td>
+          <td class="text-center">{{ karyawan.posisi_karyawan }}</td>
+          <td class="text-center">{{ karyawan.telp_karyawan }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; margin-top: 30px">There are no officers at this store</p>
+    {% endif %}
   </div>
 
+  <!-- Review by Menu pada Cabang -->
   <div class="mb-2 mt-3">
     <h3 style="text-align: center; margin-bottom: 20px"><strong>Reviews by Menus</strong></h3>
-    {% for menu, reviews in grouped_reviews.items() %}
+    {% if grouped_reviews %} {% for menu, reviews in grouped_reviews.items() %}
     <a href=""><h5><strong>{{ menu }}</strong></h5></a>
     {% for review in reviews %}
     <div style="display: flex; justify-content: space-between">
       <a href="" style="width: 90%"><div class="card p-2 mb-2 officer-card">{{ review.pesan_review }}</div></a>
       <a href="" style="width: 10%"><div class="card p-2 mb-2 officer-card" style="text-align: center">{{ review.bintang_review }}⭐</div></a>
     </div>
-    {% endfor %} {% endfor %}
+    {% endfor %} {% endfor %} {% else %}
+    <p style="text-align: center; margin-top: 30px">There are no menu reviews at this store yet</p>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
