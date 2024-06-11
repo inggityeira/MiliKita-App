@@ -18,11 +18,11 @@ def add_menu_form():
 @app.route('/menuMiliKita', methods=['POST'])
 def add_menu():
     data = {
-        "idmenu": request.form['idmenu'],
         "nama_menu": request.form['nama_menu'],
         "kategori_menu": request.form['kategori_menu'],
-        "position": request.form['position'],
-        "deskripsi_menu": request.form['deskripsi_menu']
+        "posisi_karyawan": request.form['posisi_karyawan'],
+        "deskripsi_menu": request.form['deskripsi_menu'],
+        "gambar_menu": request.form['gambar_menu']
     }
     response = requests.post('http://localhost:5001/menuMiliKita/', json=data)
     return redirect(url_for('add_menu_form'))

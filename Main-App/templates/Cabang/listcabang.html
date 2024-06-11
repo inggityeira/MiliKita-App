@@ -4,157 +4,80 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <title>MiliKita | Store</title>
-    <style>
-      body {
-        margin: 0%;
-        padding: 0%;
-        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-      }
-
-      .background {
-        background-image: url("{{ url_for('static', filename='backgroundcabang.jpg') }}");
-        background-size: cover;
-        background-position: center;
-        height: 100vh;
-        width: 100%;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        text-align: center;
-      }
-      .container {
-        height: calc(100vh - 120px);
-      }
-      .table-container {
-        height: 500px;
-        overflow-y: auto;
-      }
-      .navbar {
-        background-color: #846d4c;
-        height: 65px;
-      }
-      .navbar-brand {
-        color: white;
-        margin-left: 30px;
-        font-size: 35px;
-        font-weight: bold;
-      }
-      .navbar-nav {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-      .nav-item {
-        margin-right: 50px;
-      }
-      .nav-item a {
-        color: white;
-        letter-spacing: 5px;
-        text-decoration: none;
-        font-size: 20px;
-        font-weight: bold;
-      }
-      .menu-container {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-      .menu-item {
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        overflow: hidden;
-        width: 300px;
-        margin: 15px;
-        background-color: white;
-      }
-      .menu-item img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-      }
-      .menu-item .content {
-        padding: 15px;
-      }
-      .menu-item h5 {
-        margin: 0;
-        font-size: 18px;
-        font-weight: bold;
-      }
-      .menu-item p {
-        margin: 5px 0;
-        color: #777;
-      }
-      .menu-item .detail-button {
-        display: block;
-        text-align: center;
-        padding: 10px;
-        background-color: black;
-        color: white;
-        text-decoration: none;
-        border-radius: 4px;
-        margin-top: 10px;
-      }
-      .add-new-button {
-        display: flex;
-        justify-content: center;
-        margin: 20px 0;
-      }
-      .add-new-button button {
-        padding: 15px 30px;
-        border: none;
-        background-color: black;
-        color: white;
-        font-size: 16px;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-    </style>
+    <!-- Title -->
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+    {% block style %}
+    <!-- Internal style -->
+    {% endblock %}
   </head>
+  
   <body>
+
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg position-relative">
-      <div class="container-fluid">
-        <h1 class="navbar-brand">MiliKita</h1>
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a aria-current="page" href="/menusMiliKita">MENU</a>
-          </li>
-          <li class="nav-item">
-            <a aria-current="page" href="/karyawanskita">OFFICER</a>
-          </li>
-          <li class="nav-item">
-            <a aria-current="page" href="/cabang">STORE</a>
-          </li>
-          <li class="nav-item">
-            <a aria-current="page" href="/reviews">REVIEW</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <div class="menu-container">
-      {% for cabang in listCabang %}
-      <div class="menu-item">
-        <img src="{{ cabang.gambar_cabang}}" alt="{{ cabang.nama_cabang }}" />
-        <div class="content">
-          <h5>{{ cabang.nama_cabang }}</h5>
-          <p>{{ cabang.kota_cabang }}</p>
-          <a href="#" class="detail-button">DETAIL</a>
+    <header>
+      <nav class="navbar navbar-expand-lg position-relative">
+        <div class="container-fluid">
+          <h1 class="navbar-brand">MiliKita</h1>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a aria-current="page" href="/menusMilikita">MENU</a>
+            </li>
+            <li class="nav-item">
+              <a aria-current="page" href="/karyawankita">OFFICER</a>
+            </li>
+            <li class="nav-item">
+              <a aria-current="page" href="/">STORE</a>
+            </li>
+            <li class="nav-item">
+              <a aria-current="page" href="">REVIEW</a>
+            </li>
+            <li class="nav-item">
+              <a aria-current="page" href="">AKTIVITAS USER</a>
+            </li>
+          </ul>
         </div>
-      </div>
-      {% endfor %}
-    </div>
+      </nav>
+    </header>
 
-    <div class="add-new-button">
-      <button>Add New Store</button>
+    <main>
+      {% block content %}
+      <!-- Main Konten -->
+      <div class="d-flex justify-content-center">
+        <h1 class="judul"><strong>List Store</strong></h1>
+      </div>
+
+      <div class="mt-2 d-flex justify-content-center" style="width: 250px; margin-left:70px;">
+        <span class="input-group-text" style="border-radius: 0px;">Category</span>
+        <select name="kategori" class="form-select" aria-label="Default select example" style="border-radius: 0px;">
+            <option selected value="Semua">All</option>
+            <option value="Bandung">Bandung</option>
+            <option value="Ciamis">Ciamis</option>
+            <option value="Tangerang">Tangerang</option>
+            <option value="Sukabumi">Sukabumi</option>
+        </select>
     </div>
-    
+  </form>
+  </div>
+  <div class="menu-container">
+    {% for cabang in listCabang %}
+    <div class="menu-item">
+      <img src="{{ cabang.gambar_cabang}}" alt="{{ cabang.nama_cabang }}" />
+      <div class="content">
+        <h5>{{ cabang.nama_cabang }}</h5>
+        <p>{{ cabang.kota_cabang }}</p>
+        <a href="#" class="detail-button">DETAIL</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="add-new-button">
+    <button>Add New Store</button>
+  </div>
+
+      {% endblock %}
+    </main>
+
   </body>
 </html>
