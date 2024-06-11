@@ -57,7 +57,7 @@ def edit_Cabang(id_cabang):
         "telp_cabang": request.form['telp_cabang'],
         "gambar_cabang": request.form['gambar_cabang']
     }
-    response = requests.put(f'http://localhost:5002/cabangs/{id_cabang}', json=data)
+    requests.put(f'http://localhost:5002/cabangs/{id_cabang}', json=data)
     return redirect(url_for('show_detailCabang', id_cabang=id_cabang))
 
 # membuat-cabang
@@ -87,6 +87,22 @@ def show_detailMenu(id_menu):
     return render_template('Menu/detailmenu.html', menu = menuByID, reviews = reviewByMenu)
 
 # edit-menu
+@app.route('/editMenu/<int:id_menu>', methods=['GET'])
+def Formedit_Menu(id_menu):
+    menuByID = get_MenuByID(id_menu)
+    return render_template('Menu/editmenu.html', menu = menuByID)
+
+@app.route('/editMenu/<int:id_menu>', methods=['POST'])
+def edit_Menu(id_menu):
+    data = {
+        "nama_menu": request.form['nama_menu'],
+        "posisi_karyawan": request.form['posisi_karyawan'],
+        "deskripsi_menu": request.form['deskripsi_menu'],
+        "kategori_menu": request.form['kategori_menu'],
+        "gambar_menu": request.form['gambar_menu']
+    }
+    requests.put(f'http://localhost:5001/menuMiliKita/{id_menu}', json=data)
+    return redirect(url_for('show_detailMenu', id_menu=id_menu))
 
 # membuat-menu
 
