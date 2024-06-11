@@ -37,7 +37,7 @@ def show_detailCabang(id_cabang):
         menu_id = review['id_menu']
         if menu_id not in menus:
             menus[menu_id] = get_MenuByID(menu_id)['nama_menu']
-    # Group reviews by menu name
+    # Group reviews by nama menu
     grouped_reviews = defaultdict(list)
     for review in reviewByCabang:
         menu_name = menus[review['id_menu']]
@@ -53,6 +53,15 @@ def show_detailCabang(id_cabang):
 # list-menu (pilihan lihat semua/perkategori/posisi)
 
 # detail-menu
+def get_reviewByMenu(id_menu):
+    response = requests.get(f'http://localhost:5000/reviews/menu/{id_menu}')
+    return response.json()
+
+@app.route('/menuByID/<int:id_menu>', methods=['GET'])
+def show_detailMenu(id_menu):
+    menuByID = get_MenuByID(id_menu)
+    reviewByMenu = get_reviewByMenu(id_menu)
+    return render_template('Menu/detailmenu.html', menu = menuByID, reviews = reviewByMenu)
 
 # edit-menu
 
