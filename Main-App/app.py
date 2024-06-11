@@ -5,6 +5,27 @@ from flask_paginate import Pagination, get_page_parameter
 app = Flask(__name__)
 app.static_folder = 'static'
 
+#AuthService
+@app.route('/register', methods=['GET'])
+def register_form():
+    return render_template('register.html')
+
+@app.route('/register/<int:id_user>', methods=['POST'])
+def register():
+    data = {
+        'nama': request.form['nama_lengkap'],
+        'email': request.form['email'],
+        'password':request.form['password']
+    }
+    response = requests.post('http://localhost:5005/register', json = data)
+    return redirect(url_for('registers'))
+
+@app.routes('/login', methods=['POST'])
+def login():
+    datas = request.json
+    email = datas.get('email')
+    password = datas.get('password')
+
 # Fitur detail menu
 def get_menu(id_menu):
     response = requests.get(f'http://localhost:5001/menusMiliKita/{id_menu}')
