@@ -94,7 +94,7 @@ def listmenu():
     paginated_list = listMenu[offset: offset + per_page]
     pagination = Pagination(page=page, total=total, per_page=per_page, css_framework='bootstrap4')
 
-    return render_template('listmenu.html', listMenu=paginated_list, pagination=pagination)
+    return render_template('Menu/listmenu.html', listMenu=paginated_list, pagination=pagination)
 
 # Fungsi memanggil list karyawan
 def get_list_karyawan():
@@ -111,7 +111,7 @@ def listkaryawan():
     paginated_list = listKaryawan[offset: offset + per_page]
     pagination = Pagination(page=page, total=total, per_page=per_page, css_framework='bootstrap4')
 
-    return render_template('listkaryawan.html', listKaryawan=paginated_list, pagination=pagination)
+    return render_template('Karyawan/listkaryawan.html', listKaryawan=paginated_list, pagination=pagination)
 
 # Fungsi memanggil list cabang
 def get_list_cabang():
@@ -145,7 +145,7 @@ def listreview():
     paginated_list = listReview[offset: offset + per_page]
     pagination = Pagination(page=page, total=total, per_page=per_page, css_framework='bootstrap4')
 
-    return render_template('listreview.html', listMenu=paginated_list, pagination=pagination)
+    return render_template('Review/listreview.html', listMenu=paginated_list, pagination=pagination)
 
 # Fitur menghapus menu
 @app.route('/menuMiliKita/<int:id_menu>', methods=['GET'])
