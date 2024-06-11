@@ -61,6 +61,22 @@ def edit_Cabang(id_cabang):
     return redirect(url_for('show_detailCabang', id_cabang=id_cabang))
 
 # membuat-cabang
+# Fitur Add Cabang
+@app.route('/cabangs', methods=['GET'])
+def add_cabang_form():
+    return render_template('Cabang/addcabang.html')
+
+@app.route('/cabangs', methods=['POST'])
+def add_cabang():
+    data = {
+        "nama_cabang": request.form['nama_cabang'],
+        "alamat_cabang": request.form['alamat_cabang'],
+        "kota_cabang": request.form['kota_cabang'],
+        "telp_cabang": request.form['telp_cabang'],
+        "gambar_cabang": request.form['gambar_cabang']
+    }
+    response = requests.post('http://localhost:5002/cabangs/', json=data)
+    return redirect(url_for('add_cabang_form'))
 
 # hapus-cabang
 @app.route('/deleteCabang/<int:id_cabang>', methods=['GET'])
@@ -74,7 +90,21 @@ def delete_cabang(id_cabang):
 
 # MENU
 # list-menu (pilihan lihat semua/perkategori/posisi)
+def get_list_menu():
+    response = requests.get('http://localhost:5001/menusMiliKita')
+    return response.json()
 
+@app.route('/menusMiliKita', methods=['GET'])
+def listmenu():
+    listMenu = get_list_menu()
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    per_page = 4
+    offset = (page - 1) * per_page
+    total = len(listMenu)
+    paginated_list = listMenu[offset: offset + per_page]
+    pagination = Pagination(page=page, total=total, per_page=per_page, css_framework='bootstrap4')
+
+    return render_template('Menu/listmenu.html', listMenu=paginated_list, pagination=pagination)
 # detail-menu
 def get_reviewByMenu(id_menu):
     response = requests.get(f'http://localhost:5000/reviews/menu/{id_menu}')
@@ -105,6 +135,21 @@ def edit_Menu(id_menu):
     return redirect(url_for('show_detailMenu', id_menu=id_menu))
 
 # membuat-menu
+@app.route('/menuMiliKita', methods=['GET'])
+def add_menu_form():
+    return render_template('Menu/addmenu.html')
+
+@app.route('/menuMiliKita', methods=['POST'])
+def add_menu():
+    data = {
+        "nama_menu": request.form['nama_menu'],
+        "kategori_menu": request.form['kategori_menu'],
+        "posisi_karyawan": request.form['posisi_karyawan'],
+        "deskripsi_menu": request.form['deskripsi_menu'],
+        "gambar_menu": request.form['gambar_menu']
+    }
+    response = requests.post('http://localhost:5001/menuMiliKita/', json=data)
+    return redirect(url_for('add_menu_form'))
 
 # hapus-menu
 @app.route('/deleteMenu/<int:id_menu>', methods=['GET'])

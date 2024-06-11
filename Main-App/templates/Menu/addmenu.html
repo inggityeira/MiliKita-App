@@ -1,181 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <title>MiliKita | Review</title>
+{% extends "base.html" %}
 
-    <style>
-      body {
-        margin: 0%;
-        padding: 0%;
-        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-      }
+<!-- Title -->
+{% block title %}MILIKITA | M{% endblock %}
 
-      .background {
-        background-image: url("{{ url_for('static', filename='backgroundcabang.jpg') }}");
-        background-size: cover;
-        background-position: center;
-        height: 100vh;
-        width: 100%;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        text-align: center;
-      }
-      .container {
-        height: calc(100vh - 120px);
-      }
-      .table-container {
-        height: 500px;
-        overflow-y: auto;
-      }
-      .navbar {
-        background-color: #846D4C;
-        height: 65px;
-      }
-      .navbar-brand {
-        color: white;
-        margin-left: 30px;
-        font-size: 35px;
-        font-weight: bold;
-      }
-      .navbar-nav {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-      .nav-item {
-        margin-right: 50px;
-      }
-      .nav-item a {
-        color: white;
-        letter-spacing: 5px;
-        text-decoration: none;
-        font-size: 20px;
-        font-weight: bold;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg position-relative">
-      <div class="container-fluid">
-        <h1 class="navbar-brand">MiliKita</h1>
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a aria-current="page" href="/menusMiliKita">MENU</a>
-          </li>
-          <li class="nav-item">
-            <a aria-current="page" href="/karyawanskita">OFFICER</a>
-          </li>
-          <li class="nav-item">
-            <a aria-current="page" href="/cabang">STORE</a>
-          </li>
-          <li class="nav-item">
-            <a aria-current="page" href="/reviews">REVIEW</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </body>
+<!-- Style Internal -->
+{% block style %}
+<style>
+  .form-container {
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .form-label {
+    color: #343a40;
+  }
+  .form-title {
+    color: #343a40;
+    margin-bottom: 1rem;
+  }
+  .form-control {
+    background-color: #f0f0f0;
+    color: #000000;
+    border-radius: 8px;
+  }
+  .form-control::placeholder {
+    color: #6c757d;
+  }
+</style>
+{% endblock %}
+
+<main>
+  {% block content %}
+  <!-- Main Konten -->
+  <div class="d-flex justify-content-center align-items-center flex-column" style="min-height: 100vh;">
+    <h1 class="form-title"><strong>Add New Menu</strong></h1>
+    <div class="col-lg-6 col-md-8 col-sm-10 form-container">
+      <form class="row g-3" action="{{ url_for('add_menu') }}" method="post">
+        <!-- New Cabang -->
+        <div class="col-12">
+          <label for="nama_menu" class="form-label">Menu Name</label>
+          <input type="text" class="form-control" id="nama_menu" name="nama_menu" required />
+        </div>
+
+        <div class="col-12">
+          <label for="kategori_menu" class="form-label">Category Menu</label>
+          <select class="form-control" id="kategori_menu" name="kategori_menu" required>
+            <option selected value="">Select Category Menu</option>
+            <option value="coffee">Coffee</option>
+            <option value="non-coffee">Non-Coffee</option>
+            <option value="dessert">Dessert</option>
+            <option value="indonesia food">Indonesian Food</option>
+            <option value="western-food">Western Food</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <label for="posisi_karyawan" class="form-label">Officer Position</label>
+          <select class="form-control" id="posisi_karyawan" name="posisi_karyawan" required>
+            <option selected value="">Select Position</option>
+            <option value="barista">Barista</option>
+            <option value="chef">Chef</option>
+            <option value="bakery">Bakery</option>
+            <option value="owner">Owner</option>
+          </select>
+        </div>
+
+        <div class="col-12">
+          <label for="gambar_menu" class="form-label">Menu Photo</label>
+          <input type="text" class="form-control" id="gambar_cabang" name="gambar_cabang" required placeholder="Enter URL" />
+        </div>
+
+        <div class="col-12">
+          <label for="deskripsi_menu" class="form-label">Description</label>
+          <input type="text" class="form-control" id="deskripsi_menu" name="deskripsi_menu" required />
+        </div>
+
+        <div class="button-login mb-4 d-flex justify-content-center">
+          <button class="btn btn-lg text-white btn-login fw-bold" type="submit" style="background-color: black; font-size: 15px">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endblock %}
+</main>
+
+</body>
 </html>
-
-    <style>
-        body {
-            font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-        .search-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 20px 0;
-        }
-        .search-container input[type="text"] {
-            width: 300px;
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .search-container select {
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .search-container button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #846D4C;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .menu-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .menu-item {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-            width: 300px;
-            margin: 15px;
-            background-color: white;
-        }
-        .menu-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .menu-item .content {
-            padding: 15px;
-        }
-        .menu-item h5 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .menu-item p {
-            margin: 5px 0;
-            color: #777;
-        }
-        .menu-item .detail-button {
-            display: block;
-            text-align: center;
-            padding: 10px;
-            background-color: black;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-top: 10px;
-        }
-        .add-new-button {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .add-new-button button {
-            padding: 15px 30px;
-            border: none;
-            background-color: black;
-            color: white;
-            font-size: 16px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
