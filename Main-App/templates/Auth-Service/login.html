@@ -1,82 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "/Auth-Service/header.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <title>MILIKITA | LOGIN</title>
+{% block title %}MILIKITA | STORE{% endblock %}
 
+{% block style %}
     <style>
         body {
-            background-position: 20px 30px;
-            background-position: center center;
+            background-image: url("{{ url_for('static', filename='login.png') }}");
             background-size: cover;
-            background-color: #846D4C;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+        .transparent-card {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            padding: 2rem;
+            border-radius: 15px;
+        }
+        .form-control {
+            border-radius: 8px;
+            background: white;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            font-size: 1rem;
+            width: 100%;
+        }
+        .card-body {
+            text-align: center;
+        }
+        .register-button {
+            display: block;
+            width: 100%;
+            border-radius: 8px;
+            background-color: white;
+            color: black;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .register-button:hover {
+            background-color: #e2e6ea;
+        }
+        .regiser-link {
+            color: black;
+        }
+        .form-label {
+            display: block;
+            text-align: center;
         }
     </style>
+{% endblock %}
 
-</head>
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card transparent-card">
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('login') }}">
 
-<body>
-    <nav class="navbar navbar-expand-lg bg-transparent position-relative"
-    style="margin-right: 100px; margin-bottom: -2%; height:100px;">
-        <div class="navbar-nav" style="font-size: 18px; margin-top:-20px;">
-            <a href="/">
-                <h2><img src=" " style=" width:90%; margin-left:10px;"></h2>
-            </a>
-            <a class="nav-link position-absolute start-50" aria-current="page" href="/timkami"
-                style="color: white; letter-spacing:5px;"><strong>TIM KAMI</strong></a>
-            <a class="btn position-absolute end-0" style="background-color:white; color: #846D4C;" aria-current="page"
-                href="/masuk"><strong>Register</strong></a>
-        </div>
-    </nav>
+                        <div class="form-group">
+                            <label for="inputEmail" class="form-label" style="color:black;">Email</label>
+                            <input type="email" class="form-control" name="Email" placeholder="Insert Your Email" value="">
+                            <span class="text-danger"></span>
+                        </div>
 
-    <div class="background-image d-flex flex-column justify-content-center align-items-center"
-        style="background-image: url('/Main-App/static/registerbg.png');  background-size: 100% 100%;  background-position: center; margin-top: -2%;">
-        <div class="d-flex flex-column justify-content-center align-items-center"
-        style="width: 45%; margin-top: 2%; background-color: rgba(255, 255, 255, 0.5); backdrop-filter:blur(40px); border-radius: 10px;">
-            <form class="row g-3" enctype="multipart/form-data" style="width: 92%; "
-                action="{{ route('user-daftar') }}" method="POST">
+                        <div class="form-group">
+                            <label for="inputPassword" class="form-label" style="color:black;">Password</label>
+                            <input type="password" class="form-control" name="Password" placeholder="Insert Your Password" value="">
+                            <span class="text-danger"></span>
+                        </div>
 
-                <!-- @csrf -->
-                <div class="col-12">
-                    <label for="inputEmail" class="form-label" style="color: black;">Email</label>
-                    <input type="email" class="form-control" name="email" placeholder="Enter your Email here"
-                        value=" " style="border-radius: 8px; background:white;">
-                    <span class="text-danger">
-                    </span>
+                        <button type="submit" class="register-button">Login</button>
+                    </form>
+                    <p class="mt-3">- Or -</p>
+                    <p>Make an account? <a href="#" class="login-link">Register</a></p>
                 </div>
-
-                <div class="col-12">
-                    <label for="inputPassword" class="form-label" style="color: black;">Password</label>
-                    <input type="password" class="form-control" name="password" placeholder="Enter your Passowrd here"
-                        style="border-radius: 8px; background:white;">
-                    <span class="text-danger">
-                    </span>
-                </div>
-
-                <div class="button-login d-grid mb-4">
-                    <button class="btn btn-lg  text-black btn-login fw-bold" type="submit"
-                        style="background-color:#E5EFF8; font-size: 15px;">Register</button>
-                </div>
-            </form>
-            <div class="mb-3">
-                <p style="color: white; font-size: 18px; font-weight: 500; text-align: center;">- OR -</p>
-                <p style="color: white; font-size: 15px; font-weight: 400; text-align: center;">Make an account? <a
-                        href="/masuk" class="primary-text fw-medium" style=" color:white;">Register</a></p>
             </div>
-
         </div>
-        <br>
     </div>
+</div>
+{% endblock %}
 
-    <div style="height: 50px">
-        <br>
-    </div>
-</body>
-
-</html>
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
