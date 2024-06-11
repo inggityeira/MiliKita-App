@@ -47,6 +47,9 @@ def logout():
 
 # CABANG
 # list-cabang (pilihan liat semua/perkota)
+def get_allCabang():
+    response = requests.get(f'http://localhost:5002/cabang')
+    return response.json()
 
 # detail-cabang
 def get_cabangByID(id_cabang):
@@ -204,11 +207,9 @@ def delete_menu(id_menu):
 # list-karyawan (pilihan lihat semua/cabang/posisi)
 
 # detail-karyawan
-
 def get_KaryawanById(id_karyawan):
     response = requests.get(f'http://localhost:5003/karyawankita/{id_karyawan}')
     return response.json()
-
 
 @app.route('/KaryawanByID/<int:id_karyawan>', methods=['GET'])
 def show_detailKaryawan(id_karyawan):
@@ -255,10 +256,25 @@ def show_detailreview(id_review):
     ReviewByID = getReviewById(id_review)
     return render_template('Review/detailreview.html', review=ReviewByID)
 
-
 # edit-review
 
 # membuat-review
+@app.route('/createReview/menu/<int:id_menu>', methods=['GET'])
+def add_review_form(id_menu):
+    menuByID = get_MenuByID(id_menu)
+    allcabang = get_allCabang()
+    return render_template('Review/addreview.html', menu=menuByID, cabangs=allcabang)
+
+@app.route('/createReview/menu/<int:id_menu>', methods=['POST'])
+def add_review(id_menu):
+    data = {
+        "pesan_review": request.form['pesan_review'],
+        "id_cabang": request.form['id_cabang'],
+        "id_menu": id_menu,
+        "bintang_review": request.form['bintang_review']
+    }
+    requests.post('http://localhost:5000/review', json=data)
+    return redirect(url_for('add_review_form', id_menu=id_menu))
 
 # hapus-review
 
