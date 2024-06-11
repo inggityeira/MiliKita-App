@@ -1,6 +1,6 @@
 {% extends "/Auth-Service/header.html" %}
 
-{% block title %}MILIKITA | STORE{% endblock %}
+{% block title %}MILIKITA | LOGIN{% endblock %}
 
 {% block style %}
     <style>
@@ -56,17 +56,17 @@
         <div class="col-md-6">
             <div class="card transparent-card">
                 <div class="card-body">
-                    <form method="POST" action="{{ url_for('login') }}">
+                    <form method="POST" action="{{ url_for('login')}}">
 
                         <div class="form-group">
                             <label for="inputEmail" class="form-label" style="color:black;">Email</label>
-                            <input type="email" class="form-control" name="Email" placeholder="Insert Your Email" value="">
+                            <input type="email" class="form-control" name="email" placeholder="Insert Your Email" value="">
                             <span class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
                             <label for="inputPassword" class="form-label" style="color:black;">Password</label>
-                            <input type="password" class="form-control" name="Password" placeholder="Insert Your Password" value="">
+                            <input type="password" class="form-control" name="password" placeholder="Insert Your Password" value="">
                             <span class="text-danger"></span>
                         </div>
 

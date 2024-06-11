@@ -57,7 +57,7 @@ exports.login = async (req, res) => {
 
         const payload = {
             user: {
-                id: user.id
+                id_user: user.id
             }
         };
 
@@ -76,32 +76,50 @@ exports.login = async (req, res) => {
     }
 };
 
-// Authorization User
+    // Authorization User
+//     exports.getUser = async (req, res) => {
+//         try {
+//             // console.log(req.headers.authorization)
+//             // const key = req.headers.authorization.split(" ")[1]
+//             // console.log(key)
+
+//             jwt.verify(key, JWT_SECRET, (err, decoded) => {
+//                 if (err){
+//                     console.log(err)
+//                     res.status(500).send(err)
+//                 }
+
+//                 else {
+//                     console.log('Verified', decoded)
+//                     res.status(200).send(decoded)
+//                 }
+//             })
+//         //signdanverifikasi pake token yang sama
+//         // const key= req.header.authorization
+//         // yang dimasukin ke jwt.decodenya itu tokennya aja
+//         // const user = await User.findById(req.user.id).select('-password');
+//         // res.json(user);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server error');
+//     }
+// };
+
 exports.getUser = async (req, res) => {
     try {
-        console.log(req.headers.authorization)
-        const key = req.headers.authorization.split(" ")[1]
-        console.log(key)
-
-        jwt.verify(key, JWT_SECRET, (err, decoded) => {
-            if (err){
-                console.log(err)
-                res.status(500).send(err)
+        const token = req.headers.authorization.split(" ")[1]; // Ambil token dari header authorization
+        jwt.verify(token, JWT_SECRET, (err, decoded) => {
+            if (err) {
+                console.error(err);
+                return res.status(401).json({ message: 'Token invalid' }); // Unauthorized jika token tidak valid
+            } else {
+                console.log('Verified', decoded);
+                return res.status(200).json(decoded); // Kirim data yang telah didecode
             }
-
-            else {
-                console.log('Verified', decoded)
-                res.status(200).send(decoded)
-            }
-        })
-        //signdanverifikasi pake token yang sama
-        // const key= req.header.authorization
-        // yang dimasukin ke jwt.decodenya itu tokennya aja
-        // const user = await User.findById(req.user.id).select('-password');
-        // res.json(user);
+        });
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server error');
+        return res.status(500).send('Server error');
     }
 };
 
