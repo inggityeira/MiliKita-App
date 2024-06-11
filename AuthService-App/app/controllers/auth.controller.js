@@ -67,6 +67,7 @@ exports.login = async (req, res) => {
             { expiresIn: 3600 },
             (err, token) => {
                 if (err) throw err;
+                res.setHeader('Authorization', 'Bearer ' + token);
                 res.json({ token });
             }
         );
@@ -107,14 +108,14 @@ exports.login = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     try {
-        const token = req.headers.authorization.split(" ")[1]; // Ambil token dari header authorization
+        const token = req.headers.authorization.split(" ")[1];
         jwt.verify(token, JWT_SECRET, (err, decoded) => {
             if (err) {
                 console.error(err);
-                return res.status(401).json({ message: 'Token invalid' }); // Unauthorized jika token tidak valid
+                return res.status(401).json({ message: 'Token invalid' });
             } else {
                 console.log('Verified', decoded);
-                return res.status(200).json(decoded); // Kirim data yang telah didecode
+                return res.status(200).json(decoded);
             }
         });
     } catch (err) {
