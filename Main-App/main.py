@@ -6,19 +6,45 @@ from flask_paginate import Pagination, get_page_parameter
 app = Flask(__name__)
 app.static_folder = 'static'
 
-#Authservice
-def register(id_user):
-    response = requests.post(f'http://localhost:5005/register/{id_user}')
-    return response.json()
+#Landing
+@app.route('/landing', methods=['GET'])
+def landing_page():
+    return render_template('/Auth-Service/landing.html')
 
-def login(email, password):
-    response = requests.post(f'http://localhost:5005/logout', json={'email': email, 'password': password})
-    return response.json
+# Register
+@app.route('/register', methods=['GET'])
+def show_register_form():
+    return render_template('/Auth-Service/register.html')
 
+@app.route('/register', methods=['POST'])
+def register_user():
+    data = {
+        'nama_lengkap': request.form['nama_cabang'],
+        'email': request.form['email'],
+        'password': request.form['password']
+    }
+    requests.post('http://localhost:5005/register', json=data)
+    return redirect(url_for('login'))
 
-def loguot():
+#Login
+@app.route('/login', methods=['GET'])
+def show_login_form():
+    return render_template('/Auth-Service/login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    data_login = {
+        'email': request.form['Email'],
+        'password': request.form['Password']
+    }
+    requests.post('http://localhost:5005/login', json=data_login)
+    return redirect(url_for('login'))
+
+#Logout
+def logout():
     response = requests.post(f'http://localhost:5005/logout')
     return response.json
+
 # CABANG
 # list-cabang (pilihan liat semua/perkota)
 
