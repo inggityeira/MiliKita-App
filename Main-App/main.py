@@ -117,6 +117,14 @@ def login():
 
 #     return decorated
 
+#Cabang
+#List Seluruh Cabang
+@app.route('/cabang', methods=['GET'])
+def list_cabang():
+    response = requests.get(f'http://localhost:5002/cabang')
+    cabang_data = response.json()
+    return render_template('Cabang/listcabang.html', cabang=cabang_data)
+
 # detail-cabang
 def get_cabangByID(id_cabang):
     response = requests.get(f'http://localhost:5002/cabangs/{id_cabang}')
