@@ -176,10 +176,9 @@ def get_CabangById(id_cabang):
 
 # AKTIVITAS USER
 # list-aktivitas
-
 def get_allaktivitas():
     response = requests.get('http://localhost:5004/AllAktivitas')
-    return response.json()  # Call the .json() method to get the data
+    return response.json()
 
 @app.route('/AktivitasUser', methods=['GET'])
 def list_aktivitas():
@@ -187,6 +186,24 @@ def list_aktivitas():
     return render_template('Aktivitas-User/list.html', aktivitas=aktivitas)
 
 # Grafik aktivitas
+def count_services(aktivitas):
+    categories = ['Review', 'Menu', 'Karyawan', 'Cabang']
+    counts = {category: 0 for category in categories}
+    for a in aktivitas:
+        service = a.get('Service')
+        if service in categories:
+            counts[service] += 1
+    return counts
+
+@app.route('/chart-data', methods=['GET'])
+def chart_data():
+    aktivitas = get_allaktivitas()
+    counts = count_services(aktivitas)
+    return jsonify(counts)
+
+@app.route('/chart', methods=['GET'])
+def list_chartkita():
+    return render_template('Aktivitas-User/chartactivity.html')
 
 
 # PORT
