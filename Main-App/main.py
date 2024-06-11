@@ -1,13 +1,14 @@
-from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask import Flask, render_template, jsonify, request, redirect, session, url_for
 from collections import defaultdict
 import requests
+from functools import wraps
 from flask_paginate import Pagination, get_page_parameter
 
 app = Flask(__name__)
 app.static_folder = 'static'
 
-#Landing
-@app.route('/landing', methods=['GET'])
+# #Landing
+@app.route('/', methods=['GET'])
 def landing_page():
     return render_template('/Auth-Service/landing.html')
 
@@ -24,29 +25,110 @@ def register_user():
         'password': request.form['password']
     }
     requests.post('http://localhost:5005/register', json=data)
-    return redirect(url_for('login'))
+    return redirect(url_for('form_login'))
 
-#Login
-@app.route('/login', methods=['GET'])
-def show_login_form():
-    return render_template('/Auth-Service/login.html')
+# #Login dan Token
+# @app.route('/loginUserKita', methods=['GET'])
+# def login_form():
+#     return render_template('Auth-Service/login.html')
+
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     if request.method == 'POST':
+#         email = request.form['email']
+#         password = request.form['password']
+#         response = requests.post('http://localhost:5005/login', json={'email': email, 'password': password})
+
+#         print('Response status code:', response.status_code)
+#         print('Response JSON:', response.json())
+
+#         if response.status_code == 200:
+#             data = response.json()
+#             session['token'] = data['token']
+#             return redirect(url_for('dashboard'))
+#         else:
+#             return "Login failed: Invalid credentials", 400
+
+#     return render_template('/Auth-Service/login.html')
+
+# def login_required(f):
+#     def wrap(*args, **kwargs):
+#         if 'token' not in session:
+#             return redirect(url_for('dashboard'))
+#         return f(*args, **kwargs)
+#     wrap.__name__ = f.__name__
+#     return wrap
+
+# @app.route('/dashboard')
+# @login_required
+# def dashboard():
+    
+    # token = session.get('token')
+    # payload = {'token': token}
+    # response = requests.get('http://localhost:5005/dashboard', json=payload)
+    # if response.status_code == 200:
+    #     dashboard_data = response.json()
+    #     return render_template('/Auth-Service/dashboard.html', data=dashboard_data)
+    # else:
+    #     return "Could not verify token", 400
+
+# Login
+@app.route('/loginUserKita', methods=['GET'])
+def form_login():
+    return render_template('Auth-Service/login.html')
+
+def getUser(headers):
+    getUser_response = requests.get('http://localhost:5005/ownerkita', headers=headers)
 
 @app.route('/login', methods=['POST'])
 def login():
-    data_login = {
-        'email': request.form['Email'],
-        'password': request.form['Password']
+    data = {
+        "email": request.form['email'],
+        "password": request.form['password'],
     }
-    requests.post('http://localhost:5005/login', json=data_login)
-    return redirect(url_for('login'))
+    response = requests.post('http://localhost:5005/login', json=data)
+    if response.status_code == 200:
+        token = response.json().get('token')
+        headers = {'Authorization': 'Bearer ' + token}
+        response = redirect(url_for('add_menu_form'))
+        return response
+    else:
+        return "Failed to log in"
 
-#Logout
-def logout():
-    response = requests.post(f'http://localhost:5005/logout')
-    return response.json
+# def token_required(f):
+#     @wraps(f)
+#     def decorated(*args, **kwargs):
+#         token = None
+#         if 'Authorization' in request.headers:
+#             token = request.headers['Authorization']
+
+#         if not token:
+#             return redirect(url_for('form_login'))
+
+#         try:
+#             response = requests.get('http://localhost:5005/ownerkita', headers={'Authorization': token})
+#             if response.status_code != 200:
+#                 return redirect(url_for('form_login'))
+#         except Exception as e:
+#             print(f"An error occurred: {e}")
+#             return redirect(url_for('form_login'))
+
+#         return f(*args, **kwargs)
+
+#     return decorated
+
+
 
 # CABANG
-# list-cabang (pilihan liat semua/perkota)
+# list-cabang (Seluruh Cabang)
+def get_AllCabang():
+    response = requests.get(f'http://localhost:5002/cabang')
+    return response.json()
+
+# list-cabang (Berdasarkan Kota)
+def get_cabangByKota(kota_cabang):
+    response = requests.get(f'http://localhost:5002//cabangs/kota/{kota_cabang}')
+    return response.json()
 
 # detail-cabang
 def get_cabangByID(id_cabang):
@@ -175,6 +257,7 @@ def edit_Menu(id_menu):
 
 # membuat-menu
 @app.route('/menuMiliKita', methods=['GET'])
+# @token_required
 def add_menu_form():
     return render_template('Menu/addmenu.html')
 

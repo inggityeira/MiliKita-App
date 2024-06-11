@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}MILIKITA | DASHBOARD{% endblock %}
+
+{% block style %}
+    <style>
+        .dashboard-body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url("{{ url_for('static', filename='dashboard.png') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .content {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 50px;
+            border-radius: 10px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 48px;
+        }
+        h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="dashboard-body">
+        <div class="content">
+            <h1>we've got your morning covered with</h1>
+            <h2>coffee;</h2>
+        </div>
+    </div>
+{% endblock %}

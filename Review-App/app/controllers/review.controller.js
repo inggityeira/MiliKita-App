@@ -28,45 +28,44 @@ exports.createReview = async (req, res) => {
     const key = req.headers.authorization.split(" ")[1]
     console.log(key)
 
-    jwt.verify(key, JWT_SECRET, (err, decoded) => {
+    jwt.verify(key, JWT_SECRET, async (err, decoded) => {
         if (err){
             console.log(err)
             res.status(500).send(err)
           // minta token baru
         }
-
         else {
             console.log('Verified', decoded)
             res.status(200).send(decoded)
+          // Simpan review baru ke database
+          const newReview = new Review({
+            pesan_review: req.body.pesan_review,
+            id_cabang: req.body.id_cabang,
+            id_menu: req.body.id_menu,
+            bintang_review: req.body.bintang_review,
+          });
+          const savedReview = await newReview.save();
+      
+          // Publish pesan ke RabbitMQ
+          await connectRabbitMQ();
+          const channel = await rabbitMQConnection.createChannel();
+          await channel.assertQueue(QueueReviewBaru, { durable: false });
+      
+          // Pesan untuk publish
+          const message = {
+            notification: `Membuat review baru, yaitu: ${req.body.pesan_review}`,
+            Service: "Review",
+          };
+      
+          // Kirim pesan ke queue
+          channel.sendToQueue(QueueReviewBaru, Buffer.from(JSON.stringify(message)));
+          console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
+          await channel.close();
+      
+          res.status(201).send(savedReview);
         }
     })
 
-    // Simpan review baru ke database
-    const newReview = new Review({
-      pesan_review: req.body.pesan_review,
-      id_cabang: req.body.id_cabang,
-      id_menu: req.body.id_menu,
-      bintang_review: req.body.bintang_review,
-    });
-    const savedReview = await newReview.save();
-
-    // Publish pesan ke RabbitMQ
-    await connectRabbitMQ();
-    const channel = await rabbitMQConnection.createChannel();
-    await channel.assertQueue(QueueReviewBaru, { durable: false });
-
-    // Pesan untuk publish
-    const message = {
-      notification: `Membuat review baru, yaitu: ${req.body.pesan_review}`,
-      Service: "Review",
-    };
-
-    // Kirim pesan ke queue
-    channel.sendToQueue(QueueReviewBaru, Buffer.from(JSON.stringify(message)));
-    console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
-    await channel.close();
-
-    res.status(201).send(savedReview);
   } catch (error) {
     res.status(400).send(error);
   }
