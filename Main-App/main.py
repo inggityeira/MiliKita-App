@@ -245,6 +245,15 @@ def add_officer(id_cabang):
 # list-review (pilihan lihat semua/cabang/menu)
 
 # detail-review
+def getReviewById(id_review):
+    response = requests.get(f'http://localhost:5000/reviews/{id_review}')
+    return response.json()
+
+
+@app.route('/ReviewByID/<int:id_review>', methods=['GET'])
+def show_detailreview(id_review):
+    ReviewByID = getReviewById(id_review)
+    return render_template('Review/detailreview.html', review=ReviewByID)
 
 
 # edit-review
