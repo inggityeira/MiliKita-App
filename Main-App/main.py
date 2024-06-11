@@ -43,10 +43,33 @@ def show_detailCabang(id_cabang):
     return render_template('Cabang/detailcabang.html', cabang=cabangByID, karyawans=karyawanByCabang, grouped_reviews=grouped_reviews, menus=menus)
 
 # edit-cabang
+@app.route('/editCabang/<int:id_cabang>', methods=['GET'])
+def Formedit_Cabang(id_cabang):
+    cabangByID = get_cabangByID(id_cabang)
+    return render_template('Cabang/editcabang.html', cabang=cabangByID)
+
+@app.route('/editCabang/<int:id_cabang>', methods=['POST'])
+def edit_Cabang(id_cabang):
+    data = {
+        "nama_cabang": request.form['nama_cabang'],
+        "alamat_cabang": request.form['alamat_cabang'],
+        "kota_cabang": request.form['kota_cabang'],
+        "telp_cabang": request.form['telp_cabang'],
+        "gambar_cabang": request.form['gambar_cabang']
+    }
+    response = requests.put(f'http://localhost:5002/cabangs/{id_cabang}', json=data)
+    return redirect(url_for('show_detailCabang', id_cabang=id_cabang))
 
 # membuat-cabang
 
 # hapus-cabang
+@app.route('/deleteCabang/<int:id_cabang>', methods=['GET'])
+def delete_cabang(id_cabang):
+    response = requests.delete(f'http://localhost:5002/cabangs/{id_cabang}')
+    if response.status_code == 200:
+        return redirect(url_for(''))
+    else:
+        return "Error: Unable to delete Cabang.", 400
 
 
 # MENU
@@ -65,7 +88,17 @@ def show_detailMenu(id_menu):
 
 # edit-menu
 
-# membuat-cabang
+# membuat-menu
+
+# hapus-menu
+@app.route('/deleteMenu/<int:id_menu>', methods=['GET'])
+def delete_menu(id_menu):
+    response = requests.delete(f'http://localhost:5001/menuMiliKita/{id_menu}')
+    if response.status_code == 200:
+        return redirect(url_for(''))
+    else:
+        return "Error: Unable to delete Menu.", 400
+
 
 
 # KARYAWAN

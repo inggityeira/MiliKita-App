@@ -76,9 +76,14 @@
     <p class="isi">{{ cabang.alamat_cabang }}</p>
   </div>
 
+  <div class="mb-2">
+    <label>Contact</label>
+    <p class="isi">{{ cabang.telp_cabang }}</p>
+  </div>
+
   <div>
-    <a href="" class="btn" style="background-color: black; color: white; width: 150px">Edit</a>
-    <a href="" class="btn btn-danger px-5">Delete</a>
+    <a href="/editCabang/{{ cabang.id_cabang }}" class="btn" style="background-color: black; color: white; width: 150px">Edit</a>
+    <a href="/deleteCabang/{{ cabang.id_cabang }}" class="btn btn-danger px-5">Delete</a>
   </div>
 
   <!-- Tabel karyawan -->
