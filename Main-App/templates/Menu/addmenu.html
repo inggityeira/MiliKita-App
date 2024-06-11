@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 <!-- Title -->
-{% block title %}MILIKITA | M{% endblock %}
+{% block title %}MILIKITA | MENU{% endblock %}
 
 <!-- Style Internal -->
 {% block style %}
@@ -34,7 +34,7 @@
   {% block content %}
   <!-- Main Konten -->
   <div class="d-flex justify-content-center align-items-center flex-column" style="min-height: 100vh;">
-    <h1 class="form-title"><strong>Add New Menu</strong></h1>
+    <h1 class="judul" style="margin-bottom: 30px;"><strong>Add New Menu</strong></h1>
     <div class="col-lg-6 col-md-8 col-sm-10 form-container">
       
       <form class="row g-3" action="{{ url_for('add_menu') }}" method="post">
@@ -69,7 +69,7 @@
 
         <div class="col-12">
           <label for="gambar_menu" class="form-label">Menu Photo</label>
-          <input type="text" class="form-control" id="gambar_cabang" name="gambar_cabang" required placeholder="Enter URL" />
+          <input type="text" class="form-control" id="gambar_menu" name="gambar_menu" required placeholder="Enter URL" />
         </div>
 
         <div class="col-12">

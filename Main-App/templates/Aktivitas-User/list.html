@@ -7,7 +7,7 @@
 {% block style %}
 <style>
   .table-container {
-    max-height: 500px;
+    max-height: 430px;
     width: 70%;
     overflow-y: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
@@ -35,6 +35,15 @@
   .table-striped tbody tr:nth-of-type(even) {
     background-color: #ffffff;
   }
+  .listactivity {
+    width: 70%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+  }
 </style>
 {% endblock %}
 
@@ -46,11 +55,13 @@
 </div>
 
 <!-- Chart -->
-<div class="d-flex justify-content-end mb-3">
-  <a href="/chart" class="btn" style="background-color: #846d4c; color: white; width: 150px">Chart</a>
-</div>
 
 <!-- Tabel Activity -->
+ <div class="listactivity">
+   <div class="d-flex justify-content-end">
+     <a href="/chart" class="btn" style="background-color: #846d4c; color: white; width: 150px">Chart</a>
+   </div>
+ </div>
 <div class="d-flex justify-content-center align-items-center">
   <div class="mb-2 mt-3 table-container">
     {% if aktivitas %}

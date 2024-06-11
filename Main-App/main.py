@@ -117,19 +117,6 @@ def login():
 
 #     return decorated
 
-
-
-# CABANG
-# list-cabang (Seluruh Cabang)
-def get_AllCabang():
-    response = requests.get(f'http://localhost:5002/cabang')
-    return response.json()
-
-# list-cabang (Berdasarkan Kota)
-def get_cabangByKota(kota_cabang):
-    response = requests.get(f'http://localhost:5002//cabangs/kota/{kota_cabang}')
-    return response.json()
-
 # detail-cabang
 def get_cabangByID(id_cabang):
     response = requests.get(f'http://localhost:5002/cabangs/{id_cabang}')
@@ -182,7 +169,6 @@ def edit_Cabang(id_cabang):
     return redirect(url_for('show_detailCabang', id_cabang=id_cabang))
 
 # membuat-cabang
-# Fitur Add Cabang
 @app.route('/cabangs', methods=['GET'])
 def add_cabang_form():
     return render_template('Cabang/addcabang.html')
@@ -196,7 +182,7 @@ def add_cabang():
         "telp_cabang": request.form['telp_cabang'],
         "gambar_cabang": request.form['gambar_cabang']
     }
-    response = requests.post('http://localhost:5002/cabangs/', json=data)
+    requests.post('http://localhost:5002/cabangs/', json=data)
     return redirect(url_for('add_cabang_form'))
 
 # hapus-cabang
@@ -270,7 +256,7 @@ def add_menu():
         "deskripsi_menu": request.form['deskripsi_menu'],
         "gambar_menu": request.form['gambar_menu']
     }
-    response = requests.post('http://localhost:5001/menuMiliKita/', json=data)
+    requests.post('http://localhost:5001/menuMiliKita/', json=data)
     return redirect(url_for('add_menu_form'))
 
 # hapus-menu
@@ -288,11 +274,9 @@ def delete_menu(id_menu):
 # list-karyawan (pilihan lihat semua/cabang/posisi)
 
 # detail-karyawan
-
 def get_KaryawanById(id_karyawan):
     response = requests.get(f'http://localhost:5003/karyawankita/{id_karyawan}')
     return response.json()
-
 
 @app.route('/KaryawanByID/<int:id_karyawan>', methods=['GET'])
 def show_detailKaryawan(id_karyawan):
@@ -305,6 +289,22 @@ def show_detailKaryawan(id_karyawan):
 # edit-karyawan
 
 # membuat-karyawan
+@app.route('/createOfficer/cabang/<int:id_cabang>', methods=['GET'])
+def add_officer_form(id_cabang):
+    cabangByID = get_cabangByID(id_cabang)
+    return render_template('Karyawan/addkaryawan.html', cabang=cabangByID)
+
+@app.route('/createOfficer/cabang/<int:id_cabang>', methods=['POST'])
+def add_officer(id_cabang):
+    data = {
+        "nama_karyawan": request.form['nama_karyawan'],
+        "id_cabang": id_cabang,
+        "posisi_karyawan": request.form['posisi_karyawan'],
+        "telp_karyawan": request.form['telp_karyawan'],
+        "gambar_karyawan": request.form['gambar_karyawan']
+    }
+    requests.post('http://localhost:5003/karyawankita', json=data)
+    return redirect(url_for('add_officer_form', id_cabang=id_cabang))
 
 # hapus-karyawan
 
@@ -313,11 +313,35 @@ def show_detailKaryawan(id_karyawan):
 # list-review (pilihan lihat semua/cabang/menu)
 
 # detail-review
+def getReviewById(id_review):
+    response = requests.get(f'http://localhost:5000/reviews/{id_review}')
+    return response.json()
 
+
+@app.route('/ReviewByID/<int:id_review>', methods=['GET'])
+def show_detailreview(id_review):
+    ReviewByID = getReviewById(id_review)
+    return render_template('Review/detailreview.html', review=ReviewByID)
 
 # edit-review
 
 # membuat-review
+@app.route('/createReview/menu/<int:id_menu>', methods=['GET'])
+def add_review_form(id_menu):
+    menuByID = get_MenuByID(id_menu)
+    allcabang = get_allCabang()
+    return render_template('Review/addreview.html', menu=menuByID, cabangs=allcabang)
+
+@app.route('/createReview/menu/<int:id_menu>', methods=['POST'])
+def add_review(id_menu):
+    data = {
+        "pesan_review": request.form['pesan_review'],
+        "id_cabang": request.form['id_cabang'],
+        "id_menu": id_menu,
+        "bintang_review": request.form['bintang_review']
+    }
+    requests.post('http://localhost:5000/review', json=data)
+    return redirect(url_for('add_review_form', id_menu=id_menu))
 
 # hapus-review
 
