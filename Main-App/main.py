@@ -46,6 +46,8 @@ def show_detailCabang(id_cabang):
 
 # membuat-cabang
 
+# hapus-cabang
+
 
 # MENU
 # list-menu (pilihan lihat semua/perkategori/posisi)
@@ -95,6 +97,8 @@ def get_CabangById(id_cabang):
 
 # membuat-karyawan
 
+# hapus-karyawan
+
 
 # REVIEW
 # list-review (pilihan lihat semua/cabang/menu)
@@ -104,6 +108,8 @@ def get_CabangById(id_cabang):
 # edit-review
 
 # membuat-review
+
+# hapus-review
 
 
 # AKTIVITAS USER
