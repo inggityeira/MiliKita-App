@@ -164,6 +164,15 @@ def get_CabangById(id_cabang):
 # AKTIVITAS USER
 # list-aktivitas
 
+def get_allaktivitas():
+    response = requests.get('http://localhost:5004/AllAktivitas')
+    return response.json()  # Call the .json() method to get the data
+
+@app.route('/AktivitasUser', methods=['GET'])
+def list_aktivitas():
+    aktivitas = get_allaktivitas()
+    return render_template('Aktivitas-User/list.html', aktivitas=aktivitas)
+
 # Grafik aktivitas
 
 
