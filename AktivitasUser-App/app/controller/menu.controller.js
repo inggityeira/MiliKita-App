@@ -3,6 +3,8 @@ const Aktivitas = require("../models/aktivitas.model");
 const QueueMenuBaru = "QueueMenuBaru";
 const QueueAllMenu = "QueueAllMenu";
 const QueueMenuSatuan = "QueueMenuSatuan";
+const QueueMenuByKA = "QueueMenuByKA";
+const QueueMenuByPO = "QueueMenuByPO";
 const QueueUpMenu = "QueueUpMenu";
 const QueueDelMenu = "QueueDelMenu";
 
@@ -39,6 +41,14 @@ const handleQueueMessage = async (channel, queue) => {
   const listenMenuSatuan = async (channel) => {
     await handleQueueMessage(channel, QueueMenuSatuan);
   };
+
+  const listenMenuByKA = async (channel) => {
+    await handleQueueMessage(channel, QueueMenuByKA);
+  };
+
+  const listenMenuByPO = async (channel) => {
+    await handleQueueMessage(channel, QueueMenuByPO);
+  };
   
   const listenUpMenu = async (channel) => {
     await handleQueueMessage(channel, QueueUpMenu);
@@ -52,6 +62,8 @@ const handleQueueMessage = async (channel, queue) => {
     listenNewMenu,
     listenAllMenu,
     listenMenuSatuan,
+    listenMenuByKA,
+    listenMenuByPO,
     listenUpMenu,
     listenDelMenu,
   };

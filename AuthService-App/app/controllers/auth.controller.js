@@ -1,19 +1,10 @@
 const User = require('../models/auth.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { check, validationResult, body } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
-const JWT_SECRET = 'your_jwt_secret_key';
-const REFRESH_TOKEN_SECRET = 'your_refresh_token_secret_key';
+const JWT_SECRET = '6f8a8e7c8a9b1c4a2e4d8e8f6c8b9a1c2d4f6a7b9c8d4f1e2a7b9c8d4f1e2a3b9c8d4f1e2a3b9c8d4f1e2a3'; 
 const tokenBlacklist = [];
-
-const generateAccessToken = (user) => {
-    return jwt.sign(user, JWT_SECRET, { expiresIn: '1h' });
-};
-
-const generateRefreshToken = (user) => {
-    return jwt.sign(user, REFRESH_TOKEN_SECRET, { expiresIn: '1h' });
-};
 
 // Registration
 exports.register = async (req,res) => {
@@ -59,57 +50,28 @@ exports.login = async (req, res) => {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
 
-        const isMatch = await bcrypt.compare(password, hashpassword);
+        const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }
 
-        const payload = { user: {id_user: req.params.id }};
-        const accessToken = generateAccessToken(payload);
-        const refreshToken = generateRefreshToken(payload);
+        const payload = {
+            user: {
+                id: user.id
+            }
+        };
 
-        // Pengaturan cookie
-        res.cookie('accessToken', accessToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 3600,
-            sameSite: 'strict'
-        });
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 3600,
-            sameSite: 'strict'
-        });
-
-        res.json({ accessToken, refreshToken });
+        jwt.sign(
+            payload,
+            JWT_SECRET,
+            { expiresIn: 3600 },
+            (err, token) => {
+                if (err) throw err;
+                res.json({ token });
+            }
+        );
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server error');
-    }
-};
-
-// Refresh Token
-exports.refreshToken = (req, res) => {
-    // Logika refresh token
-    try {
-        // Pengaturan token
-        const payload = { user: { id_user: req.params.id  } };
-        const accessToken = generateAccessToken(payload);
-
-        // Pengaturan cookie
-        res.cookie('accessToken', accessToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 3600,
-            sameSite: 'strict'
-        });
-
-        // Respon berhasil
-        res.status(200).json({ accessToken });
-    } catch (error) {
-        // Tangani kesalahan
-        console.error(error.message);
         res.status(500).send('Server error');
     }
 };
@@ -117,13 +79,32 @@ exports.refreshToken = (req, res) => {
 // Authorization User
 exports.getUser = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id).select('-password');
-        res.json(user);
+        console.log(req.headers.authorization)
+        const key = req.headers.authorization.split(" ")[1]
+        console.log(key)
+
+        jwt.verify(key, JWT_SECRET, (err, decoded) => {
+            if (err){
+                console.log(err)
+                res.status(500).send(err)
+            }
+
+            else {
+                console.log('Verified', decoded)
+                res.status(200).send(decoded)
+            }
+        })
+        //signdanverifikasi pake token yang sama
+        // const key= req.header.authorization
+        // yang dimasukin ke jwt.decodenya itu tokennya aja
+        // const user = await User.findById(req.user.id).select('-password');
+        // res.json(user);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
 };
+
 
 // Logout
 exports.logout = (req, res) => {
@@ -135,15 +116,4 @@ exports.logout = (req, res) => {
 // Check if token is blacklisted
 exports.isTokenBlacklisted = (token) => {
     return tokenBlacklist.includes(token);
-};
-
-module.exports = {
-    generateAccessToken,
-    generateRefreshToken,
-    register: exports.register,
-    login: exports.login,
-    refreshToken: exports.refreshToken,
-    getUser: exports.getUser,
-    logout: exports.logout,
-    isTokenBlacklisted: exports.isTokenBlacklisted,
 };

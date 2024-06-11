@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+<!-- Title -->
+{% block title %}MILIKITA | MENU{% endblock %}
+
+<!-- Style Internal -->
+{% block style %}
+<style>
+  .detailMenu {
+    width: 70%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .img-floating {
+    width: 250px;
+    height: 300px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .img-floating:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+  .isi {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #cbcbcb;
+  }
+  .mb-2 {
+    width: 70%;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  .table-floating {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .table-floating:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+</style>
+{% endblock %}
+
+<!-- Main Konten -->
+{% block content %}
+<!-- Judul -->
+<div class="d-flex justify-content-center">
+  <h1 class="judul"><strong>Detail Menu</strong></h1>
+</div>
+
+<!-- Informasi Detail Menu -->
+<div class="detailMenu">
+  <div class="image text-center">
+    <img class="img-floating" src="{{ menu.gambar_menu }}" alt="{{ menu.nama_menu }}" />
+    <h2 style="margin-top: 30px">ID{{ menu.id_menu }} <strong>{{ menu.nama_menu }}</strong></h2>
+    <h4>{{ menu.kategori_menu }}</h4>
+  </div>
+  <div class="mb-2">
+    <label>Specialist</label>
+    <p class="isi">{{ menu.posisi_karyawan }}</p>
+  </div>
+
+  <div class="mb-2">
+    <label>Description</label>
+    <p class="isi">{{ menu.deskripsi_menu }}</p>
+  </div>
+
+  <div>
+    <a href="/editMenu/{{ menu.id_menu }}" class="btn" style="background-color: black; color: white; width: 150px">Edit</a>
+    <a href="/deleteMenu/{{ menu.id_menu }}" class="btn btn-danger px-5">Delete</a>
+  </div>
+
+  <!-- Tabel Review -->
+  <div class="mb-2 mt-3">
+    <h3 style="text-align: center; margin-top: 30px"><strong>List Review</strong></h3>
+    <div class="d-flex justify-content-end mb-3">
+      <a href="" class="btn" style="background-color: #846d4c; color: white; width: 150px">+ Review</a>
+    </div>
+    {% if reviews %}
+    <table class="table table-striped table-floating table-bordered table align-middle">
+      <caption>
+        List reviews for {{ menu.nama_menu }}
+      </caption>
+      <colgroup>
+        <col style="width: 85%" />
+        <col style="width: 15%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th scope="col">Review</th>
+          <th class="text-center" scope="col">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for review in reviews %}
+        <tr>
+          <td><a href="">{{ review.pesan_review }}</a></td>
+          <td class="text-center"><a href="">{{ review.bintang_review }}⭐</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; margin-top: 30px">There are no officers at this store</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

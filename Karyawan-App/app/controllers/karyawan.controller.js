@@ -8,6 +8,8 @@ let rabbitMQConnection;
 const QueueKaryawanBaru = "QueueKaryawanBaru";
 const QueueAllKaryawan = "QueueAllKaryawan";
 const QueueKaryawanSatuan = "QueueKaryawanSatuan";
+const QueueKaryawanByPO = "QueueKaryawanByPO";
+const QueueKaryawanByCA = "QueueKaryawanByCA";
 const QueueUpKaryawan = "QueueUpKaryawan";
 const QueueDelKaryawan = "QueueDelKaryawan";
 
@@ -104,6 +106,66 @@ exports.getKaryawanById = async (req, res) => {
 
     // Kirim pesan ke queue
     channel.sendToQueue(QueueKaryawanSatuan, Buffer.from(JSON.stringify(message)));
+    console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
+    await channel.close();
+
+    res.status(200).send(karyawan);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+// Read Karyawan By Posisi
+exports.getKaryawanByPosisi = async (req, res) => {
+  try {
+    const karyawan = await Karyawan.find({ posisi_karyawan: req.params.posisi });
+    if (!karyawan) {
+      return res.status(404).send({ message: "Karyawan not found" });
+    }
+
+    // Publish pesan ke RabbitMQ
+    await connectRabbitMQ();
+    const channel = await rabbitMQConnection.createChannel();
+    await channel.assertQueue(QueueKaryawanByPO, { durable: false });
+
+    // Pesan untuk publish
+    const message = {
+      notification: `Melihat Karyawan berdasarkan posisi ${req.params.posisi}`,
+      Service: "Karyawan",
+    };
+
+    // Kirim pesan ke queue
+    channel.sendToQueue(QueueKaryawanByPO, Buffer.from(JSON.stringify(message)));
+    console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
+    await channel.close();
+
+    res.status(200).send(karyawan);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+// Read Karyawan By Cabang
+exports.getKaryawanByCabang = async (req, res) => {
+  try {
+    const karyawan = await Karyawan.find({ id_cabang: req.params.id_cabang });
+    if (!karyawan) {
+      return res.status(404).send({ message: "Karyawan not found" });
+    }
+
+    // Publish pesan ke RabbitMQ
+    await connectRabbitMQ();
+    const channel = await rabbitMQConnection.createChannel();
+    await channel.assertQueue(QueueKaryawanByCA, { durable: false });
+
+    // Pesan untuk publish
+    const message = {
+      notification: `Melihat Karyawan berdasarkan cabang dengan id: ${req.params.id_cabang}`,
+      Service: "Karyawan",
+    };
+
+    // Kirim pesan ke queue
+    channel.sendToQueue(QueueKaryawanByCA, Buffer.from(JSON.stringify(message)));
     console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
     await channel.close();
 

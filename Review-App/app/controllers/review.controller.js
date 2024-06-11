@@ -8,6 +8,8 @@ let rabbitMQConnection;
 const QueueReviewBaru = "QueueReviewBaru";
 const QueueAllReview = "QueueAllReview";
 const QueueReviewSatuan = "QueueReviewSatuan";
+const QueueReviewByCabang = "QueueReviewByCabang";
+const QueueReviewByMenu = "QueueReviewByMenu";
 const QueueUpReview = "QueueUpReview";
 const QueueDelReview = "QueueDelReview";
 
@@ -21,7 +23,24 @@ exports.connectRabbitMQ = connectRabbitMQ;
 
 // Membuat review baru
 exports.createReview = async (req, res) => {
+  
   try {
+    const key = req.headers.authorization.split(" ")[1]
+    console.log(key)
+
+    jwt.verify(key, JWT_SECRET, (err, decoded) => {
+        if (err){
+            console.log(err)
+            res.status(500).send(err)
+          // minta token baru
+        }
+
+        else {
+            console.log('Verified', decoded)
+            res.status(200).send(decoded)
+        }
+    })
+
     // Simpan review baru ke database
     const newReview = new Review({
       pesan_review: req.body.pesan_review,
@@ -103,6 +122,64 @@ exports.getReviewById = async (req, res) => {
 
     // Kirim pesan ke queue
     channel.sendToQueue(QueueReviewSatuan, Buffer.from(JSON.stringify(message)));
+    console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
+    await channel.close();
+
+    res.status(200).send(review);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+// Read Review By Cabang
+exports.getReviewByCA = async (req, res) => {
+  try {
+    const review = await Review.find({ id_cabang: req.params.id_cabang });
+    if (!review) {
+      return res.status(404).send({ message: "Review not found" });
+    }
+    // Publish pesan ke RabbitMQ
+    await connectRabbitMQ();
+    const channel = await rabbitMQConnection.createChannel();
+    await channel.assertQueue(QueueReviewByCabang, { durable: false });
+
+    // Pesan untuk publish
+    const message = {
+      notification: `Melihat Review berdasarkan cabang dengan id: ${req.params.id_cabang}`,
+      Service: "Review",
+    };
+
+    // Kirim pesan ke queue
+    channel.sendToQueue(QueueReviewByCabang, Buffer.from(JSON.stringify(message)));
+    console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
+    await channel.close();
+
+    res.status(200).send(review);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+// Read Review By Menu
+exports.getReviewByME = async (req, res) => {
+  try {
+    const review = await Review.find({ id_menu: req.params.id_menu });
+    if (!review) {
+      return res.status(404).send({ message: "Review not found" });
+    }
+    // Publish pesan ke RabbitMQ
+    await connectRabbitMQ();
+    const channel = await rabbitMQConnection.createChannel();
+    await channel.assertQueue(QueueReviewByMenu, { durable: false });
+
+    // Pesan untuk publish
+    const message = {
+      notification: `Melihat Review berdasarkan menu dengan id: ${req.params.id_menu}`,
+      Service: "Review",
+    };
+
+    // Kirim pesan ke queue
+    channel.sendToQueue(QueueReviewByMenu, Buffer.from(JSON.stringify(message)));
     console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
     await channel.close();
 

@@ -8,6 +8,7 @@ let rabbitMQConnection;
 const QueueCabangBaru = "QueueCabangBaru";
 const QueueAllCabang = "QueueAllCabang";
 const QueueCabangSatuan = "QueueCabangSatuan";
+const QueueCabangByKota = "QueueCabangByKota";
 const QueueUpCabang = "QueueUpCabang";
 const QueueDelCabang = "QueueDelCabang";
 
@@ -104,6 +105,36 @@ exports.getCabangById = async (req, res) => {
 
     // Kirim pesan ke queue
     channel.sendToQueue(QueueCabangSatuan, Buffer.from(JSON.stringify(message)));
+    console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
+    await channel.close();
+
+    res.status(200).send(cabang);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+// Read Cabang By Kota
+exports.getCabangByKota = async (req, res) => {
+  try {
+    const cabang = await Cabang.find({ kota_cabang: req.params.kota });
+    if (!cabang) {
+      return res.status(404).send({ message: "Cabang not found" });
+    }
+
+    // Publish pesan ke RabbitMQ
+    await connectRabbitMQ();
+    const channel = await rabbitMQConnection.createChannel();
+    await channel.assertQueue(QueueCabangByKota, { durable: false });
+
+    // Pesan untuk publish
+    const message = {
+      notification: `Melihat Cabang berdasarkan Kota ${req.params.kota}`,
+      Service: "Cabang",
+    };
+
+    // Kirim pesan ke queue
+    channel.sendToQueue(QueueCabangByKota, Buffer.from(JSON.stringify(message)));
     console.log(`Publishing an Event using RabbitMQ: ${message.notification}`);
     await channel.close();
 
