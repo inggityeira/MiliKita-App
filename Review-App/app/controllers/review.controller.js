@@ -160,7 +160,7 @@ exports.getReviewByCA = async (req, res) => {
   }
 };
 
-// Read Review By Cabang
+// Read Review By Menu
 exports.getReviewByME = async (req, res) => {
   try {
     const review = await Review.find({ id_menu: req.params.id_menu });

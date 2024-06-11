@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+<!-- Title -->
+{% block title %}MILIKITA | MENU{% endblock %}
+
+<!-- Style Internal -->
+{% block style %}
+<style>
+  .detailMenu {
+    width: 70%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .img-floating {
+    width: 250px;
+    height: 300px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .img-floating:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+</style>
+{% endblock %}
+
+<!-- Main Konten -->
+{% block content %}
+<!-- Judul -->
+<div class="d-flex justify-content-center">
+  <h1 class="judul"><strong>Detail Menu</strong></h1>
+</div>
+
+<!-- Informasi Detail Menu -->
+<div class="detailMenu">
+  <div class="image text-center">
+    <img class="img-floating" src="{{ menu.gambar_menu }}" alt="{{ menu.nama_menu }}" />
+    <h2 style="margin-top: 30px">ID{{ menu.id_menu }} <strong>{{ menu.nama_menu }}</strong></h2>
+    <h3>{{ menu.kategori_menu }}</h3>
+  </div>
+</div>
+
+{% endblock %}
