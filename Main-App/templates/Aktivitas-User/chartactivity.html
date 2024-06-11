@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+<!-- Title -->
+{% block title %}MILIKITA | ACTIVITY{% endblock %}
+
+<!-- Style Internal -->
+{% block style %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+<!-- Main Konten -->
+{% block content %}
+<!-- Judul -->
+<div class="d-flex justify-content-center">
+  <h1 class="judul"><strong>List Activity User</strong></h1>
+</div>
+
+<div class="d-flex justify-content-center align-items-center chart-container">
+  <div class="col-xs-10 col-sm-6 col-md-8">
+    <div class="card card-style mb-2">
+      <div class="card-body">
+        <div class="chart-container" style="position: relative">
+          <canvas id="myChart"></canvas>
+          <script>
+            let myChart;
+
+            async function fetchChartData() {
+              const response = await fetch("/chart-data");
+              return await response.json();
+            }
+
+            async function renderChart() {
+              const data = await fetchChartData();
+              const ctx = document.getElementById("myChart").getContext("2d");
+
+              if (myChart) {
+                myChart.destroy();
+              }
+
+              myChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                  labels: ["Review", "Menu", "Karyawan", "Cabang"],
+                  datasets: [
+                    {
+                      label: "Activity User",
+                      data: [data.Review, data.Menu, data.Karyawan, data.Cabang],
+                      backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(255, 206, 86, 0.2)", "rgba(75, 192, 192, 0.2)"],
+                      borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)"],
+                      borderWidth: 1,
+                    },
+                  ],
+                },
+                options: {
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                    },
+                  },
+                },
+              });
+            }
+
+            renderChart();
+            setInterval(renderChart, 10000);
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
