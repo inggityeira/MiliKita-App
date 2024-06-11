@@ -6,6 +6,19 @@ from flask_paginate import Pagination, get_page_parameter
 app = Flask(__name__)
 app.static_folder = 'static'
 
+#Authservice
+def register(id_user):
+    response = requests.post(f'http://localhost:5005/register/{id_user}')
+    return response.json()
+
+def login(email, password):
+    response = requests.post(f'http://localhost:5005/logout', json={'email': email, 'password': password})
+    return response.json
+
+
+def loguot():
+    response = requests.post(f'http://localhost:5005/logout')
+    return response.json
 # CABANG
 # list-cabang (pilihan liat semua/perkota)
 
