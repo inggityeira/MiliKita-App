@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+<!-- Title -->
+{% block title %}MILIKITA | EDIT KARYAWAN{% endblock %}
+
+<!-- Style Internal -->
+{% block style %}
+    <style>
+        .editKaryawan {
+            width: 100%;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .img-floating {
+            width: 250px;
+            height: 300px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .img-floating:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+        .isi {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #cbcbcb;
+        }
+        .mb-2 {
+            width: 70%;
+        }
+    </style>
+{% endblock %}
+
+<!-- Main Konten -->
+
+{% block content %}
+
+<!-- Judul -->
+ 
+<div class="d-flex justify-content-center">
+    <h1 class="judul"><strong>Edit Officers</strong></h1>
+</div>
+
+<div class="editKaryawan">
+  <div class="image text-center" style="margin-bottom: 30px">
+    <img class="img-floating" src="{{ Karyawan.gambar_karyawan }}" alt="{{ Karyawan.nama_karyawan }}" />
+  </div>
+
+  <div class="d-flex flex-column justify-content-center align-items-center">
+    <form action="/editKaryawan/{{ Karyawan.id_karyawan }}" method="post">
+      <div class="mb-2">
+        <label>officer name</label>
+        <input class="isi" type="text" class="form-control" name="nama_karyawan" value="{{ Karyawan.nama_karyawan}}" style="width: 700px" />
+      </div>
+
+      <div class="mb-2">
+        <label>Officer positiont</label>
+        <select class="isi form-select" aria-label="Default select example" name="posisi_karyawan" style="width: 700px">
+          <option selected value="{{ Karyawan.posisi_karyawan }}">{{ Karyawan.posisi_karyawan }}</option>
+          <option value="barista">Barista</option>
+          <option value="chef">Chef</option>
+          <option value="bakery">Bakery</option>
+          <option value="owner">Owner</option>
+        </select>
+      </div>
+
+      <div class="mb-2">
+        <label>Phone Number</label>
+        <input class="isi" type="text" class="form-control" name="telp_karyawan" value="{{ Karyawan.telp_karyawan }}" style="width: 700px" />
+      </div>
+
+      <div class="mb-2">
+        <label>Image Officer</label>
+        <input class="isi" type="text" class="form-control" name="gambar_karyawan" value="{{ Karyawan.gambar_karyawan }}" style="width: 700px" />
+        <div id="gambarHelp" class="form-text">Enter the link of your image!</div>
+      </div>
+
+      <button type="submit" class="btn" style="background-color: #846d4c; color: white; width: 150px; margin-top: 20px">Edit Karyawan</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

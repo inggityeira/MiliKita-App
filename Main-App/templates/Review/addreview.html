@@ -1,181 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <title>MiliKita | Review</title>
+{% extends "base.html" %}
 
-    <style>
-      body {
-        margin: 0%;
-        padding: 0%;
-        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-      }
+<!-- Title -->
+{% block title %}MILIKITA | REVIEW{% endblock %}
 
-      .background {
-        background-image: url("{{ url_for('static', filename='backgroundcabang.jpg') }}");
-        background-size: cover;
-        background-position: center;
-        height: 100vh;
-        width: 100%;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        text-align: center;
-      }
-      .container {
-        height: calc(100vh - 120px);
-      }
-      .table-container {
-        height: 500px;
-        overflow-y: auto;
-      }
-      .navbar {
-        background-color: #846D4C;
-        height: 65px;
-      }
-      .navbar-brand {
-        color: white;
-        margin-left: 30px;
-        font-size: 35px;
-        font-weight: bold;
-      }
-      .navbar-nav {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-      .nav-item {
-        margin-right: 50px;
-      }
-      .nav-item a {
-        color: white;
-        letter-spacing: 5px;
-        text-decoration: none;
-        font-size: 20px;
-        font-weight: bold;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg position-relative">
-      <div class="container-fluid">
-        <h1 class="navbar-brand">MiliKita</h1>
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a aria-current="page" href="/menusMiliKita">MENU</a>
-          </li>
-          <li class="nav-item">
-            <a aria-current="page" href="/karyawanskita">OFFICER</a>
-          </li>
-          <li class="nav-item">
-            <a aria-current="page" href="/cabang">STORE</a>
-          </li>
-          <li class="nav-item">
-            <a aria-current="page" href="/reviews">REVIEW</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </body>
-</html>
+<!-- Style Internal -->
+{% block style %}
+<style>
+  .addReview {
+    width: 70%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .isi {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #cbcbcb;
+  }
+  .mb-2 {
+    width: 70%;
+  }
+  .img-floating {
+    width: 250px;
+    height: 300px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .img-floating:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+</style>
+{% endblock %}
 
-    <style>
-        body {
-            font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-        .search-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 20px 0;
-        }
-        .search-container input[type="text"] {
-            width: 300px;
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .search-container select {
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .search-container button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #846D4C;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .menu-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .menu-item {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-            width: 300px;
-            margin: 15px;
-            background-color: white;
-        }
-        .menu-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .menu-item .content {
-            padding: 15px;
-        }
-        .menu-item h5 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .menu-item p {
-            margin: 5px 0;
-            color: #777;
-        }
-        .menu-item .detail-button {
-            display: block;
-            text-align: center;
-            padding: 10px;
-            background-color: black;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-top: 10px;
-        }
-        .add-new-button {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .add-new-button button {
-            padding: 15px 30px;
-            border: none;
-            background-color: black;
-            color: white;
-            font-size: 16px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
+<!-- Main Konten -->
+{% block content %}
+<!-- Judul -->
+<div class="d-flex justify-content-center">
+  <h1 class="judul"><strong>New Review</strong></h1>
+</div>
+
+<div class="addReview">
+  <div class="image text-center">
+    <img class="img-floating" src="{{ menu.gambar_menu }}" alt="{{ menu.nama_menu }}" />
+    <h2 style="margin-top: 30px">ID{{ menu.id_menu }} <strong>{{ menu.nama_menu }}</strong></h2>
+    <h4>{{ menu.kategori_menu }}</h4>
+  </div>
+  <form action="/createReview/menu/{{menu.id_menu}}" method="post">
+    <div class="mb-2">
+      <label>Review</label>
+      <input class="isi" type="text" class="form-control" name="pesan_review" style="width: 700px" />
+    </div>
+
+    <div class="mb-2">
+      <label>Store</label>
+      {% if cabangs %}
+      <select class="isi form-select" aria-label="Default select example" name="id_cabang" style="width: 700px">
+        <option selected value="">Select Store</option>
+        {% for cabang in cabangs %}
+        <option value="{{cabang.id_cabang}}">{{cabang.nama_cabang}} {{cabang.id_cabang}}</option>
+        {% endfor %}
+      </select>
+      {% else %}
+      <select class="form-select" aria-label="Disabled select example" disabled>
+        <option selected>There are no store in database</option>
+      </select>
+      {% endif %}
+    </div>
+
+    <div class="mb-2">
+      <label>Menu</label>
+      <p class="isi" style="width: 700px">{{menu.nama_menu}}</p>
+    </div>
+
+    <div class="mb-2">
+      <label>Rating</label>
+      <select class="isi form-select" aria-label="Default select example" name="bintang_review" style="width: 700px">
+        <option selected value="">Give this menu a rating</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+    <button type="submit" class="btn" style="background-color: #846d4c; color: white; width: 150px; margin-top: 20px">Add Review</button>
+    
+  </form>
+</div>
+{% endblock %}
