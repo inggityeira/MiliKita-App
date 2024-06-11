@@ -287,6 +287,21 @@ def show_detailKaryawan(id_karyawan):
 # Fungsi untuk mendapatkan data karyawan
 
 # edit-karyawan
+@app.route('/editKaryawan/<int:id_karyawan>', methods=['GET'])
+def Formedit_karyawan(id_karyawan):
+    KaryaByID = get_KaryawanById(id_karyawan)
+    return render_template('Karyawan/editkaryawan.html', Karyawan=KaryaByID)
+
+@app.route('/editKaryawan/<int:id_karyawan>', methods=['POST'])
+def edit_Karyawan(id_karyawan):
+    data = {
+        "nama_karyawan": request.form['nama_karyawan'],
+        "posisi_karyawan": request.form['posisi_karyawan'],
+        "telp_karyawan": request.form['telp_karyawan'],
+        "gambar_karyawan": request.form['gambar_karyawan']
+    }
+    requests.put(f'http://localhost:5003/karyawankita/{id_karyawan}', json=data)
+    return redirect(url_for('show_detailKaryawan', id_karyawan=id_karyawan))
 
 # membuat-karyawan
 @app.route('/createOfficer/cabang/<int:id_cabang>', methods=['GET'])
@@ -307,7 +322,13 @@ def add_officer(id_cabang):
     return redirect(url_for('add_officer_form', id_cabang=id_cabang))
 
 # hapus-karyawan
-
+@app.route('/deleteKaryawan/<int:id_karyawan>', methods=['GET'])
+def delete_karyawan(id_karyawan):
+    response = requests.delete(f'http://localhost:5003/karyawankita/{id_karyawan}')
+    if response.status_code == 200:
+        return redirect(url_for(''))
+    else:
+        return "Error: Unable to delete Menu.", 400
 
 # REVIEW
 # list-review (pilihan lihat semua/cabang/menu)
@@ -324,6 +345,20 @@ def show_detailreview(id_review):
     return render_template('Review/detailreview.html', review=ReviewByID)
 
 # edit-review
+@app.route('/editReview/<int:id_review>', methods=['GET'])
+def Formedit_review(id_review):
+    reviewByID = getReviewById(id_review)
+    return render_template('Review/editreview.html', review=reviewByID)
+
+@app.route('/editReview/<int:id_review>', methods=['POST'])
+def edit_review(id_review):
+    data = {
+        "bintang_review": request.form['bintang_review'],
+        "pesan_review": request.form['pesan_review'],
+    }
+    requests.put(f'http://localhost:5000//reviews/{id_review}', json=data)
+    return redirect(url_for('show_detailreview', id_review=id_review))
+
 
 # membuat-review
 @app.route('/createReview/menu/<int:id_menu>', methods=['GET'])
