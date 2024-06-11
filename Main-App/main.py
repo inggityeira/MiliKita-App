@@ -100,7 +100,6 @@ def edit_Cabang(id_cabang):
     return redirect(url_for('show_detailCabang', id_cabang=id_cabang))
 
 # membuat-cabang
-# Fitur Add Cabang
 @app.route('/cabangs', methods=['GET'])
 def add_cabang_form():
     return render_template('Cabang/addcabang.html')
@@ -114,7 +113,7 @@ def add_cabang():
         "telp_cabang": request.form['telp_cabang'],
         "gambar_cabang": request.form['gambar_cabang']
     }
-    response = requests.post('http://localhost:5002/cabangs/', json=data)
+    requests.post('http://localhost:5002/cabangs/', json=data)
     return redirect(url_for('add_cabang_form'))
 
 # hapus-cabang
@@ -187,7 +186,7 @@ def add_menu():
         "deskripsi_menu": request.form['deskripsi_menu'],
         "gambar_menu": request.form['gambar_menu']
     }
-    response = requests.post('http://localhost:5001/menuMiliKita/', json=data)
+    requests.post('http://localhost:5001/menuMiliKita/', json=data)
     return redirect(url_for('add_menu_form'))
 
 # hapus-menu
@@ -222,6 +221,22 @@ def show_detailKaryawan(id_karyawan):
 # edit-karyawan
 
 # membuat-karyawan
+@app.route('/createOfficer/cabang/<int:id_cabang>', methods=['GET'])
+def add_officer_form(id_cabang):
+    cabangByID = get_cabangByID(id_cabang)
+    return render_template('Karyawan/addkaryawan.html', cabang=cabangByID)
+
+@app.route('/createOfficer/cabang/<int:id_cabang>', methods=['POST'])
+def add_officer(id_cabang):
+    data = {
+        "nama_karyawan": request.form['nama_karyawan'],
+        "id_cabang": id_cabang,
+        "posisi_karyawan": request.form['posisi_karyawan'],
+        "telp_karyawan": request.form['telp_karyawan'],
+        "gambar_karyawan": request.form['gambar_karyawan']
+    }
+    requests.post('http://localhost:5003/karyawankita', json=data)
+    return redirect(url_for('add_officer_form', id_cabang=id_cabang))
 
 # hapus-karyawan
 
