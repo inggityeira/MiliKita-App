@@ -355,7 +355,7 @@ def edit_review(id_review):
 @app.route('/createReview/menu/<int:id_menu>', methods=['GET'])
 def add_review_form(id_menu):
     menuByID = get_MenuByID(id_menu)
-    allcabang = get_allCabang()
+    allcabang = get_allCabang() # type: ignore
     return render_template('Review/addreview.html', menu=menuByID, cabangs=allcabang)
 
 @app.route('/createReview/menu/<int:id_menu>', methods=['POST'])
@@ -370,7 +370,13 @@ def add_review(id_menu):
     return redirect(url_for('add_review_form', id_menu=id_menu))
 
 # hapus-review
-
+@app.route('/deleteReview/<int:id_review>', methods=['GET'])
+def delete_review(id_review):
+    response = requests.delete(f'http://localhost:5000/reviews/{id_review}')
+    if response.status_code == 200:
+        return redirect(url_for(''))
+    else:
+        return "Error: Unable to delete Menu.", 400
 
 # AKTIVITAS USER
 # list-aktivitas
