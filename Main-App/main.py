@@ -323,6 +323,35 @@ def delete_karyawan(id_karyawan):
 
 # REVIEW
 # list-review (pilihan lihat semua/cabang/menu)
+def get_list_review():
+    response = requests.get('http://localhost:5000/reviews')
+    return response.json()
+
+def get_reviewByMenu(id_menu):
+    response = requests.get(f'http://localhost:5000/reviews/cabang/{id_menu}')
+    return response.json()
+
+def get_allmenu():
+    response = requests.get('http://localhost:5001/menusMiliKita')
+    return response.json()
+
+@app.route('/reviews', methods=['GET'])
+def listreview():
+    id_menu = request.args.get('id_menu', 'Semua')
+    if id_menu == "Semua":
+        listReview = get_list_review()
+    else:
+        listReview = get_reviewByMenu(id_menu)
+
+    menus = get_allmenu()
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    per_page = 4
+    offset = (page - 1) * per_page
+    total = len(listReview)
+    paginated_list = listReview[offset: offset + per_page]  # Ini yang menyebabkan error, karena listReview adalah fungsi
+    pagination = Pagination(page=page, total=total, per_page=per_page, css_framework='bootstrap4')
+
+    return render_template('Review/listreview.html', reviews=paginated_list, pagination=pagination, menus=menus)
 
 # detail-review
 def getReviewById(id_review):

@@ -1,207 +1,184 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <title>MiliKita | Review</title>
+{% extends "base.html" %}
 
-    <style>
-      body {
-        margin: 0%;
-        padding: 0%;
-        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-      }
+<!-- Title -->
+{% block title %}MILIKITA | REVIEW{% endblock %}
 
-      .background {
-        background-image: url("{{ url_for('static', filename='backgroundcabang.jpg') }}");
-        background-size: cover;
-        background-position: center;
-        height: 100vh;
-        width: 100%;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        text-align: center;
-      }
-      .container {
-        height: calc(100vh - 120px);
-      }
-      .table-container {
-        height: 500px;
-        overflow-y: auto;
-      }
-      .navbar {
-        background-color: #846D4C;
-        height: 65px;
-      }
-      .navbar-brand {
-        color: white;
-        margin-left: 30px;
-        font-size: 35px;
-        font-weight: bold;
-      }
-      .navbar-nav {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-      .nav-item {
-        margin-right: 50px;
-      }
-      .nav-item a {
-        color: white;
-        letter-spacing: 5px;
-        text-decoration: none;
-        font-size: 20px;
-        font-weight: bold;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg position-relative">
-      <div class="container-fluid">
-        <h1 class="navbar-brand">MiliKita</h1>
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a aria-current="page" href="/menusMiliKita">MENU</a>
-          </li>
-          <li class="nav-item">
-            <a aria-current="page" href="/karyawanskita">OFFICER</a>
-          </li>
-          <li class="nav-item">
-            <a aria-current="page" href="/cabang">STORE</a>
-          </li>
-          <li class="nav-item">
-            <a aria-current="page" href="/reviews">REVIEW</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </body>
-</html>
+<!-- Style Internal -->
+{% block style %}
+<style>
+  .isi {
+    width: 60%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #cbcbcb;
+    display: flex;
+    justify-content: center; 
+  }
 
-    <style>
-        body {
-            font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-        .search-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 20px 0;
-        }
-        .search-container input[type="text"] {
-            width: 300px;
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .search-container select {
-            padding: 10px;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .search-container button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #846D4C;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .menu-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .menu-item {
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-            width: 300px;
-            margin: 15px;
-            background-color: white;
-        }
-        .menu-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .menu-item .content {
-            padding: 15px;
-        }
-        .menu-item h5 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .menu-item p {
-            margin: 5px 0;
-            color: #777;
-        }
-        .menu-item .detail-button {
-            display: block;
-            text-align: center;
-            padding: 10px;
-            background-color: black;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-top: 10px;
-        }
-        .add-new-button {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .add-new-button button {
-            padding: 15px 30px;
-            border: none;
-            background-color: black;
-            color: white;
-            font-size: 16px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-  <div class="search-container">
-    <input type="text" placeholder="Search">
-    <select>
-        <option value="all">All</option>
-        <!-- Add more categories as needed -->
+  .menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .menu-item {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 300px;
+    margin: 15px;
+    background-color: white;
+  }
+
+  .menu-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .menu-item .content {
+    padding: 15px;
+  }
+
+  .menu-item h5 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .menu-item p {
+    margin: 5px 0;
+    color: #777;
+  }
+
+  .menu-item .detail-button {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .menu-container table {
+    width: 60%;
+    max-width: 800px;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1em;
+    min-width: 300px;
+  }
+
+  .menu-container th, .menu-container td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  .menu-container th {
+    background-color: #f2f2f2;
+  }
+
+  .menu-container tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .menu-container .text-center {
+    text-align: center;
+    margin-top: 20px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Main Konten -->
+<div class="d-flex justify-content-center">
+  <h1 class="judul"><strong>List Review</strong></h1>
+</div>
+
+<div class="d-flex justify-content-center mt-3">
+  <form id="reviewFilterForm" method="GET" action="{{ url_for('listreview') }}" class="w-50">
+    {% if menus %}
+    <select class="isi form-select" aria-label="Default select example" id="id_menu" name="id_menu" style="width: 700px">
+      <option selected value="Semua" {% if id_menu=='Semua' %}selected{% endif %}>Select menu</option>
+      {% for menu in menus %}
+      <option value="{{menu.id_menu}}" {% if id_menu=='{{menu.id_menu}}' %}selected{% endif %}>{{menu.nama_menu}}</option>
+      {% endfor %}
     </select>
-    <button>Search</button>
+    {% else %}
+    <select class="form-select" aria-label="Disabled select example" disabled>
+      <option selected>There are no menu in database</option>
+    </select>
+    {% endif %}
+  </form>
 </div>
 
 <div class="menu-container">
-    {% for review in listReview %}
-    <div class="menu-item">
-            <h5>{{ review.pesan_review }}</h5>
-            <p>{{ review.bintang_review }}</p>
-            <a href="#" class="detail-button">DETAIL</a>
-        </div>
-    </div>
-    {% endfor %}
+  {% if reviews %}
+  <table>
+    <thead>
+      <tr>
+        <th>Review</th>
+        <th>Alamat</th>
+        <th>Id Menu</th>
+        <th>Bintang Review</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for review in reviews %}
+      <tr>
+        <td>{{ review.pesan_review }}</td>
+        <td>{{ review.id_cabang }}</td>
+        <td>{{ review.id_menu }}</td>
+        <td>{{ review.bintang_review }} ⭐</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="text-center">No review data available.</p>
+  {% endif %}
 </div>
 
-<div class="add-new-button">
-    <button>Add New Review</button>
+
+
+<div class="pagination-container d-flex justify-content-center">
+  {% if pagination %}
+  {{ pagination.links }}
+  {% endif %}
 </div>
-</body>
-</html>
-</html>
+
+<script>
+  document.getElementById('id_menu').addEventListener('change', function () {
+    document.getElementById('reviewFilterForm').submit();
+  });
+</script>
+{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-QYYzUsVwWEYstt2mpFSO+R9Bt7IBjCpBhZ1D7zJOFwBjIbwZVZ50BPEYpv5T8Twd" crossorigin="anonymous"></script>
