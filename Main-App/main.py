@@ -77,15 +77,30 @@ def login():
 
 # CABANG
 #List Seluruh Cabang
-def get_CabangById(id_cabang):
-    response = requests.get(f'http://localhost:5002/cabang/{id_cabang}')
+def get_list_cabang():
+    response = requests.get('http://localhost:5002/cabang')
+    return response.json()
+
+def get_cabangByKota(kota):
+    response = requests.get(f'http://localhost:5002/cabangs/kota/{kota}')
     return response.json()
 
 @app.route('/cabang', methods=['GET'])
-def list_cabang():
-    response = requests.get(f'http://localhost:5002/cabang')
-    cabang_data = response.json()
-    return render_template('Cabang/listcabang.html', cabang=cabang_data)
+def listcabang():
+    kota_cabang = request.args.get('kota_cabang', 'Semua')
+    if kota_cabang == 'Semua':
+        listCabang = get_list_cabang()
+    else:
+        listCabang = get_cabangByKota(kota_cabang)
+    
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    per_page = 4
+    offset = (page - 1) * per_page
+    total = len(listCabang)
+    paginated_list = listCabang[offset: offset + per_page]
+    pagination = Pagination(page=page, total=total, per_page=per_page, css_framework='bootstrap4')
+
+    return render_template('Cabang/listcabang.html', cabang=paginated_list, pagination=pagination, kota_cabang=kota_cabang)
 
 # detail-cabang
 def get_cabangByID(id_cabang):
@@ -166,7 +181,7 @@ def add_cabang(current_user):
 def delete_cabang(current_user, id_cabang):
     response = requests.delete(f'http://localhost:5002/cabangs/{id_cabang}')
     if response.status_code == 200:
-        return redirect(url_for(''))
+        return redirect(url_for('listcabang'))
     else:
         return "Error: Unable to delete Cabang.", 400
 
