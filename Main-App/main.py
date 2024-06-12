@@ -7,34 +7,9 @@ from flask_paginate import Pagination, get_page_parameter
 
 app = Flask(__name__)
 app.static_folder = 'static'
-JWT_SECRET = '6f8a8e7c8a9b1c4a2e4d8e8f6c8b9a1c2d4f6a7b9c8d4f1e2a7b9c8d4f1e2a3b9c8d4f1e2a3b9c8d4f1e2a3';
+JWT_SECRET = '6f8a8e7c8a9b1c4a2e4d8e8f6c8b9a1c2d4f6a7b9c8d4f1e2a7b9c8d4f1e2a3b9c8d4f1e2a3b9c8d4f1e2a3'
 
-# #Landing
-@app.route('/', methods=['GET'])
-def landing_page():
-    return render_template('/Auth-Service/landing.html')
-
-# Register
-@app.route('/register', methods=['GET'])
-def show_register_form():
-    return render_template('/Auth-Service/register.html')
-
-@app.route('/register', methods=['POST'])
-def register_user():
-    data = {
-        'nama_lengkap': request.form['nama_cabang'],
-        'email': request.form['email'],
-        'password': request.form['password']
-    }
-    requests.post('http://localhost:5005/register', json=data)
-    return redirect(url_for('form_login'))
-
-# Login
-@app.route('/loginUserKita', methods=['GET'])
-def form_login():
-    return render_template('Auth-Service/login.html')
-
-# Middleware
+# Middleware is Login
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -56,7 +31,63 @@ def token_required(f):
         return f(current_user, *args, **kwargs)
     return decorated
 
+# Middleware not login
+def token_not_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization'].split(" ")[1]
+        elif 'token' in request.cookies:
+            token = request.cookies.get('token')
+        if token:
+            try:
+                jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
+                return jsonify({"message": "You should logout first!"}), 403
+            except jwt.ExpiredSignatureError:
+                pass
+            except jwt.InvalidTokenError:
+                pass
+        return f(*args, **kwargs)
+    return decorated
+
+#Landing
+@app.route('/', methods=['GET'])
+@token_not_required
+def landing_page():
+    return render_template('/Auth-Service/landing.html')
+
+# Home
+@app.route('/home', methods=['GET'])
+@token_required
+def home(current_user):
+    return render_template('/Auth-Service/dashboard.html')
+
+# Register
+@app.route('/register', methods=['GET'])
+@token_not_required
+def show_register_form():
+    return render_template('/Auth-Service/register.html')
+
+@app.route('/register', methods=['POST'])
+@token_not_required
+def register_user():
+    data = {
+        'nama_lengkap': request.form['nama_cabang'],
+        'email': request.form['email'],
+        'password': request.form['password']
+    }
+    requests.post('http://localhost:5005/register', json=data)
+    return redirect(url_for('form_login'))
+
+# Login
+@app.route('/loginUserKita', methods=['GET'])
+@token_not_required
+def form_login():
+    return render_template('Auth-Service/login.html')
+
 @app.route('/login', methods=['POST'])
+@token_not_required
 def login():
     data = {
         "email": request.form['email'],
@@ -66,7 +97,7 @@ def login():
     if response.status_code == 200:
         token = response.headers.get('Authorization').split(" ")[1]
         if token:
-            resp = make_response(redirect(url_for('add_menu_form')))
+            resp = make_response(redirect(url_for('home')))
             resp.set_cookie('token', token)
             return resp
         else:
@@ -74,6 +105,14 @@ def login():
     else:
 
         return "Failed to log in", response.status_code
+
+# Logout
+@app.route('/logout', methods=['GET'])
+@token_required
+def logout(current_user):
+    resp = make_response(redirect(url_for('landing_page')))
+    resp.delete_cookie('token')
+    return resp
 
 # CABANG
 #List Seluruh Cabang
@@ -173,7 +212,7 @@ def add_cabang(current_user):
         "gambar_cabang": request.form['gambar_cabang']
     }
     requests.post('http://localhost:5002/cabangs/', json=data)
-    return redirect(url_for('add_cabang_form'))
+    return redirect(url_for('listcabang'))
 
 # hapus-cabang
 @app.route('/deleteCabang/<int:id_cabang>', methods=['GET'])
@@ -263,6 +302,30 @@ def delete_menu(id_menu):
 
 # KARYAWAN
 # list-karyawan (pilihan lihat semua/cabang/posisi)
+def get_allKaryawan():
+    response = requests.get('http://localhost:5003/karyawanskita')
+    return response.json()
+
+def get_karyawanByPosisi(posisi_karyawan):
+    response = requests.get(f'http://localhost:5003/karyawankita/Posisi/{posisi_karyawan}')
+    return response.json()
+
+@app.route('/officer', methods=['GET'])
+def listofficer():
+    posisi_karyawan =request.args.get('posisi_karyawan', 'Semua')
+    if posisi_karyawan == 'Semua':
+        listOfficer = get_allKaryawan()
+    else:
+        listOfficer = get_karyawanByPosisi(posisi_karyawan)
+    
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    per_page = 4
+    offset = (page - 1) * per_page
+    total = len(listOfficer)
+    paginated_list = listOfficer[offset: offset + per_page]
+    pagination = Pagination(page=page, total=total, per_page=per_page, css_framework='bootstrap4')
+
+    return render_template('Karyawan/listkaryawan.html', officer=paginated_list, pagination=pagination, posisi_karyawan=posisi_karyawan)
 
 # detail-karyawan
 def get_KaryawanById(id_karyawan):
@@ -274,8 +337,6 @@ def show_detailKaryawan(id_karyawan):
     KaryawanByID = get_KaryawanById(id_karyawan)
 
     return render_template('Karyawan/detailkaryawan.html', Karyawan=KaryawanByID)
-
-# Fungsi untuk mendapatkan data karyawan
 
 # edit-karyawan
 @app.route('/editKaryawan/<int:id_karyawan>', methods=['GET'])
@@ -310,7 +371,7 @@ def add_officer(id_cabang):
         "gambar_karyawan": request.form['gambar_karyawan']
     }
     requests.post('http://localhost:5003/karyawankita', json=data)
-    return redirect(url_for('add_officer_form', id_cabang=id_cabang))
+    return redirect(url_for('listofficer'))
 
 # hapus-karyawan
 @app.route('/deleteKaryawan/<int:id_karyawan>', methods=['GET'])
