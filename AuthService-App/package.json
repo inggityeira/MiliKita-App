@@ -4,7 +4,7 @@
   "description": "",
   "main": "authservice.js",
   "scripts": {
-    "dev": "nodemon authservice.js",
+    "start": "nodemon authservice.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Laura",
@@ -22,5 +22,8 @@
     "mongodb": "^6.7.0",
     "mongoose": "^8.4.1",
     "mongoose-sequence": "^6.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
   }
 }

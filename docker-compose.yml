@@ -68,3 +68,14 @@ services:
         condition: service_healthy
     links:
       - rabbitmq:rabbitmq
+  
+  auth-app:
+    build: ./AuthService-App
+    ports:
+      - "5005:5005"
+    command: npm start
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    links:
+      - rabbitmq:rabbitmq
