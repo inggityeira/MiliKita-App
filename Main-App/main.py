@@ -416,7 +416,7 @@ def edit_review(id_review):
 @app.route('/createReview/menu/<int:id_menu>', methods=['GET'])
 def add_review_form(id_menu):
     menuByID = get_MenuByID(id_menu)
-    allcabang = get_allCabang() # type: ignore
+    allcabang = get_list_cabang()
     return render_template('Review/addreview.html', menu=menuByID, cabangs=allcabang)
 
 @app.route('/createReview/menu/<int:id_menu>', methods=['POST'])
