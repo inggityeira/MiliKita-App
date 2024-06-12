@@ -125,7 +125,8 @@ def get_cabangByKota(kota):
     return response.json()
 
 @app.route('/cabang', methods=['GET'])
-def listcabang():
+@token_required
+def listcabang(current_user):
     kota_cabang = request.args.get('kota_cabang', 'Semua')
     if kota_cabang == 'Semua':
         listCabang = get_list_cabang()
@@ -226,7 +227,7 @@ def delete_cabang(current_user, id_cabang):
 
 
 # MENU
-# list-menu (pilihan lihat semua/perkategori/posisi)
+# list-menu
 def get_list_menu():
     response = requests.get('http://localhost:5001/menusMiliKita')
     return response.json()
@@ -236,7 +237,8 @@ def get_MenuByKategori(kategori):
     return response.json()
 
 @app.route('/listMenuMilikita', methods=['GET'])
-def listmenu():
+@token_required
+def listmenu(current_user):
     kategori_menu= request.args.get('kategori_menu', 'Semua')
     if kategori_menu == 'Semua':
         listMenu = get_list_menu()
@@ -257,19 +259,22 @@ def get_reviewByMenu(id_menu):
     return response.json()
 
 @app.route('/menuByID/<int:id_menu>', methods=['GET'])
-def show_detailMenu(id_menu):
+@token_required
+def show_detailMenu(current_user, id_menu):
     menuByID = get_MenuByID(id_menu)
     reviewByMenu = get_reviewByMenu(id_menu)
     return render_template('Menu/detailmenu.html', menu = menuByID, reviews = reviewByMenu)
 
 # edit-menu
 @app.route('/editMenu/<int:id_menu>', methods=['GET'])
-def Formedit_Menu(id_menu):
+@token_required
+def Formedit_Menu(current_user, id_menu):
     menuByID = get_MenuByID(id_menu)
     return render_template('Menu/editmenu.html', menu = menuByID)
 
 @app.route('/editMenu/<int:id_menu>', methods=['POST'])
-def edit_Menu(id_menu):
+@token_required
+def edit_Menu(current_user, id_menu):
     data = {
         "nama_menu": request.form['nama_menu'],
         "posisi_karyawan": request.form['posisi_karyawan'],
@@ -287,7 +292,8 @@ def add_menu_form(current_user):
     return render_template('Menu/addmenu.html')
 
 @app.route('/menuMiliKita', methods=['POST'])
-def add_menu():
+@token_required
+def add_menu(current_user):
     data = {
         "nama_menu": request.form['nama_menu'],
         "kategori_menu": request.form['kategori_menu'],
@@ -300,7 +306,8 @@ def add_menu():
 
 # hapus-menu
 @app.route('/deleteMenu/<int:id_menu>', methods=['GET'])
-def delete_menu(id_menu):
+@token_required
+def delete_menu(current_user, id_menu):
     response = requests.delete(f'http://localhost:5001/menuMiliKita/{id_menu}')
     if response.status_code == 200:
         return redirect(url_for(''))
@@ -320,7 +327,8 @@ def get_karyawanByPosisi(posisi_karyawan):
     return response.json()
 
 @app.route('/officer', methods=['GET'])
-def listofficer():
+@token_required
+def listofficer(current_user):
     posisi_karyawan =request.args.get('posisi_karyawan', 'Semua')
     if posisi_karyawan == 'Semua':
         listOfficer = get_allKaryawan()
@@ -342,19 +350,22 @@ def get_KaryawanById(id_karyawan):
     return response.json()
 
 @app.route('/KaryawanByID/<int:id_karyawan>', methods=['GET'])
-def show_detailKaryawan(id_karyawan):
+@token_required
+def show_detailKaryawan(current_user, id_karyawan):
     KaryawanByID = get_KaryawanById(id_karyawan)
 
     return render_template('Karyawan/detailkaryawan.html', Karyawan=KaryawanByID)
 
 # edit-karyawan
 @app.route('/editKaryawan/<int:id_karyawan>', methods=['GET'])
-def Formedit_karyawan(id_karyawan):
+@token_required
+def Formedit_karyawan(current_user, id_karyawan):
     KaryaByID = get_KaryawanById(id_karyawan)
     return render_template('Karyawan/editkaryawan.html', Karyawan=KaryaByID)
 
 @app.route('/editKaryawan/<int:id_karyawan>', methods=['POST'])
-def edit_Karyawan(id_karyawan):
+@token_required
+def edit_Karyawan(current_user, id_karyawan):
     data = {
         "nama_karyawan": request.form['nama_karyawan'],
         "posisi_karyawan": request.form['posisi_karyawan'],
@@ -366,12 +377,14 @@ def edit_Karyawan(id_karyawan):
 
 # membuat-karyawan
 @app.route('/createOfficer/cabang/<int:id_cabang>', methods=['GET'])
-def add_officer_form(id_cabang):
+@token_required
+def add_officer_form(current_user, id_cabang):
     cabangByID = get_cabangByID(id_cabang)
     return render_template('Karyawan/addkaryawan.html', cabang=cabangByID)
 
 @app.route('/createOfficer/cabang/<int:id_cabang>', methods=['POST'])
-def add_officer(id_cabang):
+@token_required
+def add_officer(current_user, id_cabang):
     data = {
         "nama_karyawan": request.form['nama_karyawan'],
         "id_cabang": id_cabang,
@@ -384,7 +397,8 @@ def add_officer(id_cabang):
 
 # hapus-karyawan
 @app.route('/deleteKaryawan/<int:id_karyawan>', methods=['GET'])
-def delete_karyawan(id_karyawan):
+@token_required
+def delete_karyawan(current_user, id_karyawan):
     response = requests.delete(f'http://localhost:5003/karyawankita/{id_karyawan}')
     if response.status_code == 200:
         return redirect(url_for(''))
@@ -406,7 +420,8 @@ def get_allmenu():
     return response.json()
 
 @app.route('/reviews', methods=['GET'])
-def listreview():
+@token_required
+def listreview(current_user):
     id_menu = request.args.get('id_menu', 'Semua')
     if id_menu == "Semua":
         listReview = get_list_review()
@@ -430,18 +445,21 @@ def getReviewById(id_review):
 
 
 @app.route('/ReviewByID/<int:id_review>', methods=['GET'])
-def show_detailreview(id_review):
+@token_required
+def show_detailreview(current_user, id_review):
     ReviewByID = getReviewById(id_review)
     return render_template('Review/detailreview.html', review=ReviewByID)
 
 # edit-review
 @app.route('/editReview/<int:id_review>', methods=['GET'])
-def Formedit_review(id_review):
+@token_required
+def Formedit_review(current_user, id_review):
     reviewByID = getReviewById(id_review)
     return render_template('Review/editreview.html', review=reviewByID)
 
 @app.route('/editReview/<int:id_review>', methods=['POST'])
-def edit_review(id_review):
+@token_required
+def edit_review(current_user, id_review):
     data = {
         "bintang_review": request.form['bintang_review'],
         "pesan_review": request.form['pesan_review'],
@@ -452,13 +470,15 @@ def edit_review(id_review):
 
 # membuat-review
 @app.route('/createReview/menu/<int:id_menu>', methods=['GET'])
-def add_review_form(id_menu):
+@token_required
+def add_review_form(current_user, id_menu):
     menuByID = get_MenuByID(id_menu)
     allcabang = get_list_cabang()
     return render_template('Review/addreview.html', menu=menuByID, cabangs=allcabang)
 
 @app.route('/createReview/menu/<int:id_menu>', methods=['POST'])
-def add_review(id_menu):
+@token_required
+def add_review(current_user, id_menu):
     data = {
         "pesan_review": request.form['pesan_review'],
         "id_cabang": request.form['id_cabang'],
@@ -470,7 +490,8 @@ def add_review(id_menu):
 
 # hapus-review
 @app.route('/deleteReview/<int:id_review>', methods=['GET'])
-def delete_review(id_review):
+@token_required
+def delete_review(current_user, id_review):
     response = requests.delete(f'http://localhost:5000/reviews/{id_review}')
     if response.status_code == 200:
         return redirect(url_for(''))
@@ -484,7 +505,8 @@ def get_allaktivitas():
     return response.json()
 
 @app.route('/AktivitasUser', methods=['GET'])
-def list_aktivitas():
+@token_required
+def list_aktivitas(current_user):
     aktivitas = get_allaktivitas()
     return render_template('Aktivitas-User/list.html', aktivitas=aktivitas)
 
@@ -499,13 +521,15 @@ def count_services(aktivitas):
     return counts
 
 @app.route('/chart-data', methods=['GET'])
-def chart_data():
+@token_required
+def chart_data(current_user):
     aktivitas = get_allaktivitas()
     counts = count_services(aktivitas)
     return jsonify(counts)
 
 @app.route('/chart', methods=['GET'])
-def list_chartkita():
+@token_required
+def list_chartkita(current_user):
     return render_template('Aktivitas-User/chartactivity.html')
 
 
