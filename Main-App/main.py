@@ -401,7 +401,7 @@ def add_officer(current_user, id_cabang):
 def delete_karyawan(current_user, id_karyawan):
     response = requests.delete(f'http://localhost:5003/karyawankita/{id_karyawan}')
     if response.status_code == 200:
-        return redirect(url_for(''))
+        return redirect(url_for('listofficer'))
     else:
         return "Error: Unable to delete Menu.", 400
 
@@ -442,7 +442,6 @@ def listreview(current_user):
 def getReviewById(id_review):
     response = requests.get(f'http://localhost:5000/reviews/{id_review}')
     return response.json()
-
 
 @app.route('/ReviewByID/<int:id_review>', methods=['GET'])
 @token_required
@@ -494,7 +493,7 @@ def add_review(current_user, id_menu):
 def delete_review(current_user, id_review):
     response = requests.delete(f'http://localhost:5000/reviews/{id_review}')
     if response.status_code == 200:
-        return redirect(url_for(''))
+        return redirect(url_for('listreview'))
     else:
         return "Error: Unable to delete Menu.", 400
 
