@@ -109,8 +109,8 @@
       <tbody>
         {% for review in reviews %}
         <tr>
-          <td><a href="">{{ review.pesan_review }}</a></td>
-          <td class="text-center"><a href="">{{ review.bintang_review }}⭐</a></td>
+          <td><a href="/ReviewByID/{{review.id_review}}">{{ review.pesan_review }}</a></td>
+          <td class="text-center"><a href="/ReviewByID/{{review.id_review}}">{{ review.bintang_review }}⭐</a></td>
         </tr>
         {% endfor %}
       </tbody>

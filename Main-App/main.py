@@ -31,29 +31,8 @@ def token_required(f):
         return f(current_user, *args, **kwargs)
     return decorated
 
-# Middleware not login
-def token_not_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        token = None
-        if 'Authorization' in request.headers:
-            token = request.headers['Authorization'].split(" ")[1]
-        elif 'token' in request.cookies:
-            token = request.cookies.get('token')
-        if token:
-            try:
-                jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
-                return jsonify({"message": "You should logout first!"}), 403
-            except jwt.ExpiredSignatureError:
-                pass
-            except jwt.InvalidTokenError:
-                pass
-        return f(*args, **kwargs)
-    return decorated
-
 #Landing
 @app.route('/', methods=['GET'])
-@token_not_required
 def landing_page():
     return render_template('/Auth-Service/landing.html')
 
@@ -65,12 +44,10 @@ def home(current_user):
 
 # Register
 @app.route('/register', methods=['GET'])
-@token_not_required
 def show_register_form():
     return render_template('/Auth-Service/register.html')
 
 @app.route('/register', methods=['POST'])
-@token_not_required
 def register_user():
     data = {
         'nama_lengkap': request.form['nama_cabang'],
@@ -82,12 +59,10 @@ def register_user():
 
 # Login
 @app.route('/loginUserKita', methods=['GET'])
-@token_not_required
 def form_login():
     return render_template('Auth-Service/login.html')
 
 @app.route('/login', methods=['POST'])
-@token_not_required
 def login():
     data = {
         "email": request.form['email'],
@@ -310,7 +285,7 @@ def add_menu(current_user):
 def delete_menu(current_user, id_menu):
     response = requests.delete(f'http://localhost:5001/menuMiliKita/{id_menu}')
     if response.status_code == 200:
-        return redirect(url_for(''))
+        return redirect(url_for('listmenu'))
     else:
         return "Error: Unable to delete Menu.", 400
 

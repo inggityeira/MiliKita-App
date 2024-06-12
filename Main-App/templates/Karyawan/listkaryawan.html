@@ -76,11 +76,11 @@
 <div class="d-flex justify-content-center mt-3 mb-5">
   <form id="officerFilterForm" method="GET" action="{{ url_for('listofficer') }}" class="w-50">
     <select class="isi form-control" id="posisi_karyawan" name="posisi_karyawan" required>
-      <option value="Semua" {% if kota_cabang=='Semua' %}selected{% endif %}>Select Officer by Position</option>
-      <option value="barista" {% if kota_cabang=='barista' %}selected{% endif %}>Barista</option>
-      <option value="chef" {% if kota_cabang=='chef' %}selected{% endif %}>Chef</option>
-      <option value="bakery" {% if kota_cabang=='bakery' %}selected{% endif %}>Bakery</option>
-      <option value="owner" {% if kota_cabang=='owner' %}selected{% endif %}>Owner</option>
+      <option value="Semua" {% if posisi_karyawan=='Semua' %}selected{% endif %}>Select Officer by Position</option>
+      <option value="barista" {% if posisi_karyawan=='barista' %}selected{% endif %}>Barista</option>
+      <option value="chef" {% if posisi_karyawan=='chef' %}selected{% endif %}>Chef</option>
+      <option value="bakery" {% if posisi_karyawan=='bakery' %}selected{% endif %}>Bakery</option>
+      <option value="owner" {% if posisi_karyawan=='owner' %}selected{% endif %}>Owner</option>
     </select>
   </form>
 </div>
