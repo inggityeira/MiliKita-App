@@ -119,6 +119,10 @@ def login():
 
 #Cabang
 #List Seluruh Cabang
+def get_CabangById(id_cabang):
+    response = requests.get(f'http://localhost:5002/cabang/{id_cabang}')
+    return response.json()
+
 @app.route('/cabang', methods=['GET'])
 def list_cabang():
     response = requests.get(f'http://localhost:5002/cabang')
