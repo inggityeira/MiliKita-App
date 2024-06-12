@@ -231,9 +231,18 @@ def get_list_menu():
     response = requests.get('http://localhost:5001/menusMiliKita')
     return response.json()
 
-@app.route('/menusMiliKita', methods=['GET'])
+def get_MenuByKategori(kategori):
+    response = requests.get(f'http://localhost:5001/menuMiliKita/kategori/{kategori}')
+    return response.json()
+
+@app.route('/listMenuMilikita', methods=['GET'])
 def listmenu():
-    listMenu = get_list_menu()
+    kategori_menu= request.args.get('kategori_menu', 'Semua')
+    if kategori_menu == 'Semua':
+        listMenu = get_list_menu()
+    else:
+        listMenu = get_MenuByKategori(kategori_menu)
+    
     page = request.args.get(get_page_parameter(), type=int, default=1)
     per_page = 4
     offset = (page - 1) * per_page
@@ -241,7 +250,7 @@ def listmenu():
     paginated_list = listMenu[offset: offset + per_page]
     pagination = Pagination(page=page, total=total, per_page=per_page, css_framework='bootstrap4')
 
-    return render_template('Menu/listmenu.html', listMenu=paginated_list, pagination=pagination)
+    return render_template('Menu/listmenu.html', menu=paginated_list, pagination=pagination, kategori_menu=kategori_menu)
 # detail-menu
 def get_reviewByMenu(id_menu):
     response = requests.get(f'http://localhost:5000/reviews/menu/{id_menu}')
