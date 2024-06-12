@@ -108,12 +108,12 @@
       <tbody>
         {% for karyawan in karyawans %}
         <tr>
-          <td class="text-center"><a href="">{{ karyawan.id_karyawan }}</a></td>
+          <td class="text-center"><a href="/KaryawanByID/{{karyawan.id_karyawan}}">{{ karyawan.id_karyawan }}</a></td>
           <td class="text-center">
-            <a href=""><img src="{{ karyawan.gambar_karyawan }}" alt="{{ karyawan.nama_karyawan }}" width="100px" style="margin-right: 20px" /> {{ karyawan.nama_karyawan }}</a>
+            <a href="/KaryawanByID/{{karyawan.id_karyawan}}"><img src="{{ karyawan.gambar_karyawan }}" alt="{{ karyawan.nama_karyawan }}" width="100px" style="margin-right: 20px" /> {{ karyawan.nama_karyawan }}</a>
           </td>
-          <td class="text-center"><a href="">{{ karyawan.posisi_karyawan }}</a></td>
-          <td class="text-center"><a href="">{{ karyawan.telp_karyawan }}</a></td>
+          <td class="text-center"><a href="/KaryawanByID/{{karyawan.id_karyawan}}">{{ karyawan.posisi_karyawan }}</a></td>
+          <td class="text-center"><a href="/KaryawanByID/{{karyawan.id_karyawan}}">{{ karyawan.telp_karyawan }}</a></td>
         </tr>
         {% endfor %}
       </tbody>
@@ -147,8 +147,8 @@
       <tbody>
         {% for review in reviews %}
         <tr>
-          <td><a href="">{{ review.pesan_review }}</a></td>
-          <td class="text-center"><a href="">{{ review.bintang_review }}⭐</a></td>
+          <td><a href="/ReviewByID/{{review.id_review}}">{{ review.pesan_review }}</a></td>
+          <td class="text-center"><a href="/ReviewByID/{{review.id_review}}">{{ review.bintang_review }}⭐</a></td>
         </tr>
         {% endfor %}
       </tbody>

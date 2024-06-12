@@ -141,26 +141,26 @@
 
 <div class="menu-container">
   {% if reviews %}
-  <table>
-    <thead>
-      <tr>
-        <th>Review</th>
-        <th>Alamat</th>
-        <th>Id Menu</th>
-        <th>Bintang Review</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for review in reviews %}
-      <tr>
-        <td>{{ review.pesan_review }}</td>
-        <td>{{ review.id_cabang }}</td>
-        <td>{{ review.id_menu }}</td>
-        <td>{{ review.bintang_review }} ⭐</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Review</th>
+          <th>Alamat</th>
+          <th>Id Menu</th>
+          <th>Bintang Review</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for review in reviews %}
+          <tr>
+            <td> <a href="/ReviewByID/{{review.id_review}}">{{ review.pesan_review }}</a></td>
+            <td> <a href="/ReviewByID/{{review.id_review}}">{{ review.id_cabang }}</a></td>
+            <td> <a href="/ReviewByID/{{review.id_review}}">{{ review.id_menu }}</a></td>
+            <td><a href="/ReviewByID/{{review.id_review}}">{{ review.bintang_review }} ⭐</a> </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   {% else %}
   <p class="text-center">No review data available.</p>
   {% endif %}
