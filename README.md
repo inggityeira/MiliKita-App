@@ -19,14 +19,14 @@
 # Cara Instalasi dan Penggunaan
 | Langkah       | Perintah                                                                                                 | Deskripsi                                                                                                 |
 |---------------|----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| 1. Clone Repo | ```bash git clone https://github.com/inggityeira/MiliKita-App```                                         | Mengkloning repository MiliKita-App dari GitHub ke mesin lokal Anda                                       |
+| 1. Clone Repo | ```git clone https://github.com/inggityeira/MiliKita-App```                                         | Mengkloning repository MiliKita-App dari GitHub ke mesin lokal Anda                                       |
 | 2. Install Dependencies |                                                                                                  |                                                                                                           |
-| a. Install Flask     | ```bash pip install flask```                                                                     | Flask adalah sebuah microframework untuk membangun aplikasi web dengan Python                             |
-| b. Install PyJWT     | ```bash pip install pyjwt```                                                                     | PyJWT adalah pustaka untuk bekerja dengan JSON Web Tokens (JWT) di Python                                 |
-| c. Install Flask-Paginate | ```bash pip install flask-paginate```                                                       | Flask-Paginate adalah pustaka untuk menambahkan fitur paginasi pada aplikasi web yang dibangun dengan Flask|
+| a. Install Flask     | ```pip install flask```                                                                     | Flask adalah sebuah microframework untuk membangun aplikasi web dengan Python                             |
+| b. Install PyJWT     | ```pip install pyjwt```                                                                     | PyJWT adalah pustaka untuk bekerja dengan JSON Web Tokens (JWT) di Python                                 |
+| c. Install Flask-Paginate | ```pip install flask-paginate```                                                       | Flask-Paginate adalah pustaka untuk menambahkan fitur paginasi pada aplikasi web yang dibangun dengan Flask|
 | 3. Jalankan Aplikasi |                                                                                                    |                                                                                                           |
-| a. Docker Compose    | ```bash docker-compose up --build```                                                             | Perintah ini digunakan dalam Docker Compose untuk menjalankan dan membangun kembali layanan-layanan yang ada dalam berkas docker-compose.yml |
-| b. Jalankan Python   | ```bash python main.py```                                                                        | Perintah ini digunakan untuk menjalankan program Python yang ada di dalam berkas main.py                   |
+| a. Docker Compose    | ```docker-compose up --build```                                                             | Perintah ini digunakan dalam Docker Compose untuk menjalankan dan membangun kembali layanan-layanan yang ada dalam berkas docker-compose.yml |
+| b. Jalankan Python   | ```python main.py```                                                                        | Perintah ini digunakan untuk menjalankan program Python yang ada di dalam berkas main.py                   |
 
 
 # Fitur MiliKita
