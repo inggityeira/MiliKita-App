@@ -17,16 +17,53 @@
 <img src="workflowreadme.png" />
 
 # Cara Instalasi dan Penggunaan
-| Langkah       | Perintah                                                                                                 | Deskripsi                                                                                                 |
-|---------------|----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| 1. Clone Repo | ```git clone https://github.com/inggityeira/MiliKita-App```                                         | Mengkloning repository MiliKita-App dari GitHub ke mesin lokal Anda                                       |
-| 2. Install Dependencies |                                                                                                  |                                                                                                           |
-| a. Install Flask     | ```pip install flask```                                                                     | Flask adalah sebuah microframework untuk membangun aplikasi web dengan Python                             |
-| b. Install PyJWT     | ```pip install pyjwt```                                                                     | PyJWT adalah pustaka untuk bekerja dengan JSON Web Tokens (JWT) di Python                                 |
-| c. Install Flask-Paginate | ```pip install flask-paginate```                                                       | Flask-Paginate adalah pustaka untuk menambahkan fitur paginasi pada aplikasi web yang dibangun dengan Flask|
-| 3. Jalankan Aplikasi |                                                                                                    |                                                                                                           |
-| a. Docker Compose    | ```docker-compose up --build```                                                             | Perintah ini digunakan dalam Docker Compose untuk menjalankan dan membangun kembali layanan-layanan yang ada dalam berkas docker-compose.yml |
-| b. Jalankan Python   | ```python main.py```                                                                        | Perintah ini digunakan untuk menjalankan program Python yang ada di dalam berkas main.py                   |
+
+Salin perintah ini di terminal:
+
+- **Clone project dari github ini**
+
+    ```bash
+    git clone https://github.com/inggityeira/MiliKita-App
+    ```
+
+- **Install dependencies:**
+
+    a. **Install Flask**  
+       Flask adalah sebuah microframework untuk membangun aplikasi web dengan Python.
+
+       ```bash
+       pip install flask
+       ```
+
+    b. **Install PyJWT**  
+       PyJWT adalah pustaka untuk bekerja dengan JSON Web Tokens (JWT) di Python.
+
+       ```bash
+       pip install pyjwt
+       ```
+
+    c. **Install Flask-Paginate**  
+       Flask-Paginate adalah pustaka untuk menambahkan fitur paginasi pada aplikasi web yang dibangun dengan Flask.
+
+       ```bash
+       pip install flask-paginate
+       ```
+
+- **Jalankan Aplikasi:**
+
+    a. **Docker Compose**  
+       Perintah docker-compose up --build digunakan dalam Docker Compose untuk menjalankan dan membangun kembali layanan-layanan yang ada dalam berkas docker-compose.yml.
+
+       ```bash
+       docker-compose up --build
+       ```
+
+    b. **Jalankan Python**  
+       Perintah python main.py digunakan untuk menjalankan sebuah program Python yang ada di dalam berkas main.py.
+
+       ```bash
+       python main.py
+       ```
 
 
 # Fitur MiliKita
