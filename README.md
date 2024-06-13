@@ -4,9 +4,6 @@
 
 🍵 MiliKita adalah website coffee shop berbasis microservice yang dirancang untuk memudahkan pemilik dalam mengelola berbagai aspek dari bisnis mereka, termasuk cabang, karyawan, menu, ulasan, dan aktivitas di dalam website.
 
-# Workflow
-<img src="Workflow.png" />
-
 # Anggota Kelompok 3 SI4502
 
 | No  | Nama                                                            | NIM        |
@@ -15,6 +12,9 @@
 | 2   | [Laura Tsanaullailla](https://www.instagram.com/lauratsna)             | 1202210076 |
 | 3   | [Nadya Sri Andriani](https://www.instagram.com/nadyasaaa__) | 1202213060 |
 | 4   | [Nikita Gradiana Shahiesa](https://www.instagram.com/nikitagradianas)     | 1202213312
+
+# Workflow
+<img src="workflowreadme.png" />
 
 # Cara Instalasi dan Penggunaan
 | Langkah       | Perintah                                                                                                 | Deskripsi                                                                                                 |
@@ -27,7 +27,6 @@
 | 3. Jalankan Aplikasi |                                                                                                    |                                                                                                           |
 | a. Docker Compose    | ```bash docker-compose up --build```                                                             | Perintah ini digunakan dalam Docker Compose untuk menjalankan dan membangun kembali layanan-layanan yang ada dalam berkas docker-compose.yml |
 | b. Jalankan Python   | ```bash python main.py```                                                                        | Perintah ini digunakan untuk menjalankan program Python yang ada di dalam berkas main.py                   |
-
 
 
 # Fitur MiliKita
