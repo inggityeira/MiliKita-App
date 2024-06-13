@@ -31,21 +31,21 @@ Salin perintah ini di terminal:
     a. **Install Flask**  
        Flask adalah sebuah microframework untuk membangun aplikasi web dengan Python.
 
-       ```bash
+       ```
        pip install flask
        ```
 
     b. **Install PyJWT**  
        PyJWT adalah pustaka untuk bekerja dengan JSON Web Tokens (JWT) di Python.
 
-       ```bash
+       ```
        pip install pyjwt
        ```
 
     c. **Install Flask-Paginate**  
        Flask-Paginate adalah pustaka untuk menambahkan fitur paginasi pada aplikasi web yang dibangun dengan Flask.
 
-       ```bash
+       ```
        pip install flask-paginate
        ```
 
@@ -54,14 +54,14 @@ Salin perintah ini di terminal:
     a. **Docker Compose**  
        Perintah docker-compose up --build digunakan dalam Docker Compose untuk menjalankan dan membangun kembali layanan-layanan yang ada dalam berkas docker-compose.yml.
 
-       ```bash
+       ```
        docker-compose up --build
        ```
 
     b. **Jalankan Python**  
        Perintah python main.py digunakan untuk menjalankan sebuah program Python yang ada di dalam berkas main.py.
 
-       ```bash
+       ```
        python main.py
        ```
 
@@ -74,10 +74,8 @@ Salin perintah ini di terminal:
 | **Manajemen Menu**       | - Menambah, mengedit, dan menghapus Menu MiliKita<br>- Melihat informasi lengkap setiap menu (nama menu, deskripsi menu, kategori menu, dan gambar menu)  |
 | **Manajemen Review**     | - Menambah, mengedit, dan menghapus review MiliKita<br>- Melihat informasi dari seluruh review (pesan review dari setiap cabang dan menu serta bintang review) |
 | **Manajemen Aktivitas User** | - Memantau aktivitas yang dilakukan ketika membuka website<br>- Memvisualisasikan dalam bentuk chart aktivitas dari user                             |
-| **Subscriber** | - **Manajemen Aktivitas User** bertindak sebagai subscriber yang menerima notifikasi dari berbagai publisher (Cabang, Karyawan, Menu, Review).
-- Memungkinkan pemantauan aktivitas yang lebih responsif berdasarkan pembaruan data dari publisher.                            |
-| **Publisher** | -- **Manajemen Cabang, Karyawan, Menu, Review** bertindak sebagai publisher yang mengirim notifikasi ke subscriber tentang setiap perubahan data (penambahan, pengeditan, dan penghapusan).
-- Memastikan informasi terbaru selalu diterima oleh sistem **Manajemen Aktivitas User** untuk dianalisis dan divisualisasikan.                             |
+| **Subscriber** | - **Manajemen Aktivitas User** bertindak sebagai subscriber yang menerima notifikasi dari berbagai publisher (Cabang, Karyawan, Menu, Review)<br>- Memungkinkan pemantauan aktivitas yang lebih responsif berdasarkan pembaruan data dari publisher.                            |
+| **Publisher** | - **Manajemen Cabang, Karyawan, Menu, Review** bertindak sebagai publisher yang mengirim notifikasi ke subscriber tentang setiap perubahan data (penambahan, pengeditan, dan penghapusan)<br>- Memastikan informasi terbaru selalu diterima oleh sistem **Manajemen Aktivitas User** untuk dianalisis dan divisualisasikan.                             |
 
 # Endpoints
 
