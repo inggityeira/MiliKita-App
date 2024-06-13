@@ -18,15 +18,20 @@
 
 # Cara Instalasi dan Penggunaan
 1. Clone repository ini:
-```bash
-git clone https://github.com/SI-RPL-2023/SI-44-06_A_BidjiCourse.git
-```
+```bash https://github.com/inggityeira/MiliKita-App```
 2. Install dependencies:
-  Install flask
-  Install 
+    a.	Install flask 
+        Flask adalah sebuah microframework untuk membangun aplikasi web dengan Python.
+    b.	Install Jwt
+        PyJWT adalah pustaka untuk bekerja dengan JSON Web Tokens (JWT) di Python.
+    c.	Install flask_paginate.
+        Flask-Paginate adalah pustaka untuk menambahkan fitur paginati pada aplikasi web yang dibangun dengan Flask.
 3. Jalankan Aplikasi
-Menjalankavn docker-compose up --build
-Menjalankan pyhton main.py
+    > Perintah docker-compose up --build digunakan dalam Docker Compose untuk menjalankan dan membangun kembali layanan-layanan yang ada dalam berkas docker-compose.yml.
+    ```bash docker-compose up –build ```
+    > Perintah python main.py digunakan untuk menjalankan sebuah program Python yang ada di dalam berkas main.py
+                ```bash pyhton main.py```
+
 
 # Fitur MiliKita
 | Fitur                    | Deskripsi                                                                                                     |
