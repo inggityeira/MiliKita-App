@@ -31,39 +31,29 @@ Salin perintah ini di terminal:
     a. **Install Flask**  
        Flask adalah sebuah microframework untuk membangun aplikasi web dengan Python.
 
-       ```
        pip install flask
-       ```
 
     b. **Install PyJWT**  
        PyJWT adalah pustaka untuk bekerja dengan JSON Web Tokens (JWT) di Python.
 
-       ```
        pip install pyjwt
-       ```
 
     c. **Install Flask-Paginate**  
        Flask-Paginate adalah pustaka untuk menambahkan fitur paginasi pada aplikasi web yang dibangun dengan Flask.
 
-       ```
        pip install flask-paginate
-       ```
 
 - **Jalankan Aplikasi:**
 
     a. **Docker Compose**  
        Perintah docker-compose up --build digunakan dalam Docker Compose untuk menjalankan dan membangun kembali layanan-layanan yang ada dalam berkas docker-compose.yml.
 
-       ```
        docker-compose up --build
-       ```
 
     b. **Jalankan Python**  
        Perintah python main.py digunakan untuk menjalankan sebuah program Python yang ada di dalam berkas main.py.
 
-       ```
        python main.py
-       ```
 
 
 # Fitur MiliKita
