@@ -141,3 +141,51 @@ Salin perintah ini di terminal:
 | MainApp     | GET         | http://localhost:5010/AktivitasUser                        | Halaman daftar aktivitas                                            |
 | MainApp     | GET         | http://localhost:5010/chart-data                           | Halaman data grafik aktivitas                                       |
 | MainApp     | GET         | http://localhost:5010/chart                                | Halaman grafik aktivitas                                            |
+
+# Tampilan Setiap Halaman
+## Landing Page
+<img src="/Overview/landing.jpeg" />
+
+## Register Page
+<img src="/Overview/Register.jpeg" />
+
+## Login Page
+<img src="/Overview/Login.jpeg" />
+
+## Home Page
+<img src="/Overview/Home.jpeg" />
+
+## Store Page
+<img src="/Overview/Store.jpeg" />
+
+## Detail Store Page
+<img src="/Overview/Detail-store.jpeg" />
+
+## Menu Page
+<img src="/Overview/menu.jpeg" />
+
+## Detail Menu Page
+<img src="/Overview/detail-menu.jpeg" />
+<img src="/Overview/detail-menu-2.jpeg" />
+
+## Add New Menu Page
+<img src="/Overview/add-new-menu.jpeg" />
+
+## Officer Page
+<img src="/Overview/officer.jpeg" />
+
+## Detail Officer Page
+<img src="/Overview/detail-officer-1.jpeg" />
+<img src="/Overview/detail-officer-2.jpeg" />
+
+## Review Page
+<img src="/Overview/review.jpeg" />
+
+## Detail Review Page
+<img src="/Overview/detail-review.jpeg" />
+
+## Activity User Page
+<img src="/Overview/activity-user.jpeg" />
+
+## Chart Activity User Page
+<img src="/Overview/chart-activity-user.jpeg" />
